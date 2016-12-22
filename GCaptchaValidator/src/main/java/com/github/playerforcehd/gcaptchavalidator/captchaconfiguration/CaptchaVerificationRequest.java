@@ -22,32 +22,14 @@
  * THE SOFTWARE.
  */
 
-package com.github.playerforce.gcaptchavalidator.captchaconfiguration;
-
-import lombok.Data;
+package com.github.playerforcehd.gcaptchavalidator.captchaconfiguration;
 
 /**
- * The configuration
+ * A request which asks google
  *
  * @author PlayerForceHD
  * @version 1.0.0
  * @since 1.0.0
  */
-@Data
-public class CaptchaValidationConfiguration {
-
-    /**
-     * The shared key between your site and ReCaptcha.
-     */
-    private String secret;
-
-    /**
-     * The user response token provided by ReCaptcha, verifying the user on your site.
-     */
-    private String response;
-
-    /**
-     * Optional: The user's IP address.
-     */
-    private String remoteip;
+public class CaptchaVerificationRequest {
 }

@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package com.github.playerforce.gcaptchavalidator.captchaconfiguration;
+package com.github.playerforcehd.gcaptchavalidator.captchaconfiguration;
 
 /**
  * A builder for easy creation of the {@link CaptchaValidationConfiguration}
