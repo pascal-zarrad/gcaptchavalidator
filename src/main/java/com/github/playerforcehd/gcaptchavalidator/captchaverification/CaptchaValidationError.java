@@ -32,7 +32,7 @@ import lombok.Getter;
  *
  * @author PlayerForceHD
  * @version 1.0.0
- * @see <a href="https://developers.google.com/recaptcha/docs/verify#error-code-reference></a></a>
+ * @see <a href="https://developers.google.com/recaptcha/docs/verify#error-code-reference"></a>
  * @since 1.0.0
  */
 public enum CaptchaValidationError {
