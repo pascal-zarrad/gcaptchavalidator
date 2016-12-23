@@ -115,5 +115,9 @@ The report should contain:
     - How often does the problem occur
     - If you know how: Tell how to duplicate it.
     - The code which produces the error
+    
+### Java Docs
+
+You can find the JavaDocs at: http://playerforcehd.tk/docs/gcaptchavalidator/
 
 
