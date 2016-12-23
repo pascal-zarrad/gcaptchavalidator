@@ -32,11 +32,13 @@ For more information about the values take a look at Googles
 ReCaptcha 2.0 API documentation.
 
 ´´´java
+
 // Create the configuration for the request
         CaptchaValidationConfiguration captchaValidationConfiguration = GCaptchaValidator.createConfigurationBuilder()
                 .withSecret("xxxxYourSecretxxxx")
                 .withResponse("xxxxYourResponsexxxx")
                 .build();
+
 ´´´
 
 Step 2. Creating a CaptchaValidationRequest and fetch a result
@@ -46,6 +48,7 @@ Then fetch a result asynchronous or synchronous through the 'fetch####' method.
 After fetching the result you can get the result through the gathered 'CaptchaValidationResult' object.
 
 ´´´java
+
 // Create the request which will be executed
         CaptchaValidationRequest captchaValidationRequest = GCaptchaValidator.createRequest(captchaValidationConfiguration);
 
@@ -81,6 +84,7 @@ After fetching the result you can get the result through the gathered 'CaptchaVa
                 // Anything went wrong
             }
         });
+
 ´´´
 
 That's all what this library does.
