@@ -29,8 +29,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.Getter;
 
-import java.text.ParseException;
-
 /**
  * The response from the Google SiteKey servers.
  * Variables are named like the original JSon values but in a Java convention conform format.
@@ -81,7 +79,6 @@ public class CaptchaValidationResult {
      *
      * @param json The JSon to deserialize
      * @return The result of the deserialization
-     * @throws ParseException Thrown when anything is wrong with the date
      */
     public static CaptchaValidationResult deserializeJSon(String json) {
         JsonElement jsonElement = new JsonParser().parse(json);
