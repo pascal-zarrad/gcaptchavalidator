@@ -16,7 +16,17 @@ is handled by GCaptchaValidator.
 #### Installation
 
 If you're using Maven:
-Add GCaptchaValidator to your project using maven:
+```xml
+
+    <!-- GCaptchaValidator - Simple Google ReCpatcha 2.0 validation -->
+    <dependency>
+        <groupId>com.github.playerforcehd</groupId>
+        <artifactId>gcaptchavalidator</artifactId>
+        <version>1.0.0</version>
+        <scope>compile</scope>
+     </dependency>
+    
+```
 
 Else:
 Download a release from GitHub and add it to your project,
