@@ -33,7 +33,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.concurrent.CountDownLatch;
 
 import static org.junit.Assert.*;
@@ -89,9 +88,6 @@ public class GCaptchaValidatorTests {
         } catch (CaptchaValidationException e) {
             e.printStackTrace();
             fail("Failed with an CaptchaValidationException");
-        } catch (ParseException e) {
-            e.printStackTrace();
-            fail("Failed with an ParseException (Failed to parse date)");
         }
     }
 
@@ -123,9 +119,6 @@ public class GCaptchaValidatorTests {
         } catch (CaptchaValidationException e) {
             e.printStackTrace();
             fail("Failed with an CaptchaValidationException");
-        } catch (ParseException e) {
-            e.printStackTrace();
-            fail("Failed with an ParseException (Failed to parse date)");
         }
     }
 
@@ -153,9 +146,6 @@ public class GCaptchaValidatorTests {
         } catch (CaptchaValidationException e) {
             e.printStackTrace();
             fail("Failed with an CaptchaValidationException");
-        } catch (ParseException e) {
-            e.printStackTrace();
-            fail("Failed with an ParseException (Failed to parse date)");
         }
     }
 
