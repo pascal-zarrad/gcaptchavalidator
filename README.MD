@@ -31,7 +31,7 @@ The value 'remoteIP' is optional.
 For more information about the values take a look at Googles
 ReCaptcha 2.0 API documentation.
 
-´´´java
+```java
 
 // Create the configuration for the request
         CaptchaValidationConfiguration captchaValidationConfiguration = GCaptchaValidator.createConfigurationBuilder()
@@ -39,7 +39,7 @@ ReCaptcha 2.0 API documentation.
                 .withResponse("xxxxYourResponsexxxx")
                 .build();
 
-´´´
+```
 
 Step 2. Creating a CaptchaValidationRequest and fetch a result
 After creating the configuration you need a request which can be fetched.
@@ -47,7 +47,7 @@ To create a CaptchaValidationRequest you have to call the 'GCaptchaValidator#cre
 Then fetch a result asynchronous or synchronous through the 'fetch####' method.
 After fetching the result you can get the result through the gathered 'CaptchaValidationResult' object.
 
-´´´java
+```java
 
 // Create the request which will be executed
         CaptchaValidationRequest captchaValidationRequest = GCaptchaValidator.createRequest(captchaValidationConfiguration);
@@ -85,7 +85,7 @@ After fetching the result you can get the result through the gathered 'CaptchaVa
             }
         });
 
-´´´
+```
 
 That's all what this library does.
 It simplifies the validation of a Google ReCaptcha 2.0
