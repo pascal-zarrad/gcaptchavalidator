@@ -122,8 +122,8 @@ public class CaptchaValidationRequest {
         postData.setEntity(new UrlEncodedFormEntity(parameters));
         HttpResponse httpResponse = httpClient.execute(postData);
         BufferedReader resultReader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
-        StringBuffer jsonResult = new StringBuffer();
-        String line = "";
+        StringBuilder jsonResult = new StringBuilder();
+        String line;
         while ((line = resultReader.readLine()) != null) {
             jsonResult.append(line);
         }
