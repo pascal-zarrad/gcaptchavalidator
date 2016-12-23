@@ -13,6 +13,8 @@ is handled by GCaptchaValidator.
 
 ### How to use GCaptchaValidator
 
+#### Installation
+
 If you're using Maven:
 Add GCaptchaValidator to your project using maven:
 
@@ -20,6 +22,70 @@ Else:
 Download a release from GitHub and add it to your project,
 like all other libraries.
 
+#### How to use it
+
+Step 1.
+Create a CaptchaValidationConfiguration and set the information needed for the validation.
+The values 'secret' and 'response' are required.
+The value 'remoteIP' is optional.
+For more information about the values take a look at Googles
+ReCaptcha 2.0 API documentation.
+
+´´´java
+// Create the configuration for the request
+        CaptchaValidationConfiguration captchaValidationConfiguration = GCaptchaValidator.createConfigurationBuilder()
+                .withSecret("xxxxYourSecretxxxx")
+                .withResponse("xxxxYourResponsexxxx")
+                .build();
+´´´
+
+Step 2. Creating a CaptchaValidationRequest and fetch a result
+After creating the configuration you need a request which can be fetched.
+To create a CaptchaValidationRequest you have to call the 'GCaptchaValidator#createRequest' method.
+Then fetch a result asynchronous or synchronous through the 'fetch####' method.
+After fetching the result you can get the result through the gathered 'CaptchaValidationResult' object.
+
+´´´java
+// Create the request which will be executed
+        CaptchaValidationRequest captchaValidationRequest = GCaptchaValidator.createRequest(captchaValidationConfiguration);
+
+        // Fetching a value synchronous
+        // It's also possible to use fetchSync("xxxYourResponsexxxx") to prevent yourself from creating
+        // more than one request objects. But it is your choice :)
+        try {
+            CaptchaValidationResult synchronousResult = captchaValidationRequest.fetchSync();
+            // Do anything with your result, like checking if the request was a success
+            if(synchronousResult.isValid()){
+                System.out.println("Yeah! valid response. Captcha was really filled out by the user!");
+            }
+        } catch (IOException | CaptchaValidationException e) {
+            // Anything went wrong
+            e.printStackTrace();
+        }
+
+        // Fetching a value asynchronous
+        // It's also possible to use fetchAsync(callback, "xxxYourResponsexxxx") to prevent yourself from creating
+        // more than one request objects. But it is your choice :)
+        captchaValidationRequest.fetchAsync(new Callback<CaptchaValidationResult>() {
+            @Override
+            public void invoke(CaptchaValidationResult asynchronousResult) {
+                // Do anything with your result, like checking if the request was a success
+                if(asynchronousResult.isValid()){
+                    System.out.println("Yeah! valid response. Captcha was really filled out by the user!");
+                }
+            }
+
+            @Override
+            public void fail(Throwable throwable) {
+                throwable.printStackTrace();
+                // Anything went wrong
+            }
+        });
+´´´
+
+That's all what this library does.
+It simplifies the validation of a Google ReCaptcha 2.0
+in Java.
 
 ### Help improving this library
 
@@ -35,9 +101,5 @@ The report should contain:
     - How often does the problem occur
     - If you know how: Tell how to duplicate it.
     - The code which produces the error
-
-## SONATYPE OSSRH NOTE
-To verify the ownership of this repository:
-Mail: p.zarrad@web.de
 
 
