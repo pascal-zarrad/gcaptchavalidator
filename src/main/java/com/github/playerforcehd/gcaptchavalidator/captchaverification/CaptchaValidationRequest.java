@@ -41,7 +41,6 @@ import org.apache.http.message.BasicNameValuePair;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -85,7 +84,7 @@ public class CaptchaValidationRequest {
                 try {
                     CaptchaValidationResult result = fetchSync();
                     callback.invoke(result);
-                } catch (IOException | CaptchaValidationException | ParseException e) {
+                } catch (IOException | CaptchaValidationException e) {
                     e.printStackTrace();
                     callback.fail(e);
                 }
@@ -93,7 +92,36 @@ public class CaptchaValidationRequest {
         });
     }
 
-    public CaptchaValidationResult fetchSync() throws IOException, CaptchaValidationException, ParseException {
+    /**
+     * Fetches the validation asynchronous by calling the {@link #fetchSync()} method from an asynchronous thread.
+     *
+     * @param callback The callback which will receive the result
+     * @param response The new response value which will set the in the {@link CaptchaValidationConfiguration}
+     */
+    public void fetchAsync(final Callback<CaptchaValidationResult> callback, final String response) {
+        this.requestPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    CaptchaValidationResult result = fetchSync(response);
+                    callback.invoke(result);
+                } catch (IOException | CaptchaValidationException e) {
+                    e.printStackTrace();
+                    callback.fail(e);
+                }
+            }
+        });
+    }
+
+    /**
+     * Fetch a result from the Google SiteVerify servers by sending a post request to them.
+     * All parameters will be taken from the {@link CaptchaValidationConfiguration} of the current instance.
+     *
+     * @return The result of the request on the Google Servers
+     * @throws IOException                Thrown when any IO action went wrong (HTTP request IO)
+     * @throws CaptchaValidationException Thrown when any needed value is not set in the {@link CaptchaValidationConfiguration}
+     */
+    public CaptchaValidationResult fetchSync() throws IOException, CaptchaValidationException {
         //Parse the parameters from the CaptchaValidationConfiguration
         if (this.captchaValidationConfiguration.getSecret() == null) {
             throw new CaptchaValidationException("The value 'secret' has not been set in the CaptchaValidationConfiguration");
@@ -129,5 +157,19 @@ public class CaptchaValidationRequest {
         }
         resultReader.close();
         return CaptchaValidationResult.deserializeJSon(jsonResult.toString());
+    }
+
+    /**
+     * Set the {@link CaptchaValidationConfiguration#response} value and then calls fetchSync();
+     * IMPORTANT: A call to this method changes a value of the {@link CaptchaValidationConfiguration}!
+     *
+     * @param response The new response value which will set the in the {@link CaptchaValidationConfiguration}
+     * @return The result of the request on the Google Servers
+     * @throws IOException                Thrown when any IO action went wrong (HTTP request IO)
+     * @throws CaptchaValidationException Thrown when any needed value is not set in the {@link CaptchaValidationConfiguration}
+     */
+    public CaptchaValidationResult fetchSync(String response) throws IOException, CaptchaValidationException {
+        this.captchaValidationConfiguration.setResponse(response);
+        return fetchSync();
     }
 }

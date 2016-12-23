@@ -83,7 +83,7 @@ public class CaptchaValidationResult {
      * @return The result of the deserialization
      * @throws ParseException Thrown when anything is wrong with the date
      */
-    public static CaptchaValidationResult deserializeJSon(String json) throws ParseException {
+    public static CaptchaValidationResult deserializeJSon(String json) {
         JsonElement jsonElement = new JsonParser().parse(json);
         JsonObject jsonObject = jsonElement.getAsJsonObject();
         boolean success = jsonObject.get("success").getAsBoolean();
