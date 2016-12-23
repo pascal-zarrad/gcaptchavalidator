@@ -22,14 +22,29 @@
  * THE SOFTWARE.
  */
 
-package com.github.playerforcehd.gcaptchavalidator.captchaconfiguration;
+package com.github.playerforcehd.gcaptchavalidator.util;
 
 /**
- * A request which asks google
+ * A simple callback to receive asynchronous values.
  *
  * @author PlayerForceHD
  * @version 1.0.0
  * @since 1.0.0
  */
-public class CaptchaVerificationRequest {
+public interface Callback<V> {
+
+    /**
+     * Called by the asynchronous task to return the value from the async operation
+     *
+     * @param value The value received value from the async operation
+     */
+    void invoke(V value);
+
+    /**
+     * Called when a exceptoin is thrown in an asynchronous operation
+     *
+     * @param throwable The thrown exception
+     */
+    void fail(Throwable throwable);
+
 }

@@ -33,7 +33,6 @@ package com.github.playerforcehd.gcaptchavalidator.captchaconfiguration;
  */
 public class CaptchaValidationConfigurationBuilder {
 
-
     /**
      * The configuration that is build with the current builder instance
      */
@@ -41,6 +40,15 @@ public class CaptchaValidationConfigurationBuilder {
 
     public CaptchaValidationConfigurationBuilder() {
         this.captchaValidationConfiguration = new CaptchaValidationConfiguration();
+    }
+
+    /**
+     * Creates a new {@link CaptchaValidationConfigurationBuilder} for easy creation of a {@link CaptchaValidationConfiguration}
+     *
+     * @return A new builder to make it easy to create a {@link CaptchaValidationConfiguration}
+     */
+    public static CaptchaValidationConfigurationBuilder builder() {
+        return new CaptchaValidationConfigurationBuilder();
     }
 
     /**
@@ -72,7 +80,7 @@ public class CaptchaValidationConfigurationBuilder {
      * @return The instance of this builder
      */
     public CaptchaValidationConfigurationBuilder withRemoteIP(String remoteIP) {
-        this.captchaValidationConfiguration.setRemoteip(remoteIP);
+        this.captchaValidationConfiguration.setRemoteIP(remoteIP);
         return this;
     }
 

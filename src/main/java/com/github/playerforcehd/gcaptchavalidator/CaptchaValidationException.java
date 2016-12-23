@@ -22,39 +22,29 @@
  * THE SOFTWARE.
  */
 
-package com.github.playerforcehd.gcaptchavalidator.captchaconfiguration;
-
-import lombok.Data;
+package com.github.playerforcehd.gcaptchavalidator;
 
 /**
- * The configuration
+ * A exception thrown when a error occurs while processing a {@link com.github.playerforcehd.gcaptchavalidator.captchaverification.CaptchaValidationRequest}
  *
  * @author PlayerForceHD
  * @version 1.0.0
  * @since 1.0.0
  */
-@Data
-public class CaptchaValidationConfiguration {
+public class CaptchaValidationException extends Exception {
 
-    /**
-     * The shared key between your site and ReCaptcha.
-     */
-    private String secret;
-    /**
-     * The user response token provided by ReCaptcha, verifying the user on your site.
-     */
-    private String response;
-    /**
-     * Optional: The user's IP address.
-     */
-    private String remoteIP;
+    public CaptchaValidationException() {
+    }
 
-    /**
-     * Creates a new {@link CaptchaValidationConfigurationBuilder} for easy creation of a {@link CaptchaValidationConfiguration}
-     *
-     * @return A new builder to make it easy to create a {@link CaptchaValidationConfiguration}
-     */
-    public static CaptchaValidationConfigurationBuilder builder() {
-        return new CaptchaValidationConfigurationBuilder();
+    public CaptchaValidationException(String message) {
+        super(message);
+    }
+
+    public CaptchaValidationException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public CaptchaValidationException(Throwable cause) {
+        super(cause);
     }
 }
