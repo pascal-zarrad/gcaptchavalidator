@@ -29,20 +29,16 @@ import com.github.playerforcehd.gcaptchavalidator.GCaptchaValidator;
 import com.github.playerforcehd.gcaptchavalidator.captchaconfiguration.CaptchaValidationConfiguration;
 import com.github.playerforcehd.gcaptchavalidator.util.Callback;
 import lombok.Getter;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -135,28 +131,29 @@ public class CaptchaValidationRequest {
         if (this.captchaValidationConfiguration.getRemoteIP() != null) {
             remoteIP = this.captchaValidationConfiguration.getRemoteIP();
         }
-        //Create HttpClient to the Google SiteVerify servers
-        HttpClient httpClient = HttpClients.custom()
-                .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
-                .build();
-        HttpPost postData = new HttpPost(GCaptchaValidator.GOOGLE_SITEVERIFY_URL);
-        postData.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
-        List<NameValuePair> parameters = new ArrayList<>();
-        parameters.add(new BasicNameValuePair("secret", secret));
-        parameters.add(new BasicNameValuePair("response", response));
+        //Create HttpUrlConnection to the Google SiteVerify servers
+        Map<String, Object> params = new LinkedHashMap<>();
+        params.put("secret", secret);
+        params.put("response", response);
         if (remoteIP != null) {
-            parameters.add(new BasicNameValuePair("remoteip", remoteIP));
+            params.put("remoteip", remoteIP);
         }
-        postData.setEntity(new UrlEncodedFormEntity(parameters));
-        HttpResponse httpResponse = httpClient.execute(postData);
-        BufferedReader resultReader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
-        StringBuilder jsonResult = new StringBuilder();
-        String line;
-        while ((line = resultReader.readLine()) != null) {
-            jsonResult.append(line);
-        }
-        resultReader.close();
-        return CaptchaValidationResult.deserializeJSon(jsonResult.toString());
+        byte[] parsedParams = createPostData(params);
+        URL url = new URL(GCaptchaValidator.GOOGLE_SITEVERIFY_URL);
+        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+        httpURLConnection.setRequestMethod("POST");
+        httpURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        httpURLConnection.setRequestProperty("Content-Length", String.valueOf(parsedParams.length));
+        httpURLConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
+        httpURLConnection.setDoOutput(true);
+        httpURLConnection.getOutputStream().write(parsedParams);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), "UTF-8"));
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int c; (c = bufferedReader.read()) >= 0; )
+            stringBuilder.append((char) c);
+        String googleResponse = stringBuilder.toString();
+        bufferedReader.close();
+        return CaptchaValidationResult.deserializeJSon(googleResponse);
     }
 
     /**
@@ -171,5 +168,23 @@ public class CaptchaValidationRequest {
     public CaptchaValidationResult fetchSync(String response) throws IOException, CaptchaValidationException {
         this.captchaValidationConfiguration.setResponse(response);
         return fetchSync();
+    }
+
+    /**
+     * Create the post request parameters from a map
+     *
+     * @param params The parameters to parse
+     * @return The parsed parameters as a byte array
+     * @throws UnsupportedEncodingException Thrown when the UTF-8 encoding is not supported
+     */
+    private byte[] createPostData(Map<String, Object> params) throws UnsupportedEncodingException {
+        StringBuilder postData = new StringBuilder();
+        for (Map.Entry<String, Object> param : params.entrySet()) {
+            if (postData.length() != 0) postData.append('&');
+            postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
+            postData.append('=');
+            postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+        }
+        return postData.toString().getBytes("UTF-8");
     }
 }
