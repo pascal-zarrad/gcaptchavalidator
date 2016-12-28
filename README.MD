@@ -22,7 +22,7 @@ If you're using Maven:
     <dependency>
         <groupId>com.github.playerforcehd</groupId>
         <artifactId>gcaptchavalidator</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
         <scope>compile</scope>
      </dependency>
     
