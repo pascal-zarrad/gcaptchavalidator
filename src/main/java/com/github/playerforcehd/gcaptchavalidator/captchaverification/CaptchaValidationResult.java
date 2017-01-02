@@ -29,6 +29,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 /**
  * The response from the Google SiteKey servers.
  * Variables are named like the original JSon values but in a Java convention conform format.
@@ -60,18 +63,18 @@ public class CaptchaValidationResult {
     private String hostName;
 
     /**
-     * When success is false, error codes are available in this arrays.
+     * When success is false, error codes are available in this collection.
      *
      * @see <a href="https://developers.google.com/recaptcha/docs/verify#error-code-reference</a>
      */
     @Getter
-    private CaptchaValidationError errorCode;
+    private Collection<CaptchaValidationError> errorCodes;
 
-    public CaptchaValidationResult(boolean success, String challengeTS, String hostName, CaptchaValidationError errorCode) {
+    public CaptchaValidationResult(boolean success, String challengeTS, String hostName, Collection<CaptchaValidationError> errorCode) {
         this.success = success;
         this.challengeTS = challengeTS;
         this.hostName = hostName;
-        this.errorCode = errorCode;
+        this.errorCodes = errorCode;
     }
 
     /**
@@ -92,15 +95,14 @@ public class CaptchaValidationResult {
         if (jsonObject.get("hostname") != null) {
             hostName = jsonObject.get("hostname").getAsString();
         }
-        String errorCode = null;
+        Collection<CaptchaValidationError> errorCodes = new ArrayList<>();
         if (jsonObject.get("error-codes") != null) {
-            errorCode = jsonObject.get("error-codes").getAsString();
+            JsonElement errorList = jsonObject.get("error-codes");
+            for (int i = errorList.getAsJsonArray().size() - 1; i >= 0; i--) {
+                errorCodes.add(CaptchaValidationError.parseGoogleJSonErrorCode(errorList.getAsJsonArray().get(i).getAsString()));
+            }
         }
-        CaptchaValidationError captchaValidationError = null;
-        if (errorCode != null) {
-            captchaValidationError = CaptchaValidationError.parseGoogleJSonErrorCoede(errorCode);
-        }
-        return new CaptchaValidationResult(success, challengeTS, hostName, captchaValidationError);
+        return new CaptchaValidationResult(success, challengeTS, hostName, errorCodes);
     }
 
     /**

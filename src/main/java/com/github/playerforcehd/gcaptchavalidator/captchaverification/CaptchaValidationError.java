@@ -58,7 +58,7 @@ public enum CaptchaValidationError {
      * @param errorCode The error code which should be grabbed
      * @return The enum which represents the errorCode string
      */
-    public static CaptchaValidationError parseGoogleJSonErrorCoede(String errorCode) {
+    public static CaptchaValidationError parseGoogleJSonErrorCode(String errorCode) {
         for (CaptchaValidationError captchaValidationError : values()) {
             if (captchaValidationError.getOriginalJSon().equals(errorCode)) {
                 return captchaValidationError;

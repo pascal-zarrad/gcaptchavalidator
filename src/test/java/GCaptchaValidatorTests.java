@@ -25,6 +25,7 @@
 import com.github.playerforcehd.gcaptchavalidator.CaptchaValidationException;
 import com.github.playerforcehd.gcaptchavalidator.GCaptchaValidator;
 import com.github.playerforcehd.gcaptchavalidator.captchaconfiguration.CaptchaValidationConfiguration;
+import com.github.playerforcehd.gcaptchavalidator.captchaverification.CaptchaValidationError;
 import com.github.playerforcehd.gcaptchavalidator.captchaverification.CaptchaValidationRequest;
 import com.github.playerforcehd.gcaptchavalidator.captchaverification.CaptchaValidationResult;
 import com.github.playerforcehd.gcaptchavalidator.util.Callback;
@@ -81,7 +82,7 @@ public class GCaptchaValidatorTests {
             assertTrue("True request was made but success is false", result.isSuccess());
             assertNotNull("ChallengeTS is null, but true request was made.", result.getChallengeTS());
             assertNotNull("HostName is not null, but true request was made.", result.getHostName());
-            assertNull("ErrorCode is not null, but true request was made.", result.getErrorCode());
+            assertTrue("ErrorCodes is not empty, but true request was made.", result.getErrorCodes().isEmpty());
         } catch (IOException e) {
             e.printStackTrace();
             fail("Failed with an IOException");
@@ -112,7 +113,7 @@ public class GCaptchaValidatorTests {
             assertTrue("True request was made but success is false", result.isSuccess());
             assertNotNull("ChallengeTS is null, but true request was made.", result.getChallengeTS());
             assertNotNull("HostName is not null, but true request was made.", result.getHostName());
-            assertNull("ErrorCode is not null, but true request was made.", result.getErrorCode());
+            assertTrue("ErrorCodes is not empty, but true request was made.", result.getErrorCodes().isEmpty());
         } catch (IOException e) {
             e.printStackTrace();
             fail("Failed with an IOException");
@@ -139,7 +140,7 @@ public class GCaptchaValidatorTests {
             CaptchaValidationResult result = request.fetchSync();
             assertNotNull("CaptchaValidationResult (result) is null, but validation has runned!", result);
             assertFalse("True request was made but success is false", result.isSuccess());
-            assertNotNull("ErrorCode is null, but false request was made.", result.getErrorCode());
+            assertFalse("ErrorCodes is empty, but false request was made.", result.getErrorCodes().isEmpty());
         } catch (IOException e) {
             e.printStackTrace();
             fail("Failed with an IOException");
@@ -169,7 +170,7 @@ public class GCaptchaValidatorTests {
                 assertTrue("True request was made but success is false", result.isSuccess());
                 assertNotNull("ChallengeTS is null, but true request was made.", result.getChallengeTS());
                 assertNotNull("HostName is not null, but true request was made.", result.getHostName());
-                assertNull("ErrorCode is not null, but true request was made.", result.getErrorCode());
+                assertTrue("ErrorCodes is not empty, but true request was made.", result.getErrorCodes().isEmpty());
                 countDownLatch.countDown();
             }
 
@@ -205,7 +206,7 @@ public class GCaptchaValidatorTests {
             public void invoke(CaptchaValidationResult result) {
                 assertNotNull("CaptchaValidationResult (result) is null, but validation has runned!", result);
                 assertFalse("True request was made but success is false", result.isSuccess());
-                assertNotNull("ErrorCode is null, but false request was made.", result.getErrorCode());
+                assertFalse("ErrorCodes is empty, but false request was made.", result.getErrorCodes().isEmpty());
                 countDownLatch.countDown();
             }
 
@@ -220,6 +221,43 @@ public class GCaptchaValidatorTests {
             countDownLatch.await();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGCaptchaValidationSynchronousWithoutAnything() {
+        CaptchaValidationConfiguration configuration = GCaptchaValidator.createConfigurationBuilder()
+                .withSecret("")
+                .withResponse("")
+                .build();
+        assertNotNull("CaptchaValidationConfiguration (configuration) is null, but has been initialized through builder!", configuration);
+        CaptchaValidationRequest request = GCaptchaValidator.createRequest(configuration);
+        assertNotNull("CaptchaValidationRequest (request) is null, but has been initialized through GCaptchaValidator.createRequest(configuration)", request);
+        try {
+            CaptchaValidationResult result = request.fetchSync();
+            boolean missingSecret = false;
+            boolean missingResponse = false;
+            for (CaptchaValidationError captchaValidationError : result.getErrorCodes()) {
+                if (captchaValidationError.equals(CaptchaValidationError.MISSING_INPUT_SECRET)) {
+                    missingSecret = true;
+                    continue;
+                }
+                if (captchaValidationError.equals(CaptchaValidationError.MISSING_INPUT_RESPONSE)) {
+                    missingResponse = true;
+                }
+            }
+            if (missingSecret) {
+                assertTrue("Result does not include '" + CaptchaValidationError.INVALID_INPUT_SECRET.toString() + "', but the response was empty", result.getErrorCodes().contains(CaptchaValidationError.MISSING_INPUT_SECRET));
+            }
+            if (missingResponse) {
+                assertTrue("Result does not include '" + CaptchaValidationError.INVALID_INPUT_RESPONSE.toString() + "', but the response was empty", result.getErrorCodes().contains(CaptchaValidationError.MISSING_INPUT_RESPONSE));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            fail("Failed with an IOException");
+        } catch (CaptchaValidationException e) {
+            e.printStackTrace();
+            fail("Failed with an CaptchaValidationException");
         }
     }
 }
