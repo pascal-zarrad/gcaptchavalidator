@@ -42,7 +42,9 @@ public class CaptchaValidationConfiguration {
     private String secret;
     /**
      * The user response token provided by ReCaptcha, verifying the user on your site.
+     * @deprecated Since {@link com.github.playerforcehd.gcaptchavalidator.GCaptchaValidator} v1.3.0, the response is an additional argument of the method to get off the one time usage of a request
      */
+    @Deprecated
     private String response;
     /**
      * Optional: The user's IP address.

@@ -35,6 +35,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import static org.junit.Assert.*;
 
@@ -258,6 +260,74 @@ public class GCaptchaValidatorTests {
         } catch (CaptchaValidationException e) {
             e.printStackTrace();
             fail("Failed with an CaptchaValidationException");
+        }
+    }
+
+    //------------------------------------ Tests till version 1.3.0 ------------------------------------\\
+
+    @Test
+    public void testGCaptchaValidationWithFuture() {
+        CaptchaValidationConfiguration configuration = GCaptchaValidator.createConfigurationBuilder()
+                .withSecret(this.gReCaptchaTestSecret)
+                .withRemoteIP("127.0.0.1")
+                .build();
+        assertNotNull("CaptchaValidationConfiguration (configuration) is null, but has been initialized through builder!", configuration);
+        assertNotNull("CaptchaValidationConfiguration.getSecret() is null, but has been initialized through builder!", configuration.getSecret());
+        assertNotNull("CaptchaValidationConfiguration.getRemoteIP(); is null, but has been initialized through builder!", configuration.getRemoteIP());
+        CaptchaValidationRequest request = GCaptchaValidator.createRequest(configuration);
+        assertNotNull("CaptchaValidationRequest (request) is null, but has been initialized through GCaptchaValidator.createRequest(configuration)", request);
+        try {
+            Future<CaptchaValidationResult> futureResult = request.fetch("03AHJ_Vus6NaaeVEVMLDUZ2gkXTc3q3FCG6_rNS7LlCyllroSbKFrf6WjHUkQPwV_EszE1kDPdSJOqJD_snLXrozAxFa_DIBXJB-LXlHq81xkwZ3tQ63yIAuVYC1lbqOd3CcqLpY9fBIBdzjpjKRg_ozd3THXoJ_BNQMoYiuIgssvuHd0GC3jiyuBbqksUx0j_HORSkkdl1DfEsoCPdpkH0I-uSqHgwrXB6hnWY-l_FvWxyTF2aP5TL_VCykfezFWL6DraEpiEGMAqk5EovWlAIERn-B0saNDxLXNYlKEIVv1ad711tY_iNlVy4hQNYnMKfZHUV0DIft2F-RCNV2BMeoPAyZFbKyTlE1K2uZRtOVmGMqiWfNmvz49sSP3XuWGwDHQnm5HyYfkIfRs7jYriBWOimU2W-ysdA5HpIax2C4n8PEyQ2t8XnSI69OnFOxRQFuCQJ9UM9FScIBQ9Eqn0G4_Blojy3Bbtj9L8Pd_m9UvUL8vIhAbu3EAeBkfhoWOuKmTPTyXINZaWsQ-rpnUpw9Bvt8q7j6_VdfVCSIR3Sa5F0wBnpVDvFx8SPwKQvb4Sg_8LD0QWa7ShvIpAdhegKKWGw-Fgbub4iM3-A6V3LStmUirrzHRJCE6kuYGeWpeowCbFmiKHCL91xXVwTNQwje2kKilW9bwqEb6czuJfvWKZ06esRmfAG278MECW4GCoNQNDnHTfC-Q3WKwBV8belTMXON3pB-1jJ4Q13owjWf0heP-LFTNFmpedbBGxPyN1-lneHQqwRd4K6BNp7s910G6ccPGcg1aZK03J4T-eqE2p0fDJB_kDCua261YgRLJP_oQtcsIl-0wgAOzgsqHegZbrHdz63B8BUh_IUYbdgAzZtPNCWSOYjRGjlESB2vBy6KMR1c4Yz11y7LoOuNG8Niqa0Q4obtmUUF-KUduQjbzZ5aQZYtml2r6C3GMHXun4f9DusTW7Y8KyQ_Hk7bFMS6RjHLlvb2sPk3_hT5AWiB2Hno9qvo-v4ds");
+            CaptchaValidationResult result = futureResult.get();
+            assertNotNull("CaptchaValidationResult (result) is null, but validation has runned!", result);
+            assertTrue("True request was made but success is false", result.isSuccess());
+            assertNotNull("ChallengeTS is null, but true request was made.", result.getChallengeTS());
+            assertNotNull("HostName is not null, but true request was made.", result.getHostName());
+            assertTrue("ErrorCodes is not empty, but true request was made.", result.getErrorCodes().isEmpty());
+        } catch (IOException e) {
+            e.printStackTrace();
+            fail("Failed with an IOException");
+        } catch (CaptchaValidationException e) {
+            e.printStackTrace();
+            fail("Failed with an CaptchaValidationException");
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            fail("Failed with an InterruptedException or an ExecutionException");
+        }
+    }
+
+    @Test
+    public void testGCaptchaValidationWithCallback() {
+        CaptchaValidationConfiguration configuration = GCaptchaValidator.createConfigurationBuilder()
+                .withSecret(this.gReCaptchaTestSecret)
+                .build();
+        assertNotNull("CaptchaValidationConfiguration (configuration) is null, but has been initialized through builder!", configuration);
+        assertNotNull("CaptchaValidationConfiguration.getSecret() is null, but has been initialized through builder!", configuration.getSecret());
+        assertNull("CaptchaValidationConfiguration.getRemoteIP(); is not null, but never has been initialized!!", configuration.getRemoteIP());
+        CaptchaValidationRequest request = GCaptchaValidator.createRequest(configuration);
+        assertNotNull("CaptchaValidationRequest (request) is null, but has been initialized through GCaptchaValidator.createRequest(configuration)", request);
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        String response = "O3AHJ_Vus6NaaeVEVMLDUZ2gkXTc3q3FCG6_rNS7LlCyllroSbKFrf6WjHUkQPwV_EszE1kDPdSJOqJD_snLXrozAxFa_DIBXJB-LXlHq81xkwZ3tQ63yIAuVYC1lbqOd3CcqLpY9fBIBdzjpjKRg_ozd3THXoJ_BNQMoYiuIgssvuHd0GC3jiyuBbqksUx0j_HORSkkdl1DfEsoCPdpkH0I-uSqHgwrXB6hnWY-l_FvWxyTF2aP5TL_VCykfezFWL6DraEpiEGMAqk5EovWlAIERn-B0saNDxLXNYlKEIVv1ad711tY_iNlVy4hQNYnMKfZHUV0DIft2F-RCNV2BMeoPAyZFbKyTlE1K2uZRtOVmGMqiWfNmvz49sSP3XuWGwDHQnm5HyYfkIfRs7jYriBWOimU2W-ysdA5HpIax2C4n8PEyQ2t8XnSI69OnFOxRQFuCQJ9UM9FScIBQ9Eqn0G4_Blojy3Bbtj9L8Pd_m9UvUL8vIhAbu3EAeBkfhoWOuKmTPTyXINZaWsQ-rpnUpw9Bvt8q7j6_VdfVCSIR3Sa5F0wBnpVDvFx8SPwKQvb4Sg_8LD0QWa7ShvIpAdhegKKWGw-Fgbub4iM3-A6V3LStmUirrzHRJCE6kuYGeWpeowCbFmiKHCL91xXVwTNQwje2kKilW9bwqEb6czuJfvWKZ06esRmfAG278MECW4GCoNQNDnHTfC-Q3WKwBV8belTMXON3pB-1jJ4Q13owjWf0heP-LFTNFmpedbBGxPyN1-lneHQqwRd4K6BNp7s910G6ccPGcg1aZK03J4T-eqE2p0fDJB_kDCua261YgRLJP_oQtcsIl-0wgAOzgsqHegZbrHdz63B8BUh_IUYbdgAzZtPNCWSOYjRGjlESB2vBy6KMR1c4Yz11y7LoOuNG8Niqa0Q4obtmUUF-KUduQjbzZ5aQZYtml2r6C3GMHXun4f9DusTW7Y8KyQ_Hk7bFMS6RjHLlvb2sPk3_hT5AWiB2Hno9qvo-v4ds";
+        request.fetch(response, new Callback<CaptchaValidationResult>() {
+            @Override
+            public void invoke(CaptchaValidationResult result) {
+                assertNotNull("CaptchaValidationResult (result) is null, but validation has runned!", result);
+                assertFalse("True request was made but success is false", result.isSuccess());
+                assertFalse("ErrorCodes is empty, but false request was made.", result.getErrorCodes().isEmpty());
+                countDownLatch.countDown();
+            }
+
+            @Override
+            public void fail(Throwable throwable) {
+                throwable.printStackTrace();
+                Assert.fail("Failed with an Exception!");
+                countDownLatch.countDown();
+            }
+        });
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

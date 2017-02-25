@@ -22,7 +22,7 @@ If you're using Maven:
     <dependency>
         <groupId>com.github.playerforcehd</groupId>
         <artifactId>gcaptchavalidator</artifactId>
-        <version>1.2.0</version>
+        <version>1.3.0</version>
         <scope>compile</scope>
      </dependency>
     
@@ -46,7 +46,6 @@ ReCaptcha 2.0 API documentation.
 // Create the configuration for the request
         CaptchaValidationConfiguration captchaValidationConfiguration = GCaptchaValidator.createConfigurationBuilder()
                 .withSecret("xxxxYourSecretxxxx")
-                .withResponse("xxxxYourResponsexxxx")
                 .build();
 
 ```
@@ -66,7 +65,8 @@ After fetching the result you can get the result through the gathered 'CaptchaVa
         // It's also possible to use fetchSync("xxxYourResponsexxxx") to prevent yourself from creating
         // more than one request objects. But it is your choice :)
         try {
-            CaptchaValidationResult synchronousResult = captchaValidationRequest.fetchSync();
+            Future<CaptchaValidationResult> futureResult = captchaValidationRequest.fetch("xxxxYourResponsexxxx");
+            CaptchaValidationResult synchronousResult = futureResult.get();
             // Do anything with your result, like checking if the request was a success
             if(synchronousResult.isValid()){
                 System.out.println("Yeah! valid response. Captcha was really filled out by the user!");
@@ -79,7 +79,7 @@ After fetching the result you can get the result through the gathered 'CaptchaVa
         // Fetching a value asynchronous
         // It's also possible to use fetchAsync(callback, "xxxYourResponsexxxx") to prevent yourself from creating
         // more than one request objects. But it is your choice :)
-        captchaValidationRequest.fetchAsync(new Callback<CaptchaValidationResult>() {
+        captchaValidationRequest.fetch("xxxxYourResponsexxxx", new Callback<CaptchaValidationResult>() {
             @Override
             public void invoke(CaptchaValidationResult asynchronousResult) {
                 // Do anything with your result, like checking if the request was a success

@@ -67,7 +67,9 @@ public class CaptchaValidationConfigurationBuilder {
      *
      * @param response The user response token provided by ReCaptcha, verifying the user on your site.
      * @return The instance of this builder
+     * @deprecated Since {@link com.github.playerforcehd.gcaptchavalidator.GCaptchaValidator} v1.3.0, the response is an additional argument of the method to get off the one time usage of a request
      */
+    @Deprecated
     public CaptchaValidationConfigurationBuilder withResponse(String response) {
         this.captchaValidationConfiguration.setResponse(response);
         return this;
