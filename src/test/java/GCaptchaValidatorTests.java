@@ -263,7 +263,7 @@ public class GCaptchaValidatorTests {
         }
     }
 
-    //------------------------------------ Tests till version 1.3.0 ------------------------------------\\
+    //------------------------------------ Tests since version 1.3.0 ------------------------------------\\
 
     @Test
     public void testGCaptchaValidationWithFuture() {
