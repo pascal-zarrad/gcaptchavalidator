@@ -85,7 +85,7 @@ public class GCaptchaValidator {
      * @return The {@link CaptchaValidationRequest} which can be used to validate a Captcha response of a user
      */
     public static CaptchaValidationRequest createRequest(CaptchaValidationConfiguration captchaValidationConfiguration) {
-        return new CaptchaValidationRequest(captchaValidationConfiguration, REQUEST_POOL);
+        return new CaptchaValidationRequest(captchaValidationConfiguration, captchaValidationConfiguration == null ? REQUEST_POOL : captchaValidationConfiguration.getExecutorService());
     }
 
     /**

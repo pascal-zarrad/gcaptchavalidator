@@ -26,6 +26,8 @@ package com.github.playerforcehd.gcaptchavalidator.captchaconfiguration;
 
 import lombok.Data;
 
+import java.util.concurrent.ExecutorService;
+
 /**
  * The configuration
  *
@@ -50,6 +52,10 @@ public class CaptchaValidationConfiguration {
      * Optional: The user's IP address.
      */
     private String remoteIP;
+    /**
+     * Optional: An custom ExecutorService instead of the default one
+     */
+    private ExecutorService executorService;
 
     /**
      * Creates a new {@link CaptchaValidationConfigurationBuilder} for easy creation of a {@link CaptchaValidationConfiguration}

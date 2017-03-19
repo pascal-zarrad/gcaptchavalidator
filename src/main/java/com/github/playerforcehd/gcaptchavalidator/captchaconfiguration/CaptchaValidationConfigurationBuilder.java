@@ -24,6 +24,8 @@
 
 package com.github.playerforcehd.gcaptchavalidator.captchaconfiguration;
 
+import java.util.concurrent.ExecutorService;
+
 /**
  * A builder for easy creation of the {@link CaptchaValidationConfiguration}
  *
@@ -83,6 +85,17 @@ public class CaptchaValidationConfigurationBuilder {
      */
     public CaptchaValidationConfigurationBuilder withRemoteIP(String remoteIP) {
         this.captchaValidationConfiguration.setRemoteIP(remoteIP);
+        return this;
+    }
+
+    /**
+     * Optional: Set a custom {@link ExecutorService} to use instead of the default one.
+     *
+     * @param executorService A custom {@link ExecutorService} to use instead of the default one created by GCaptchaValidator
+     * @return The instance of this builder
+     */
+    public CaptchaValidationConfigurationBuilder withExecutorService(ExecutorService executorService) {
+        this.captchaValidationConfiguration.setExecutorService(executorService);
         return this;
     }
 
