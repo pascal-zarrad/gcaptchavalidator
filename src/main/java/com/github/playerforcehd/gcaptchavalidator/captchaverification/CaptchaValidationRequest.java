@@ -291,10 +291,10 @@ public class CaptchaValidationRequest {
         StringBuilder postData = new StringBuilder();
         for (Map.Entry<String, Object> param : params.entrySet()) {
             if (postData.length() != 0) postData.append('&');
-            postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
+            postData.append(URLEncoder.encode(param.getKey(), GCaptchaValidator.HTTP_CHARSET));
             postData.append('=');
-            postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+            postData.append(URLEncoder.encode(String.valueOf(param.getValue()), GCaptchaValidator.HTTP_CHARSET));
         }
-        return postData.toString().getBytes("UTF-8");
+        return postData.toString().getBytes(GCaptchaValidator.HTTP_CHARSET);
     }
 }
