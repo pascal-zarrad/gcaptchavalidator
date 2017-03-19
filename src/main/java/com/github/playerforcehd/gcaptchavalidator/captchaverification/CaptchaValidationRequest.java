@@ -28,6 +28,7 @@ import com.github.playerforcehd.gcaptchavalidator.CaptchaValidationException;
 import com.github.playerforcehd.gcaptchavalidator.GCaptchaValidator;
 import com.github.playerforcehd.gcaptchavalidator.captchaconfiguration.CaptchaValidationConfiguration;
 import com.github.playerforcehd.gcaptchavalidator.util.Callback;
+import lombok.Cleanup;
 import lombok.Getter;
 
 import java.io.BufferedReader;
@@ -109,12 +110,11 @@ public class CaptchaValidationRequest {
                 httpURLConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
                 httpURLConnection.setDoOutput(true);
                 httpURLConnection.getOutputStream().write(parsedParams);
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), "UTF-8"));
+                @Cleanup BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), "UTF-8"));
                 StringBuilder stringBuilder = new StringBuilder();
                 for (int c; (c = bufferedReader.read()) >= 0; )
                     stringBuilder.append((char) c);
                 String googleResponse = stringBuilder.toString();
-                bufferedReader.close();
                 return CaptchaValidationResult.deserializeJSon(googleResponse);
             }
         });
@@ -158,12 +158,11 @@ public class CaptchaValidationRequest {
                     httpURLConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
                     httpURLConnection.setDoOutput(true);
                     httpURLConnection.getOutputStream().write(parsedParams);
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), "UTF-8"));
+                    @Cleanup BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), "UTF-8"));
                     StringBuilder stringBuilder = new StringBuilder();
                     for (int c; (c = bufferedReader.read()) >= 0; )
                         stringBuilder.append((char) c);
                     String googleResponse = stringBuilder.toString();
-                    bufferedReader.close();
                     captchaValidationResult.invoke(CaptchaValidationResult.deserializeJSon(googleResponse));
                 } catch (IOException e) {
                     captchaValidationResult.fail(e);
@@ -257,12 +256,11 @@ public class CaptchaValidationRequest {
         httpURLConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
         httpURLConnection.setDoOutput(true);
         httpURLConnection.getOutputStream().write(parsedParams);
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), "UTF-8"));
+        @Cleanup BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), "UTF-8"));
         StringBuilder stringBuilder = new StringBuilder();
         for (int c; (c = bufferedReader.read()) >= 0; )
             stringBuilder.append((char) c);
         String googleResponse = stringBuilder.toString();
-        bufferedReader.close();
         return CaptchaValidationResult.deserializeJSon(googleResponse);
     }
 
