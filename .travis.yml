@@ -1,4 +1,4 @@
 language: java
-sudo: false
+install: "mvn clean package"
 jdk:
   - oraclejdk8
