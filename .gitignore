@@ -46,6 +46,8 @@ buildNumber.properties
 # IntelliJ
 /out/
 
+gcaptchavalidator.iml
+
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
