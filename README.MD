@@ -2,14 +2,16 @@
 
 ### What is GCaptchaValidator?
 
-GCaptchaValidator is a lightweight Java library to verify a users is a valid human.
-When developing a web application server, it is possible that a users action (like submitting
+GCaptchaValidator is a lightweight Java library to verify a user is a valid human.
+When developing a web application server, it is possible that a user action (like submitting
 a form) should be validated to avoid bots from spam. A client-side validation isn't enough at this point,
-because small changes in the JavaScript are enough to bypass the cpatcha.
+because small changes in the JavaScript are enough to bypass a captcha.
 
-If you create a web application you can easily verify a Google ReCaptcha with this library.
-All the background work like creating the request to google or processing the JSon result
+If you create a web application you can easily verify a Google ReCaptcha validation with this library.
+All the background work like sending the request to google or processing the JSon result
 is handled by GCaptchaValidator.
+
+This supports Google ReCaptcha 2.0 and the Invisible ReCaptcha by Google (Both have the same server-side validation process)
 
 ### How to use GCaptchaValidator
 
@@ -18,13 +20,13 @@ is handled by GCaptchaValidator.
 If you're using Maven:
 ```xml
 
-    <!-- GCaptchaValidator - Simple Google ReCpatcha 2.0 validation -->
-    <dependency>
-        <groupId>com.github.playerforcehd</groupId>
-        <artifactId>gcaptchavalidator</artifactId>
-        <version>2.0.0</version>
-        <scope>compile</scope>
-     </dependency>
+<!-- GCaptchaValidator - Simple Google ReCpatcha 2.0 validation -->
+<dependency>
+    <groupId>com.github.playerforcehd</groupId>
+    <artifactId>gcaptchavalidator</artifactId>
+    <version>2.0.0</version>
+    <scope>compile</scope>
+</dependency>
     
 ```
 
@@ -44,9 +46,9 @@ ReCaptcha 2.0 API documentation.
 ```java
 
 // Create the configuration for the request
-        CaptchaValidationConfiguration captchaValidationConfiguration = GCaptchaValidator.createConfigurationBuilder()
-                .withSecret("xxxxYourSecretxxxx")
-                .build();
+CaptchaValidationConfiguration captchaValidationConfiguration = GCaptchaValidator.createConfigurationBuilder()
+    .withSecret("xxxxYourSecretxxxx")
+    .build();
 
 ```
 
@@ -59,46 +61,43 @@ After fetching the result you can get the result through the gathered 'CaptchaVa
 ```java
 
 // Create the request which will be executed
-        CaptchaValidationRequest captchaValidationRequest = GCaptchaValidator.createRequest(captchaValidationConfiguration);
+CaptchaValidationRequest captchaValidationRequest = GCaptchaValidator.createRequest(captchaValidationConfiguration);
 
-        // Fetching a value synchronous
-        // It's also possible to use fetchSync("xxxYourResponsexxxx") to prevent yourself from creating
-        // more than one request objects. But it is your choice :)
-        try {
-            Future<CaptchaValidationResult> futureResult = captchaValidationRequest.fetch("xxxxYourResponsexxxx");
-            CaptchaValidationResult synchronousResult = futureResult.get();
-            // Do anything with your result, like checking if the request was a success
-            if(synchronousResult.isValid()){
-                System.out.println("Yeah! valid response. Captcha was really filled out by the user!");
-            }
-        } catch (IOException | CaptchaValidationException e) {
-            // Anything went wrong
-            e.printStackTrace();
+// Fetching a result synchronous
+try {
+    ListenableFuture<CaptchaValidationResult> futureResult = captchaValidationRequest.validate("xxxxYourResponsexxxx");
+    CaptchaValidationResult synchronousResult = futureResult.get();
+    // Do anything with your result, like checking if the request was a success
+    if(synchronousResult.isValid()){
+        System.out.println("Yeah! valid response. Captcha was really filled out by the user!");
+    }
+} catch (IOException | CaptchaValidationException e) {
+    // Anything went wrong
+    e.printStackTrace();
+}
+
+// Fetching a value asynchronous
+FutureCallback<CaptchaValidationResult> resultCallback = new FutureCallback<CaptchaValidationResult>() {
+    @Override
+    public void onSuccess(@Nullable CaptchaValidationResult result) {
+        // Do anything with your result, like checking if the request was a success
+        if(asynchronousResult.isValid()){
+            System.out.println("Yeah! valid response. Captcha was really filled out by the user!");
         }
-
-        // Fetching a value asynchronous
-        // It's also possible to use fetchAsync(callback, "xxxYourResponsexxxx") to prevent yourself from creating
-        // more than one request objects. But it is your choice :)
-        captchaValidationRequest.fetch("xxxxYourResponsexxxx", new Callback<CaptchaValidationResult>() {
-            @Override
-            public void invoke(CaptchaValidationResult asynchronousResult) {
-                // Do anything with your result, like checking if the request was a success
-                if(asynchronousResult.isValid()){
-                    System.out.println("Yeah! valid response. Captcha was really filled out by the user!");
-                }
-            }
-
-            @Override
-            public void fail(Throwable throwable) {
-                throwable.printStackTrace();
-                // Anything went wrong
-            }
-        });
+    }
+    @Override
+    public void onFailure(Throwable throwable) {
+        throwable.printStackTrace();
+        // Anything went wrong
+    }
+};
+ListenableFuture<CaptchaValidationResult> futureResult = captchaValidationRequest.validate("xxxxYourResponsexxxx");
+captchaValidationRequest.addFutureCallback(futureResult, resultCallback);
 
 ```
 
 That's all what this library does.
-It simplifies the validation of a Google ReCaptcha 2.0
+It simplifies the validation of a Google ReCaptcha 2.0 request
 in Java.
 
 ### Help improving this library
