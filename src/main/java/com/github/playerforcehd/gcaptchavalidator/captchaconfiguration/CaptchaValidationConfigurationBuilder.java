@@ -24,13 +24,13 @@
 
 package com.github.playerforcehd.gcaptchavalidator.captchaconfiguration;
 
-import java.util.concurrent.ExecutorService;
+import com.google.common.util.concurrent.ListeningExecutorService;
 
 /**
  * A builder for easy creation of the {@link CaptchaValidationConfiguration}
  *
  * @author PlayerForceHD
- * @version 1.0.0
+ * @version 2.0.0
  * @since 1.0.0
  */
 public class CaptchaValidationConfigurationBuilder {
@@ -65,19 +65,6 @@ public class CaptchaValidationConfigurationBuilder {
     }
 
     /**
-     * Set the user response token provided by ReCaptcha, verifying the user on your site.
-     *
-     * @param response The user response token provided by ReCaptcha, verifying the user on your site.
-     * @return The instance of this builder
-     * @deprecated Since {@link com.github.playerforcehd.gcaptchavalidator.GCaptchaValidator} v1.3.0, the response is an additional argument of the method to get off the one time usage of a request
-     */
-    @Deprecated
-    public CaptchaValidationConfigurationBuilder withResponse(String response) {
-        this.captchaValidationConfiguration.setResponse(response);
-        return this;
-    }
-
-    /**
      * Optional: Set user's IP address.
      *
      * @param remoteIP The user's IP address.
@@ -89,12 +76,12 @@ public class CaptchaValidationConfigurationBuilder {
     }
 
     /**
-     * Optional: Set a custom {@link ExecutorService} to use instead of the default one.
+     * Optional: Set a custom {@link ListeningExecutorService} to use instead of the default one.
      *
-     * @param executorService A custom {@link ExecutorService} to use instead of the default one created by GCaptchaValidator
+     * @param executorService A custom {@link ListeningExecutorService} to use instead of the default one created by GCaptchaValidator
      * @return The instance of this builder
      */
-    public CaptchaValidationConfigurationBuilder withExecutorService(ExecutorService executorService) {
+    public CaptchaValidationConfigurationBuilder withExecutorService(ListeningExecutorService executorService) {
         this.captchaValidationConfiguration.setExecutorService(executorService);
         return this;
     }
