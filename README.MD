@@ -40,8 +40,7 @@ Support for manual downloads has been dropped with version 2.0.0, please use mav
 
 #### How to use it
 
-Step 1.
-Create a CaptchaValidationConfiguration and set the information needed for the validation.
+**Step 1:** Create a CaptchaValidationConfiguration and set the information needed for the validation.
 The values 'secret' and 'response' are required.
 The value 'remoteIP' is optional.
 For more information about the values take a look at Googles
@@ -56,7 +55,7 @@ CaptchaValidationConfiguration captchaValidationConfiguration = GCaptchaValidato
 
 ```
 
-Step 2. Creating a CaptchaValidationRequest and fetch a result
+**Step 2:** Creating a CaptchaValidationRequest and fetch a result
 After creating the configuration you need a request which can be fetched.
 To create a CaptchaValidationRequest you have to call the 'GCaptchaValidator#createRequest' method.
 Then fetch a result asynchronous or synchronous through the 'fetch####' method.
