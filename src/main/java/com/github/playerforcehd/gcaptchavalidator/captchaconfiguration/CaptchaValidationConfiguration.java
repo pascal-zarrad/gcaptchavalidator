@@ -24,6 +24,7 @@
 
 package com.github.playerforcehd.gcaptchavalidator.captchaconfiguration;
 
+import com.google.common.util.concurrent.ListeningExecutorService;
 import lombok.Data;
 
 import java.util.concurrent.ExecutorService;
@@ -32,7 +33,7 @@ import java.util.concurrent.ExecutorService;
  * The configuration
  *
  * @author PlayerForceHD
- * @version 1.0.0
+ * @version 2.0.0
  * @since 1.0.0
  */
 @Data
@@ -43,19 +44,13 @@ public class CaptchaValidationConfiguration {
      */
     private String secret;
     /**
-     * The user response token provided by ReCaptcha, verifying the user on your site.
-     * @deprecated Since {@link com.github.playerforcehd.gcaptchavalidator.GCaptchaValidator} v1.3.0, the response is an additional argument of the method to get off the one time usage of a request
-     */
-    @Deprecated
-    private String response;
-    /**
      * Optional: The user's IP address.
      */
     private String remoteIP;
     /**
      * Optional: An custom ExecutorService instead of the default one
      */
-    private ExecutorService executorService;
+    private ListeningExecutorService executorService;
 
     /**
      * Creates a new {@link CaptchaValidationConfigurationBuilder} for easy creation of a {@link CaptchaValidationConfiguration}

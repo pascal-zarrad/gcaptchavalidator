@@ -83,7 +83,7 @@ public class CaptchaValidationResult {
      * @param json The JSon to deserialize
      * @return The result of the deserialization
      */
-    public static CaptchaValidationResult deserializeJSon(String json) {
+    static CaptchaValidationResult deserializeJSon(String json) {
         JsonElement jsonElement = new JsonParser().parse(json);
         JsonObject jsonObject = jsonElement.getAsJsonObject();
         boolean success = jsonObject.get("success").getAsBoolean();

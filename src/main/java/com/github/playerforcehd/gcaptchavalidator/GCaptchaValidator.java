@@ -28,6 +28,8 @@ import com.github.playerforcehd.gcaptchavalidator.captchaconfiguration.CaptchaVa
 import com.github.playerforcehd.gcaptchavalidator.captchaconfiguration.CaptchaValidationConfigurationBuilder;
 import com.github.playerforcehd.gcaptchavalidator.captchaverification.CaptchaValidationRequest;
 import com.github.playerforcehd.gcaptchavalidator.util.Callback;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
@@ -43,7 +45,7 @@ import java.util.concurrent.Executors;
  * This class also includes the {@link java.util.concurrent.ExecutorService} which handles the async execution of requests
  *
  * @author PlayerForceHD
- * @version 1.0.0
+ * @version 2.0.0
  * @since 1.0.0
  */
 public class GCaptchaValidator {
@@ -63,10 +65,10 @@ public class GCaptchaValidator {
     // ------------------------------------------------------------------------------------------------ //
 
     /**
-     * The {@link ExecutorService} which is used to run the request asynchronous.
+     * The {@link ListeningExecutorService} used to run our requests asynchronous.
      */
     @Getter
-    private static final ExecutorService REQUEST_POOL = Executors.newCachedThreadPool();
+    private static final ListeningExecutorService REQUEST_POOL = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool());
 
     /**
      * A GSon instance to parse the JSon result provided by the Google SiteVerify servers
@@ -76,10 +78,10 @@ public class GCaptchaValidator {
 
     /**
      * Create a {@link CaptchaValidationRequest} from a {@link CaptchaValidationConfiguration}.
-     * Use {@link CaptchaValidationRequest#fetchAsync(Callback)} or {@link CaptchaValidationRequest#fetchSync()} to
+     * Use {@link CaptchaValidationRequest#validate(String)} to
      * validate a request.
      * <p>
-     * To gain a {@link CaptchaValidationConfiguration} use the
+     * To gain a {@link CaptchaValidationConfiguration} use the {@link GCaptchaValidator#createConfigurationBuilder()} or {@link CaptchaValidationConfigurationBuilder#builder()} method
      *
      * @param captchaValidationConfiguration The configuration which provides all data needed to validate a request
      * @return The {@link CaptchaValidationRequest} which can be used to validate a Captcha response of a user

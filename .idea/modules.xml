@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/GCaptchaValidator.iml" filepath="$PROJECT_DIR$/GCaptchaValidator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gcaptchavalidator.iml" filepath="$PROJECT_DIR$/gcaptchavalidator.iml" />
     </modules>
   </component>
 </project>
