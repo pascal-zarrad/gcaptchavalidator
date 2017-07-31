@@ -31,8 +31,12 @@ If you're using Maven:
 ```
 
 Else:
-Download a release from GitHub and add it to your project,
-like all other libraries.
+~~Download a release from GitHub and add it to your project,
+like all other libraries.~~
+
+Support for manual downloads has been dropped with version 2.0.0, please use maven or build on your local machine!
+
+**NOTE: GCaptchaValidator requires at least Java 7.**
 
 #### How to use it
 
