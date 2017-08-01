@@ -79,7 +79,7 @@ try {
     e.printStackTrace();
 }
 
-// Fetching a value asynchronous
+// Fetching a result asynchronous
 FutureCallback<CaptchaValidationResult> resultCallback = new FutureCallback<CaptchaValidationResult>() {
     @Override
     public void onSuccess(@Nullable CaptchaValidationResult result) {
@@ -113,10 +113,11 @@ If your changes are good, they will be accepted.
 
 To report a bug use GitHubs Issues function.
 The report should contain:
-    - A *good* description of the problem that you have
-    - How often does the problem occur
-    - If you know how: Tell how to duplicate it.
-    - The code which produces the error
+
+- A *good* description of the problem that you have
+- How often does the problem occur
+- If you know how: Tell how to duplicate it.
+- The code which produces the error
     
 ### Java Docs
 
