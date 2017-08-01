@@ -58,7 +58,7 @@ CaptchaValidationConfiguration captchaValidationConfiguration = GCaptchaValidato
 **Step 2:** Creating a CaptchaValidationRequest and fetch a result
 After creating the configuration you need a request which can be fetched.
 To create a CaptchaValidationRequest you have to call the 'GCaptchaValidator#createRequest' method.
-Then fetch a result asynchronous or synchronous through the 'fetch####' method.
+Then fetch a result asynchronous or synchronous through the 'validate(response)' method.
 After fetching the result you can get the result through the gathered 'CaptchaValidationResult' object.
 
 ```java
