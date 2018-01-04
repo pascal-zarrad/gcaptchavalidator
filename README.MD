@@ -121,6 +121,6 @@ The report should contain:
     
 ### Java Docs
 
-You can find the JavaDocs at: http://playerforcehd.tk/docs/gcaptchavalidator/
+You can find the JavaDocs at: http://playerforce.me/docs/gcaptchavalidator/
 
 
