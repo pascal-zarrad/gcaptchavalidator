@@ -27,7 +27,6 @@ package com.github.playerforcehd.gcaptchavalidator.captchaverification;
 import com.github.playerforcehd.gcaptchavalidator.CaptchaValidationException;
 import com.github.playerforcehd.gcaptchavalidator.GCaptchaValidator;
 import com.github.playerforcehd.gcaptchavalidator.captchaconfiguration.CaptchaValidationConfiguration;
-import com.github.playerforcehd.gcaptchavalidator.util.Callback;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -36,7 +35,6 @@ import lombok.Cleanup;
 import lombok.Getter;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -46,7 +44,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 
 /**
  * A request which validates a captcha response on Google SiteVerify servers.
@@ -77,6 +74,7 @@ public class CaptchaValidationRequest {
 
     /**
      * Validate a Google ReCaptcha response on the server side
+     *
      * @param response The Response to to validate (Received over POST parameter 'g-recaptcha-response' when using ReCaptcha in the Web)
      * @return A {@link CaptchaValidationResult} which contains the result of the validation request send to Google's SiteVerify Servers
      */
@@ -121,10 +119,11 @@ public class CaptchaValidationRequest {
 
     /**
      * Fast and easy way to add a Callback to a {@link ListenableFuture}
-     * @param future The future which will receive the Callback
+     *
+     * @param future   The future which will receive the Callback
      * @param callback The Callback which will be added to the given future
      */
-    public void addFutureCallback(ListenableFuture<CaptchaValidationResult> future, FutureCallback<CaptchaValidationResult> callback){
+    public void addFutureCallback(ListenableFuture<CaptchaValidationResult> future, FutureCallback<CaptchaValidationResult> callback) {
         Futures.addCallback(future, callback, this.captchaValidationConfiguration.getExecutorService() == null ? this.requestPool : this.captchaValidationConfiguration.getExecutorService());
     }
 

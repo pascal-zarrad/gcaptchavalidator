@@ -27,8 +27,6 @@ package com.github.playerforcehd.gcaptchavalidator.captchaconfiguration;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import lombok.Data;
 
-import java.util.concurrent.ExecutorService;
-
 /**
  * The configuration
  *

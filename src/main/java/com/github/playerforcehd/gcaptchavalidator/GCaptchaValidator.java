@@ -27,7 +27,6 @@ package com.github.playerforcehd.gcaptchavalidator;
 import com.github.playerforcehd.gcaptchavalidator.captchaconfiguration.CaptchaValidationConfiguration;
 import com.github.playerforcehd.gcaptchavalidator.captchaconfiguration.CaptchaValidationConfigurationBuilder;
 import com.github.playerforcehd.gcaptchavalidator.captchaverification.CaptchaValidationRequest;
-import com.github.playerforcehd.gcaptchavalidator.util.Callback;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gson.Gson;
@@ -35,7 +34,6 @@ import com.google.gson.GsonBuilder;
 import lombok.Getter;
 
 import java.nio.charset.StandardCharsets;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**

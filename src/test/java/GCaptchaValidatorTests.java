@@ -107,6 +107,7 @@ public class GCaptchaValidatorTests {
                 assertNotNull("HostName is not null, but true request was made.", result.getHostName());
                 assertTrue("ErrorCodes is not empty, but true request was made.", result.getErrorCodes().isEmpty());
             }
+
             @Override
             public void onFailure(Throwable throwable) {
                 throwable.printStackTrace();
@@ -134,6 +135,7 @@ public class GCaptchaValidatorTests {
                 assertFalse("False request was made but success is true", result.isSuccess());
                 assertFalse("ErrorCodes is empty, but false request was made.", result.getErrorCodes().isEmpty());
             }
+
             @Override
             public void onFailure(Throwable throwable) {
                 throwable.printStackTrace();

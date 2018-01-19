@@ -34,7 +34,9 @@
     <packaging>jar</packaging>
 
     <name>GCaptchaValidator</name>
-    <description>A open source library which makes it easy to validate a Google ReCaptcha 2.0/Invisible ReCaptcha response</description>
+    <description>A open source library which makes it easy to validate a Google ReCaptcha 2.0/Invisible ReCaptcha
+        response
+    </description>
     <url>https://github.com/PlayerForceHD/GCaptchaValidator</url>
 
     <licenses>
