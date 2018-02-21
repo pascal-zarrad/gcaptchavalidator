@@ -65,7 +65,7 @@ public class CaptchaValidationResult {
     /**
      * When success is false, error codes are available in this collection.
      *
-     * @see <a href="https://developers.google.com/recaptcha/docs/verify#error-code-reference</a>
+     * @see <a href="https://developers.google.com/recaptcha/docs/verify#error-code-reference"></a>
      */
     @Getter
     private Collection<CaptchaValidationError> errorCodes;
