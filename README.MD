@@ -2,16 +2,16 @@
 
 ### What is GCaptchaValidator?
 
-GCaptchaValidator is a lightweight Java library to verify a user is a valid human.
-When developing a web application server, it is possible that a user action (like submitting
-a form) should be validated to avoid bots from spam. A client-side validation isn't enough at this point,
+GCaptchaValidator is a lightweight Java library to verify that an user is a valid human.
+When developing a web application server, it is possible that an users action (like submitting
+a form) should be validated to avoid bots from spamming. A client-sided validation isn't enough at this point,
 because small changes in the JavaScript are enough to bypass a captcha.
 
 If you create a web application you can easily verify a Google ReCaptcha validation with this library.
 All the background work like sending the request to google or processing the JSon result
 is handled by GCaptchaValidator.
 
-This supports Google ReCaptcha 2.0 and the Invisible ReCaptcha by Google (Both have the same server-side validation process)
+This supports Google ReCaptcha 2.0 and the Invisible ReCaptcha by Google (Both have the same server-sided validation process).
 
 ### How to use GCaptchaValidator
 
@@ -32,34 +32,34 @@ If you're using Maven:
 
 Else:
 ~~Download a release from GitHub and add it to your project,
-like all other libraries.~~
+like all your other libraries.~~
 
-Support for manual downloads has been dropped with version 2.0.0, please use maven or build on your local machine!
+Support for manual downloads has been dropped with version 2.0.0, please use maven or build the library on your local machine!
 
 **NOTE: GCaptchaValidator requires at least Java 7.**
 
 #### How to use it
 
-**Step 1:** Create a CaptchaValidationConfiguration and set the information needed for the validation.
+**Step 1:** Create a CaptchaValidationConfiguration and set the information required for the validation.
 The values 'secret' and 'response' are required.
 The value 'remoteIP' is optional.
-For more information about the values take a look at Googles
+For more information about these values, take a look at Googles
 ReCaptcha 2.0 API documentation.
 
 ```java
 
-// Create the configuration for the request
+// Create the configuration for the request(s)
 CaptchaValidationConfiguration captchaValidationConfiguration = GCaptchaValidator.createConfigurationBuilder()
     .withSecret("xxxxYourSecretxxxx")
     .build();
 
 ```
 
-**Step 2:** Creating a CaptchaValidationRequest and fetch a result
+**Step 2:** Create a CaptchaValidationRequest and fetch a result
 After creating the configuration you need a request which can be fetched.
 To create a CaptchaValidationRequest you have to call the 'GCaptchaValidator#createRequest' method.
-Then fetch a result asynchronous or synchronous through the 'validate(response)' method.
-After fetching the result you can get the result through the gathered 'CaptchaValidationResult' object.
+Then fetch a result asynchronous or synchronous through the 'validate(response)' method of your obtained CaptchaValidationRequest object.
+After fetching the result you can work with the result through the gathered 'CaptchaValidationResult' object, which stores the entire response from Google mapped to a POJO.
 
 ```java
 
@@ -100,27 +100,27 @@ captchaValidationRequest.addFutureCallback(futureResult, resultCallback);
 ```
 
 That's all what this library does.
-It simplifies the validation of a Google ReCaptcha 2.0 request
+It simply simplifies the validation of a Google ReCaptcha 2.0 request
 in Java.
 
-### Help improving this library
+### Help to improve this library
 
-Every developer out there can help improving this library.
-Make your changes at the code and create a pull request.
-If your changes are good, they will be accepted.
+Every developer out there can help to improve this library.
+Make your changes to the code and create a pull request.
+If your changes are good and working, they will be accepted.
 
-### Report a bug
+### Reporting a bug
 
 To report a bug use GitHubs Issues function.
-The report should contain:
+The report should include:
 
-- A *good* description of the problem that you have
+- A *good* description of the problem that occured
 - How often does the problem occur
-- If you know how: Tell how to duplicate it.
+- If you know how: Tell how to duplicate the problem.
 - The code which produces the error
     
 ### Java Docs
 
-You can find the JavaDocs at: http://playerforce.me/docs/gcaptchavalidator/
+You can find the JavaDocs at: http://playerforce.tk/docs/gcaptchavalidator/
 
 
