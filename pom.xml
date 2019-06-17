@@ -56,9 +56,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/PlayerForceHD/GCaptchaValidator.git</connection>
-        <developerConnection>scm:git:ssh://github.com/PlayerForceHD/GCaptchaValidator.git</developerConnection>
-        <url>https://github.com/PlayerForceHD/GCaptchaValidator/tree/master</url>
+        <connection>scm:git:git://github.com/pascal-zarrad/GCaptchaValidator.git</connection>
+        <developerConnection>scm:git:ssh://github.com/pascal-zarrad/GCaptchaValidator.git</developerConnection>
+        <url>https://github.com/pascal-zarrad/GCaptchaValidator/tree/master</url>
     </scm>
 
     <distributionManagement>
