@@ -1,4 +1,4 @@
-## GCaptchaValidator - A ReCaptcha 2.0 Validator [![Build Status](https://travis-ci.org/PlayerForceHD/GCaptchaValidator.svg?branch=master)](https://travis-ci.org/PlayerForceHD/GCaptchaValidator)
+## GCaptchaValidator - A ReCaptcha 2.0 Validator [![Build Status](https://travis-ci.org/pascal-zarrad/GCaptchaValidator.svg?branch=master)](https://travis-ci.org/pascal-zarrad/GCaptchaValidator)
 
 ### What is GCaptchaValidator?
 
