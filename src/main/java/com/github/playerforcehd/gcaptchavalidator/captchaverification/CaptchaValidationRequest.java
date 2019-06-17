@@ -31,8 +31,6 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
-import lombok.Cleanup;
-import lombok.Getter;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -59,7 +57,6 @@ public class CaptchaValidationRequest {
     /**
      * The {@link com.github.playerforcehd.gcaptchavalidator.captchaconfiguration.CaptchaValidationConfiguration} which contains the POST data for the HTTP-Request
      */
-    @Getter
     private CaptchaValidationConfiguration captchaValidationConfiguration;
 
     /**
@@ -107,10 +104,12 @@ public class CaptchaValidationRequest {
                 httpURLConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
                 httpURLConnection.setDoOutput(true);
                 httpURLConnection.getOutputStream().write(parsedParams);
-                @Cleanup BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), "UTF-8"));
                 StringBuilder stringBuilder = new StringBuilder();
-                for (int c; (c = bufferedReader.read()) >= 0; )
-                    stringBuilder.append((char) c);
+                try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), GCaptchaValidator.HTTP_CHARSET))) {
+                    for (int c; (c = bufferedReader.read()) >= 0; ) {
+                        stringBuilder.append((char) c);
+                    }
+                }
                 String googleResponse = stringBuilder.toString();
                 return CaptchaValidationResult.deserializeJSon(googleResponse);
             }
@@ -143,5 +142,9 @@ public class CaptchaValidationRequest {
             postData.append(URLEncoder.encode(String.valueOf(param.getValue()), GCaptchaValidator.HTTP_CHARSET));
         }
         return postData.toString().getBytes(GCaptchaValidator.HTTP_CHARSET);
+    }
+
+    public CaptchaValidationConfiguration getCaptchaValidationConfiguration() {
+        return captchaValidationConfiguration;
     }
 }

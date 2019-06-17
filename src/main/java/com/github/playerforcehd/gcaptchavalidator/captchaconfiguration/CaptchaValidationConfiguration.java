@@ -25,7 +25,6 @@
 package com.github.playerforcehd.gcaptchavalidator.captchaconfiguration;
 
 import com.google.common.util.concurrent.ListeningExecutorService;
-import lombok.Data;
 
 /**
  * The configuration
@@ -34,7 +33,6 @@ import lombok.Data;
  * @version 2.0.0
  * @since 1.0.0
  */
-@Data
 public class CaptchaValidationConfiguration {
 
     /**
@@ -57,5 +55,29 @@ public class CaptchaValidationConfiguration {
      */
     public static CaptchaValidationConfigurationBuilder builder() {
         return new CaptchaValidationConfigurationBuilder();
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
+    }
+
+    public String getRemoteIP() {
+        return remoteIP;
+    }
+
+    public void setRemoteIP(String remoteIP) {
+        this.remoteIP = remoteIP;
+    }
+
+    public ListeningExecutorService getExecutorService() {
+        return executorService;
+    }
+
+    public void setExecutorService(ListeningExecutorService executorService) {
+        this.executorService = executorService;
     }
 }

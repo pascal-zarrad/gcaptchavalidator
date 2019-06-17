@@ -27,7 +27,6 @@ package com.github.playerforcehd.gcaptchavalidator.captchaverification;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,19 +46,16 @@ public class CaptchaValidationResult {
     /**
      * If the success value is true, the captcha result is real
      */
-    @Getter
     private boolean success;
 
     /**
      * The timestamp of the challenge load (ISO format yyyy-MM-dd'T'HH:mm:ssZZ)
      */
-    @Getter
     private String challengeTS;
 
     /**
      * The hostname of the site where the ReCAPTCHA was solved
      */
-    @Getter
     private String hostName;
 
     /**
@@ -67,7 +63,6 @@ public class CaptchaValidationResult {
      *
      * @see <a href="https://developers.google.com/recaptcha/docs/verify#error-code-reference"></a>
      */
-    @Getter
     private Collection<CaptchaValidationError> errorCodes;
 
     public CaptchaValidationResult(boolean success, String challengeTS, String hostName, Collection<CaptchaValidationError> errorCode) {
@@ -112,5 +107,21 @@ public class CaptchaValidationResult {
      */
     public boolean isValid() {
         return this.success;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public String getChallengeTS() {
+        return challengeTS;
+    }
+
+    public String getHostName() {
+        return hostName;
+    }
+
+    public Collection<CaptchaValidationError> getErrorCodes() {
+        return errorCodes;
     }
 }

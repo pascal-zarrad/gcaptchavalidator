@@ -31,7 +31,6 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import lombok.Getter;
 
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Executors;
@@ -65,13 +64,11 @@ public class GCaptchaValidator {
     /**
      * The {@link ListeningExecutorService} used to run our requests asynchronous.
      */
-    @Getter
     private static final ListeningExecutorService REQUEST_POOL = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool());
 
     /**
      * A GSon instance to parse the JSon result provided by the Google SiteVerify servers
      */
-    @Getter
     private static final Gson GSON = new GsonBuilder().create();
 
     /**
@@ -96,5 +93,13 @@ public class GCaptchaValidator {
      */
     public static CaptchaValidationConfigurationBuilder createConfigurationBuilder() {
         return CaptchaValidationConfigurationBuilder.builder();
+    }
+
+    public static ListeningExecutorService getRequestPool() {
+        return REQUEST_POOL;
+    }
+
+    public static Gson getGSON() {
+        return GSON;
     }
 }

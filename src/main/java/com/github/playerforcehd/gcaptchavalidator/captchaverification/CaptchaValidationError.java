@@ -24,8 +24,6 @@
 
 package com.github.playerforcehd.gcaptchavalidator.captchaverification;
 
-import lombok.Getter;
-
 /**
  * A enum which contains all possible error codes that the JSon response from Google could contain.
  * For more information look at the Google ReCaptcha 2.0 API documentation
@@ -45,7 +43,6 @@ public enum CaptchaValidationError {
     /**
      * The original string from the JSon response from Google
      */
-    @Getter
     private String originalJSon;
 
     CaptchaValidationError(String originalJSon) {
@@ -67,4 +64,7 @@ public enum CaptchaValidationError {
         return null;
     }
 
+    public String getOriginalJSon() {
+        return originalJSon;
+    }
 }
