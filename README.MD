@@ -24,7 +24,7 @@ If you're using Maven:
 <dependency>
     <groupId>com.github.playerforcehd</groupId>
     <artifactId>gcaptchavalidator</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
     <scope>compile</scope>
 </dependency>
     
@@ -118,9 +118,4 @@ The report should include:
 - How often does the problem occur
 - If you know how: Tell how to duplicate the problem.
 - The code which produces the error
-    
-### Java Docs
-
-You can find the JavaDocs at: http://playerforce.tk/docs/gcaptchavalidator/
-
 
