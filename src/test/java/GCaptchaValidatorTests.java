@@ -28,9 +28,6 @@ import com.github.playerforcehd.gcaptchavalidator.captchaverification.CaptchaVal
 import com.github.playerforcehd.gcaptchavalidator.captchaverification.CaptchaValidationRequest;
 import com.github.playerforcehd.gcaptchavalidator.captchaverification.CaptchaValidationResult;
 import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.http.Request;
-import com.github.tomakehurst.wiremock.http.RequestListener;
-import com.github.tomakehurst.wiremock.http.Response;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -89,13 +86,6 @@ public class GCaptchaValidatorTests {
      * Setup the stubs that handle the
      */
     private void setupWebStubs() {
-        this.wireMockServer.addMockServiceRequestListener(new RequestListener() {
-            @Override
-            public void requestReceived(Request request, Response response) {
-                System.out.println(request.getBodyAsString());
-                System.out.println("Response: " + response.getBodyAsString());
-            }
-        });
         // Stub validation with everything set
         this.wireMockServer.stubFor(any(urlPathEqualTo("/recaptcha/api/siteverify"))
                 .withHeader("User-Agent", equalTo("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"))
