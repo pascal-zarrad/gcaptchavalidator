@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2016 Pascal Zarrad
+ * Copyright (c) 2019 Pascal Zarrad
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,6 @@ package com.github.playerforcehd.gcaptchavalidator.captchaverification;
  * For more information look at the Google ReCaptcha 2.0 API documentation
  *
  * @author PlayerForceHD
- * @version 1.0.0
  * @see <a href="https://developers.google.com/recaptcha/docs/verify#error-code-reference"></a>
  * @since 1.0.0
  */
@@ -38,7 +37,10 @@ public enum CaptchaValidationError {
     MISSING_INPUT_SECRET("missing-input-secret"),
     INVALID_INPUT_SECRET("invalid-input-secret"),
     MISSING_INPUT_RESPONSE("missing-input-response"),
-    INVALID_INPUT_RESPONSE("invalid-input-response");
+    INVALID_INPUT_RESPONSE("invalid-input-response"),
+    BAD_REQUEST("bad-request"),
+    TIMEOUT_OR_DUPLICATE("timeout-or-duplicate");
+
 
     /**
      * The original string from the JSon response from Google

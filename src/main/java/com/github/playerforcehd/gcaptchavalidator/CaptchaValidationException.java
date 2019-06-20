@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2016 Pascal Zarrad
+ * Copyright (c) 2019 Pascal Zarrad
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,6 @@ package com.github.playerforcehd.gcaptchavalidator;
  * A exception thrown when a error occurs while processing a {@link com.github.playerforcehd.gcaptchavalidator.captchaverification.CaptchaValidationRequest}
  *
  * @author PlayerForceHD
- * @version 1.0.0
  * @since 1.0.0
  */
 public class CaptchaValidationException extends Exception {

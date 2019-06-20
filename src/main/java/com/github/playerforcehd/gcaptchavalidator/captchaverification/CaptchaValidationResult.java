@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2016 Pascal Zarrad
+ * Copyright (c) 2019 Pascal Zarrad
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,6 @@ import java.util.Collection;
  * More information at the Google ReCaptcha 2.0 API documentation
  *
  * @author PlayerForceHD
- * @version 1.0.0
  * @see <a href="http://google.com">https://developers.google.com/recaptcha/docs/verify#api-response</a>
  * @since 1.0.0
  */

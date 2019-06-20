@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2016 Pascal Zarrad
+ * Copyright (c) 2019 Pascal Zarrad
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,16 +31,19 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.concurrent.Callable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -49,7 +52,6 @@ import java.util.concurrent.ExecutorService;
  * and it's static methods.
  *
  * @author PlayerForceHD
- * @version 2.0.0
  * @since 1.0.0
  */
 public class CaptchaValidationRequest {
@@ -76,43 +78,39 @@ public class CaptchaValidationRequest {
      * @return A {@link CaptchaValidationResult} which contains the result of the validation request send to Google's SiteVerify Servers
      */
     public ListenableFuture<CaptchaValidationResult> validate(final String response) {
-        return this.requestPool.submit(new Callable<CaptchaValidationResult>() {
-            @Override
-            public CaptchaValidationResult call() throws Exception {
-                //Parse the parameters from the CaptchaValidationConfiguration
-                if (captchaValidationConfiguration.getSecret() == null) {
-                    throw new CaptchaValidationException("The value 'secret' has not been set in the CaptchaValidationConfiguration");
-                }
-                String secret = captchaValidationConfiguration.getSecret();
-                String remoteIP = null;
-                if (captchaValidationConfiguration.getRemoteIP() != null) {
-                    remoteIP = captchaValidationConfiguration.getRemoteIP();
-                }
-                //Create HttpUrlConnection to the Google SiteVerify servers
-                Map<String, Object> params = new LinkedHashMap<>();
-                params.put("secret", secret);
-                params.put("response", response);
-                if (remoteIP != null) {
-                    params.put("remoteip", remoteIP);
-                }
-                byte[] parsedParams = createPostData(params);
-                URL url = new URL(GCaptchaValidator.GOOGLE_SITEVERIFY_URL);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                httpURLConnection.setRequestProperty("Content-Length", String.valueOf(parsedParams.length));
-                httpURLConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
-                httpURLConnection.setDoOutput(true);
-                httpURLConnection.getOutputStream().write(parsedParams);
-                StringBuilder stringBuilder = new StringBuilder();
-                try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), GCaptchaValidator.HTTP_CHARSET))) {
-                    for (int c; (c = bufferedReader.read()) >= 0; ) {
-                        stringBuilder.append((char) c);
+        return this.requestPool.submit(() -> {
+            if (captchaValidationConfiguration.getSecret() == null) {
+                throw new CaptchaValidationException("The value 'secret' has not been set in the CaptchaValidationConfiguration");
+            }
+            String secret = captchaValidationConfiguration.getSecret();
+            String remoteIP = null;
+            if (captchaValidationConfiguration.getRemoteIP() != null) {
+                remoteIP = captchaValidationConfiguration.getRemoteIP();
+            }
+            List<NameValuePair> parameters = new ArrayList<>();
+            parameters.add(new BasicNameValuePair("secret", secret));
+            parameters.add(new BasicNameValuePair("remoteip", remoteIP));
+            parameters.add(new BasicNameValuePair("response", response));
+            String googleResponse;
+            try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+                URL url = new URL(captchaValidationConfiguration.getSiteVerifyURL());
+                HttpPost httpPost = new HttpPost(url.toURI());
+                httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
+                httpPost.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
+                httpPost.setEntity(new UrlEncodedFormEntity(parameters));
+                try (CloseableHttpResponse httpResponse = httpClient.execute(httpPost)) {
+                    HttpEntity httpEntity = httpResponse.getEntity();
+                    if (httpEntity != null) {
+                        googleResponse = EntityUtils.toString(httpEntity, GCaptchaValidator.HTTP_CHARSET);
+                    } else {
+                        throw new CaptchaValidationException("Could not retrieve a body from the request!");
                     }
                 }
-                String googleResponse = stringBuilder.toString();
-                return CaptchaValidationResult.deserializeJSon(googleResponse);
             }
+            if (googleResponse == null) {
+                throw new CaptchaValidationException("Received an empty response. This could be due to a failure while communicating with Google or because the returned body was empty!");
+            }
+            return CaptchaValidationResult.deserializeJSon(googleResponse);
         });
     }
 
@@ -124,24 +122,6 @@ public class CaptchaValidationRequest {
      */
     public void addFutureCallback(ListenableFuture<CaptchaValidationResult> future, FutureCallback<CaptchaValidationResult> callback) {
         Futures.addCallback(future, callback, this.captchaValidationConfiguration.getExecutorService() == null ? this.requestPool : this.captchaValidationConfiguration.getExecutorService());
-    }
-
-    /**
-     * Create the post request parameters from a map
-     *
-     * @param params The parameters to parse
-     * @return The parsed parameters as a byte array
-     * @throws UnsupportedEncodingException Thrown when the UTF-8 encoding is not supported
-     */
-    private byte[] createPostData(Map<String, Object> params) throws UnsupportedEncodingException {
-        StringBuilder postData = new StringBuilder();
-        for (Map.Entry<String, Object> param : params.entrySet()) {
-            if (postData.length() != 0) postData.append('&');
-            postData.append(URLEncoder.encode(param.getKey(), GCaptchaValidator.HTTP_CHARSET));
-            postData.append('=');
-            postData.append(URLEncoder.encode(String.valueOf(param.getValue()), GCaptchaValidator.HTTP_CHARSET));
-        }
-        return postData.toString().getBytes(GCaptchaValidator.HTTP_CHARSET);
     }
 
     public CaptchaValidationConfiguration getCaptchaValidationConfiguration() {

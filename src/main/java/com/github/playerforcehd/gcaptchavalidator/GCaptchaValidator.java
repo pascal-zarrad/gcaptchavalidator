@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2016 Pascal Zarrad
+ * Copyright (c) 2019 Pascal Zarrad
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -42,12 +42,11 @@ import java.util.concurrent.Executors;
  * This class also includes the {@link java.util.concurrent.ExecutorService} which handles the async execution of requests
  *
  * @author PlayerForceHD
- * @version 2.0.0
  * @since 1.0.0
  */
 public class GCaptchaValidator {
 
-    // ---------- Some Constants which are used for every request and contains the HTTP data ---------- //
+    // ---------- Some Constants which are primarily used for every request and contains the HTTP data ---------- //
 
     /**
      * The URL of the Google SiteVerify service, which is used to validate ReCaptcha responses.

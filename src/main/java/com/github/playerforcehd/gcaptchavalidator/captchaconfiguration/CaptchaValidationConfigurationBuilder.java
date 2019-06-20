@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2016 Pascal Zarrad
+ * Copyright (c) 2019 Pascal Zarrad
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,6 @@ import com.google.common.util.concurrent.ListeningExecutorService;
  * A builder for easy creation of the {@link CaptchaValidationConfiguration}
  *
  * @author PlayerForceHD
- * @version 2.0.0
  * @since 1.0.0
  */
 public class CaptchaValidationConfigurationBuilder {
@@ -83,6 +82,17 @@ public class CaptchaValidationConfigurationBuilder {
      */
     public CaptchaValidationConfigurationBuilder withExecutorService(ListeningExecutorService executorService) {
         this.captchaValidationConfiguration.setExecutorService(executorService);
+        return this;
+    }
+
+    /**
+     * Set a custom URL where the requests will be sent to
+     *
+     * @param siteVerifyURL The URL to set as {@link String}
+     * @return The instance of this builder
+     */
+    public CaptchaValidationConfigurationBuilder withGoogleSiteVerifyURL(String siteVerifyURL) {
+        this.captchaValidationConfiguration.setSiteVerifyURL(siteVerifyURL);
         return this;
     }
 

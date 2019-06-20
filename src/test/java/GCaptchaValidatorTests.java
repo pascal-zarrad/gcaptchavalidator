@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2016 Pascal Zarrad
+ * Copyright (c) 2019 Pascal Zarrad
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,22 +27,24 @@ import com.github.playerforcehd.gcaptchavalidator.captchaconfiguration.CaptchaVa
 import com.github.playerforcehd.gcaptchavalidator.captchaverification.CaptchaValidationError;
 import com.github.playerforcehd.gcaptchavalidator.captchaverification.CaptchaValidationRequest;
 import com.github.playerforcehd.gcaptchavalidator.captchaverification.CaptchaValidationResult;
-import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.ListenableFuture;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.http.Request;
+import com.github.tomakehurst.wiremock.http.RequestListener;
+import com.github.tomakehurst.wiremock.http.Response;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
-import javax.annotation.Nullable;
 import java.util.concurrent.ExecutionException;
 
-import static org.junit.Assert.*;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
+import static org.testng.Assert.*;
 
 /**
  * Tests all functions of the {@link com.github.playerforcehd.gcaptchavalidator.GCaptchaValidator} library
  *
  * @author PlayerForceHD
- * @version 1.0.0
  * @since 1.0.0
  */
 public class GCaptchaValidatorTests {
@@ -50,117 +52,211 @@ public class GCaptchaValidatorTests {
     /**
      * A test secret key provided by Google
      */
-    private String gReCaptchaTestSecret;
+    private final String gReCaptchaTestSecret = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe";
 
     /**
-     * Initializes the Test values
+     * The remote ip used for testing
      */
-    @Before
-    public void initializeTest() {
-        this.gReCaptchaTestSecret = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe";
+    private final String remoteIP = "127.0.0.1";
+
+    /**
+     * The valid response used for testing
+     */
+    private String acceptedResponse = "03AJz9lvRRl27ls2cnen32HC_LRxepB9xmLps0GcDMJfIGHIOaPWW29X-_DlvNGo5Tmx6lANsUHhko4CpKLYKvTLQQDjLrefVEyl7A5nuF26FsooF_GQ_O5r-EOX_FbAQ0RVc9vGrI7Lk_Bp_JzukTPdq4WgP-qSLbYErV-btJIwYh9MNmxrFn-5RUqC08T4WnSp6-er8nAt2YwkqM1hKTlsMm-6VulyQD49UwoJ-Y_YBah8v4snxw-KI-8Fa09gQp0a449BK6N5XiH9AfUbH7V7f_jRXuIUu22HTLJBz3AfHH-P5t6U9ZsY4";
+
+    /**
+     * The {@link WireMockServer}used to mock a WebServer to test the execution of WebHooks
+     */
+    private WireMockServer wireMockServer;
+
+    /**
+     * Initializes the WireMockServer used to test the ReCaptcha requests
+     */
+    @BeforeMethod
+    public void prepare() {
+        // Start a mocked WebServer
+        this.wireMockServer = new WireMockServer(options().dynamicPort());
+        this.wireMockServer.start();
+    }
+
+    @AfterMethod
+    public void reset() {
+        // Stop a mocked WebServer
+        this.wireMockServer.stop();
+    }
+
+    /**
+     * Setup the stubs that handle the
+     */
+    private void setupWebStubs() {
+        this.wireMockServer.addMockServiceRequestListener(new RequestListener() {
+            @Override
+            public void requestReceived(Request request, Response response) {
+                System.out.println(request.getBodyAsString());
+                System.out.println("Response: " + response.getBodyAsString());
+            }
+        });
+        // Stub validation with everything set
+        this.wireMockServer.stubFor(any(urlPathEqualTo("/recaptcha/api/siteverify"))
+                .withHeader("User-Agent", equalTo("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"))
+                .withHeader("Content-Type", equalTo("application/x-www-form-urlencoded"))
+                .withRequestBody(equalTo("secret=" + this.gReCaptchaTestSecret + "&remoteip=" + this.remoteIP + "&response=" + this.acceptedResponse))
+                .willReturn(aResponse().withBody("{ \"success\": true, \"challenge_ts\": \"2019-06-17T20:33:57Z\", \"hostname\": \"testkey.google.com\" }"))
+        );
+        // Stub validation without remote ip set
+        this.wireMockServer.stubFor(any(urlPathEqualTo("/recaptcha/api/siteverify"))
+                .withHeader("User-Agent", equalTo("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"))
+                .withHeader("Content-Type", equalTo("application/x-www-form-urlencoded"))
+                .withRequestBody(equalTo("secret=" + this.gReCaptchaTestSecret + "&remoteip&response=" + this.acceptedResponse))
+                .willReturn(aResponse().withBody("{ \"success\": true, \"challenge_ts\": \"2019-06-17T20:33:57Z\", \"hostname\": \"testkey.google.com\" }")));
+
+        // Stub validation with wrong response and without remote ip set
+        this.wireMockServer.stubFor(any(urlPathEqualTo("/recaptcha/api/siteverify"))
+                .withHeader("User-Agent", equalTo("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"))
+                .withHeader("Content-Type", equalTo("application/x-www-form-urlencoded"))
+                .withRequestBody(equalTo("secret=" + this.gReCaptchaTestSecret + "&remoteip&response=THIS+IS+A+INVALID+RESPONSE"))
+                .willReturn(aResponse().withBody("{ \"success\": false, \"error-codes\": [\"invalid-input-response\", \"invalid-input-secret\"] }"))
+        );
+        // Stub validation without any configuration
+        this.wireMockServer.stubFor(any(urlPathEqualTo("/recaptcha/api/siteverify"))
+                .withHeader("User-Agent", equalTo("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"))
+                .withHeader("Content-Type", equalTo("application/x-www-form-urlencoded"))
+                .withRequestBody(equalTo("secret=&remoteip&response="))
+                .willReturn(aResponse().withBody("{ \"success\": false, \"error-codes\": [\"invalid-input-response\", \"invalid-input-secret\"] }")));
+    }
+
+    /**
+     * Returns the fake SiteVerify URL
+     */
+    private String getMockedSiteVerifyURL() {
+        return "http://localhost:" + this.wireMockServer.port() + "/recaptcha/api/siteverify";
+    }
+
+    /**
+     * Tests if the default URL of a {@link CaptchaValidationConfiguration} does point to Google's SiteVerify API
+     */
+    @Test
+    public void testGCaptchaValidationConfigurationPointsToGoogleByDefault() {
+        CaptchaValidationConfiguration configuration = GCaptchaValidator.createConfigurationBuilder()
+                .withSecret(this.gReCaptchaTestSecret)
+                .withRemoteIP(this.remoteIP)
+                .build();
+        assertEquals(configuration.getSiteVerifyURL(), GCaptchaValidator.GOOGLE_SITEVERIFY_URL, "The default SiteVerifyURL does not point to Google!");
+    }
+
+    /**
+     * Tests if the default URL of a {@link CaptchaValidationConfiguration} does point to Google's SiteVerify API
+     */
+    @Test
+    public void testGCaptchaValidationConfigurationPointsToCustomURL() {
+        CaptchaValidationConfiguration configuration = GCaptchaValidator.createConfigurationBuilder()
+                .withSecret(this.gReCaptchaTestSecret)
+                .withRemoteIP(this.remoteIP)
+                .withGoogleSiteVerifyURL("TEST")
+                .build();
+        assertNotEquals(configuration.getSiteVerifyURL(), GCaptchaValidator.GOOGLE_SITEVERIFY_URL, "The SiteVerifyURL does point to Google but a custom URL has been declared in the configuration!");
     }
 
     /**
      * Tests the Google ReCaptcha Validation synchronous with a given RemoteIP
      */
     @Test
-    public void testGCaptchaValidationSynchronousWithRemoteIPSet() {
+    public void testGCaptchaValidationWithRemoteIPSet() {
+        // Prepare Test in our mock server
+        this.setupWebStubs();
+        // Test
         CaptchaValidationConfiguration configuration = GCaptchaValidator.createConfigurationBuilder()
                 .withSecret(this.gReCaptchaTestSecret)
-                .withRemoteIP("127.0.0.1")
+                .withRemoteIP(this.remoteIP)
+                .withGoogleSiteVerifyURL(this.getMockedSiteVerifyURL()) // Set custom URL for testing
                 .build();
-        assertNotNull("CaptchaValidationConfiguration (configuration) is null, but has been initialized through builder!", configuration);
-        assertNotNull("CaptchaValidationConfiguration.getSecret() is null, but has been initialized through builder!", configuration.getSecret());
-        assertNotNull("CaptchaValidationConfiguration.getRemoteIP(); is null, but has been initialized through builder!", configuration.getRemoteIP());
+        assertNotNull(configuration, "CaptchaValidationConfiguration (configuration) is null, but has been initialized through builder!");
+        assertNotNull(configuration.getSecret(), "CaptchaValidationConfiguration.getSecret() is null, but has been initialized through builder!");
+        assertNotNull(configuration.getRemoteIP(), "CaptchaValidationConfiguration.getRemoteIP(); is null, but has been initialized through builder!");
         CaptchaValidationRequest request = GCaptchaValidator.createRequest(configuration);
-        assertNotNull("CaptchaValidationRequest (request) is null, but has been initialized through GCaptchaValidator.createRequest(configuration)", request);
+        assertNotNull(request, "CaptchaValidationRequest (request) is null, but has been initialized through GCaptchaValidator.createRequest(configuration)");
         CaptchaValidationResult result = null;
         try {
-            result = request.validate("03AJz9lvRRl27ls2cnen32HC_LRxepB9xmLps0GcDMJfIGHIOaPWW29X-_DlvNGo5Tmx6lANsUHhko4CpKLYKvTLQQDjLrefVEyl7A5nuF26FsooF_GQ_O5r-EOX_FbAQ0RVc9vGrI7Lk_Bp_JzukTPdq4WgP-qSLbYErV-btJIwYh9MNmxrFn-5RUqC08T4WnSp6-er8nAt2YwkqM1hKTlsMm-6VulyQD49UwoJ-Y_YBah8v4snxw-KI-8Fa09gQp0a449BK6N5XiH9AfUbH7V7f_jRXuIUu22HTLJBz3AfHH-P5t6U9ZsY4").get();
+            result = request.validate(this.acceptedResponse).get();
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-            fail("Failed to validate response");
+            fail("Failed to validate response", e);
         }
-        assertNotNull("CaptchaValidationResult (result) is null, but validation has runned!", result);
-        assertTrue("True request was made but success is false", result.isSuccess());
-        assertNotNull("ChallengeTS is null, but true request was made.", result.getChallengeTS());
-        assertNotNull("HostName is not null, but true request was made.", result.getHostName());
-        assertTrue("ErrorCodes is not empty, but true request was made.", result.getErrorCodes().isEmpty());
+        assertNotNull(result, "CaptchaValidationResult (result) is null, but validation has run!");
+        assertTrue(result.isSuccess(), "True request was made but success is false");
+        assertNotNull(result.getChallengeTS(), "ChallengeTS is null, but true request was made.");
+        assertNotNull(result.getHostName(), "HostName is not null, but true request was made.");
+        assertTrue(result.getErrorCodes().isEmpty(), "ErrorCodes is not empty, but true request was made.");
     }
 
     @Test
-    public void testGCaptchaValidationAsynchronousWithoutRemoteIPSet() {
+    public void testGCaptchaValidationWithoutRemoteIPSet() {
+        // Prepare Test in our mock server
+        this.setupWebStubs();
+        // Test
         CaptchaValidationConfiguration configuration = GCaptchaValidator.createConfigurationBuilder()
                 .withSecret(this.gReCaptchaTestSecret)
+                .withGoogleSiteVerifyURL(getMockedSiteVerifyURL()) // Set custom URL for testing
                 .build();
-        assertNotNull("CaptchaValidationConfiguration (configuration) is null, but has been initialized through builder!", configuration);
-        assertNotNull("CaptchaValidationConfiguration.getSecret() is null, but has been initialized through builder!", configuration.getSecret());
-        assertNull("CaptchaValidationConfiguration.getRemoteIP(); is not null, but never has been initialized!!", configuration.getRemoteIP());
+        assertNotNull(configuration, "CaptchaValidationConfiguration (configuration) is null, but has been initialized through builder!");
+        assertNotNull(configuration.getSecret(), "CaptchaValidationConfiguration.getSecret() is null, but has been initialized through builder!");
+        assertNull(configuration.getRemoteIP(), "CaptchaValidationConfiguration.getRemoteIP(); is not null, but never has been initialized!!");
         CaptchaValidationRequest request = GCaptchaValidator.createRequest(configuration);
-        assertNotNull("CaptchaValidationRequest (request) is null, but has been initialized through GCaptchaValidator.createRequest(configuration)", request);
-        FutureCallback<CaptchaValidationResult> resultCallback = new FutureCallback<CaptchaValidationResult>() {
-            @Override
-            public void onSuccess(@Nullable CaptchaValidationResult result) {
-                assertNotNull("CaptchaValidationResult (result) is null, but validation has runned!", result);
-                assertTrue("True request was made but success is false", result.isSuccess());
-                assertNotNull("ChallengeTS is null, but true request was made.", result.getChallengeTS());
-                assertNotNull("HostName is not null, but true request was made.", result.getHostName());
-                assertTrue("ErrorCodes is not empty, but true request was made.", result.getErrorCodes().isEmpty());
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                throwable.printStackTrace();
-                fail("Failed to validate response");
-            }
-        };
-        ListenableFuture<CaptchaValidationResult> validationFuture = request.validate("03AJz9lvRRl27ls2cnen32HC_LRxepB9xmLps0GcDMJfIGHIOaPWW29X-_DlvNGo5Tmx6lANsUHhko4CpKLYKvTLQQDjLrefVEyl7A5nuF26FsooF_GQ_O5r-EOX_FbAQ0RVc9vGrI7Lk_Bp_JzukTPdq4WgP-qSLbYErV-btJIwYh9MNmxrFn-5RUqC08T4WnSp6-er8nAt2YwkqM1hKTlsMm-6VulyQD49UwoJ-Y_YBah8v4snxw-KI-8Fa09gQp0a449BK6N5XiH9AfUbH7V7f_jRXuIUu22HTLJBz3AfHH-P5t6U9ZsY4");
-        request.addFutureCallback(validationFuture, resultCallback);
+        assertNotNull(request, "CaptchaValidationRequest (request) is null, but has been initialized through GCaptchaValidator.createRequest(configuration)");
+        CaptchaValidationResult result = null;
+        try {
+            result = request.validate(this.acceptedResponse).get();
+        } catch (InterruptedException | ExecutionException e) {
+            fail("Failed to validate response", e);
+        }
+        assertNotNull(result, "CaptchaValidationResult (result) is null, but validation has runned!");
+        assertTrue(result.isSuccess(), "True request was made but success is false");
+        assertNotNull(result.getChallengeTS(), "ChallengeTS is null, but true request was made.");
+        assertNotNull(result.getHostName(), "HostName is not null, but true request was made.");
+        assertTrue(result.getErrorCodes().isEmpty(), "ErrorCodes is not empty, but true request was made.");
     }
 
     @Test
-    public void testGCaptchaValidationAsynchronousWithoutRemoteIPSetAndWrongResponse() {
+    public void testGCaptchaValidationWithoutRemoteIPSetAndWrongResponse() {
+        // Prepare Test in our mock server
+        this.setupWebStubs();
+        // Test
         CaptchaValidationConfiguration configuration = GCaptchaValidator.createConfigurationBuilder()
                 .withSecret(this.gReCaptchaTestSecret)
+                .withGoogleSiteVerifyURL(getMockedSiteVerifyURL()) // Set custom URL for testing
                 .build();
-        assertNotNull("CaptchaValidationConfiguration (configuration) is null, but has been initialized through builder!", configuration);
-        assertNotNull("CaptchaValidationConfiguration.getSecret() is null, but has been initialized through builder!", configuration.getSecret());
-        assertNull("CaptchaValidationConfiguration.getRemoteIP(); is not null, but never has been initialized!!", configuration.getRemoteIP());
+        assertNotNull(configuration, "CaptchaValidationConfiguration (configuration) is null, but has been initialized through builder!");
+        assertNotNull(configuration.getSecret(), "CaptchaValidationConfiguration.getSecret() is null, but has been initialized through builder!");
+        assertNull(configuration.getRemoteIP(), "CaptchaValidationConfiguration.getRemoteIP(); is not null, but never has been initialized!!");
         CaptchaValidationRequest request = GCaptchaValidator.createRequest(configuration);
-        assertNotNull("CaptchaValidationRequest (request) is null, but has been initialized through GCaptchaValidator.createRequest(configuration)", request);
-        FutureCallback<CaptchaValidationResult> resultCallback = new FutureCallback<CaptchaValidationResult>() {
-            @Override
-            public void onSuccess(@Nullable CaptchaValidationResult result) {
-                assertNotNull("CaptchaValidationResult (result) is null, but validation has runned!", result);
-                assertFalse("False request was made but success is true", result.isSuccess());
-                assertFalse("ErrorCodes is empty, but false request was made.", result.getErrorCodes().isEmpty());
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                throwable.printStackTrace();
-                Assert.fail("Failed with an Exception!");
-            }
-        };
-        // Changed first 0 to 9
-        ListenableFuture<CaptchaValidationResult> futureResult = request.validate("93AJz9lvRRl27ls2cnen32HC_LRxepB9xmLps0GcDMJfIGHIOaPWW29X-_DlvNGo5Tmx6lANsUHhko4CpKLYKvTLQQDjLrefVEyl7A5nuF26FsooF_GQ_O5r-EOX_FbAQ0RVc9vGrI7Lk_Bp_JzukTPdq4WgP-qSLbYErV-btJIwYh9MNmxrFn-5RUqC08T4WnSp6-er8nAt2YwkqM1hKTlsMm-6VulyQD49UwoJ-Y_YBah8v4snxw-KI-8Fa09gQp0a449BK6N5XiH9AfUbH7V7f_jRXuIUu22HTLJBz3AfHH-P5t6U9ZsY4");
-        request.addFutureCallback(futureResult, resultCallback);
+        assertNotNull(request, "CaptchaValidationRequest (request) is null, but has been initialized through GCaptchaValidator.createRequest(configuration)");
+        CaptchaValidationResult result = null;
+        try {
+            result = request.validate("THIS IS A INVALID RESPONSE").get();
+        } catch (InterruptedException | ExecutionException e) {
+            fail("Failed to validate response", e);
+        }
+        assertNotNull(result, "CaptchaValidationResult (result) is null, but validation has runned!");
+        assertFalse(result.isSuccess(), "False request was made but success is true");
+        assertFalse(result.getErrorCodes().isEmpty(), "ErrorCodes is empty, but false request was made.");
     }
 
     @Test
-    public void testGCaptchaValidationSynchronousWithoutAnything() {
+    public void testGCaptchaValidationWithoutAnything() {
+        // Prepare Test in our mock server
+        this.setupWebStubs();
+        // Test
         CaptchaValidationConfiguration configuration = GCaptchaValidator.createConfigurationBuilder()
                 .withSecret("")
+                .withGoogleSiteVerifyURL(getMockedSiteVerifyURL()) // Set custom URL for testing
                 .build();
-        assertNotNull("CaptchaValidationConfiguration (configuration) is null, but has been initialized through builder!", configuration);
+        assertNotNull(configuration, "CaptchaValidationConfiguration (configuration) is null, but has been initialized through builder!");
         CaptchaValidationRequest request = GCaptchaValidator.createRequest(configuration);
-        assertNotNull("CaptchaValidationRequest (request) is null, but has been initialized through GCaptchaValidator.createRequest(configuration)", request);
+        assertNotNull(request, "CaptchaValidationRequest (request) is null, but has been initialized through GCaptchaValidator.createRequest(configuration)");
         CaptchaValidationResult result = null;
         try {
             result = request.validate("").get();
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-            fail("Failed to validate response");
+            fail("Failed to validate response", e);
         }
         boolean missingSecret = false;
         boolean missingResponse = false;
@@ -174,10 +270,10 @@ public class GCaptchaValidatorTests {
             }
         }
         if (missingSecret) {
-            assertTrue("Result does not include '" + CaptchaValidationError.INVALID_INPUT_SECRET.toString() + "', but the response was empty", result.getErrorCodes().contains(CaptchaValidationError.MISSING_INPUT_SECRET));
+            assertTrue(result.getErrorCodes().contains(CaptchaValidationError.MISSING_INPUT_SECRET), "Result does not include '" + CaptchaValidationError.INVALID_INPUT_SECRET.toString() + "', but the response was empty");
         }
         if (missingResponse) {
-            assertTrue("Result does not include '" + CaptchaValidationError.INVALID_INPUT_RESPONSE.toString() + "', but the response was empty", result.getErrorCodes().contains(CaptchaValidationError.MISSING_INPUT_RESPONSE));
+            assertTrue(result.getErrorCodes().contains(CaptchaValidationError.MISSING_INPUT_RESPONSE), "Result does not include '" + CaptchaValidationError.INVALID_INPUT_RESPONSE.toString() + "', but the response was empty");
         }
     }
 }

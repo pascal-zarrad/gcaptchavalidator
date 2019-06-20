@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2016 Pascal Zarrad
+ * Copyright (c) 2019 Pascal Zarrad
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,13 +24,13 @@
 
 package com.github.playerforcehd.gcaptchavalidator.captchaconfiguration;
 
+import com.github.playerforcehd.gcaptchavalidator.GCaptchaValidator;
 import com.google.common.util.concurrent.ListeningExecutorService;
 
 /**
  * The configuration
  *
  * @author PlayerForceHD
- * @version 2.0.0
  * @since 1.0.0
  */
 public class CaptchaValidationConfiguration {
@@ -47,6 +47,12 @@ public class CaptchaValidationConfiguration {
      * Optional: An custom ExecutorService instead of the default one
      */
     private ListeningExecutorService executorService;
+
+    /**
+     * The URL where the request will be send to.
+     * Defaults to the {@link com.github.playerforcehd.gcaptchavalidator.GCaptchaValidator#GOOGLE_SITEVERIFY_URL}
+     */
+    private String siteVerifyURL = GCaptchaValidator.GOOGLE_SITEVERIFY_URL;
 
     /**
      * Creates a new {@link CaptchaValidationConfigurationBuilder} for easy creation of a {@link CaptchaValidationConfiguration}
@@ -79,5 +85,13 @@ public class CaptchaValidationConfiguration {
 
     public void setExecutorService(ListeningExecutorService executorService) {
         this.executorService = executorService;
+    }
+
+    public String getSiteVerifyURL() {
+        return siteVerifyURL;
+    }
+
+    public void setSiteVerifyURL(String siteVerifyURL) {
+        this.siteVerifyURL = siteVerifyURL;
     }
 }
