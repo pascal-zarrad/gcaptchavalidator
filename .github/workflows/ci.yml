@@ -22,3 +22,13 @@ jobs:
                   java-version: 1.8
             - name: Run build
               run: mvn -B package --file pom.xml
+             - name: Upload build artifacts
+               uses: actions/upload-artifact@v2
+               with:
+                   name: gcaptchavalidator
+                   path: target
+          - name: Upload coverage report
+            uses: actions/upload-artifact@v2
+            with:
+                name: code-coverage-report
+                path: target/site
