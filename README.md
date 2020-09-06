@@ -1,4 +1,4 @@
-## GCaptchaValidator - A ReCaptcha 2.0 Validator [![Build Status](https://travis-ci.org/pascal-zarrad/GCaptchaValidator.svg?branch=master)](https://travis-ci.org/pascal-zarrad/GCaptchaValidator)
+## GCaptchaValidator - A ReCaptcha 2.0 Validator ![CI](https://github.com/pascal-zarrad/gcaptchavalidator/workflows/CI/badge.svg?branch=develop)
 
 ### What is GCaptchaValidator?
 
