@@ -1,6 +1,6 @@
 name: Deploy
 
-# Deploy on GitHub release
+# Deploy on push to dev or master
 on:
     push:
         branches:
@@ -50,6 +50,19 @@ jobs:
               uses: actions/setup-java@v1
               with:
                   java-version: 8
+
+            - name: Install xmlstarlet
+              run: |
+                  sudo apt-get update -y
+                  sudo apt-get install -y xmlstarlet
+
+            - name: Prepare snapshot release
+              run: |
+                  cp pom.xml pom_tmp.xml
+                  xmlstarlet ed -N pom="http://maven.apache.org/POM/4.0.0" -u '/pom:project/pom:version' \
+                      -v "$(xmlstarlet sel -N pom="http://maven.apache.org/POM/4.0.0" -t \
+                      -m '/pom:project/pom:version' -v . -n pom_tmp.xml)-SNAPSHOT" pom_tmp.xml > pom.xml
+                  rm -f pom_tmp.xml
 
             - name: Release Maven package
               uses: samuelmeuli/action-maven-publish@v1
