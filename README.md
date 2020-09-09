@@ -34,6 +34,9 @@ _If you're using Maven:_
     
 ```
 
+The current stable version always is equal to the state of the master branch.
+The current snapshot version is always equal to the current develop branch - except that "-SNAPSHOT" is appended at the end of the version.
+
 The jar has been signed. The public key to check the signature can be pulled using the following command:
 ```bash
 gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 93052BD8430CBE6280F24F43EC417FA4D2890521
