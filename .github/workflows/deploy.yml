@@ -1,0 +1,71 @@
+name: Deploy
+
+# Deploy on GitHub release
+on:
+    push:
+        - 'master'
+        - 'develop'
+
+jobs:
+    release:
+        runs-on: ubuntu-18.04
+        if: github.ref == 'refs/heads/master'
+        steps:
+            - name: Check out Git repository
+              uses: actions/checkout@v2
+
+            - name: Install Java and Maven
+              uses: actions/setup-java@v1
+              with:
+                  java-version: 8
+
+            - name: Release Maven package
+              uses: samuelmeuli/action-maven-publish@v1
+              with:
+                  gpg_private_key: ${{ secrets.gpg_private_key }}
+                  gpg_passphrase: ${{ secrets.gpg_passphrase }}
+                  nexus_username: ${{ secrets.nexus_username }}
+                  nexus_password: ${{ secrets.nexus_password }}
+
+            - name: Upload build artifacts
+              uses: actions/upload-artifact@v2
+              with:
+                  name: gcaptchavalidator
+                  path: target
+
+            - name: Upload coverage report
+              uses: actions/upload-artifact@v2
+              with:
+                  name: code-coverage-report
+                  path: target/site/jacoco
+    snapshot:
+        runs-on: ubuntu-18.04
+        if: github.ref == 'refs/heads/develop'
+        steps:
+            - name: Check out Git repository
+              uses: actions/checkout@v2
+
+            - name: Install Java and Maven
+              uses: actions/setup-java@v1
+              with:
+                  java-version: 8
+
+            - name: Release Maven package
+              uses: samuelmeuli/action-maven-publish@v1
+              with:
+                  gpg_private_key: ${{ secrets.gpg_private_key }}
+                  gpg_passphrase: ${{ secrets.gpg_passphrase }}
+                  nexus_username: ${{ secrets.nexus_username }}
+                  nexus_password: ${{ secrets.nexus_password }}
+
+            - name: Upload build artifacts
+              uses: actions/upload-artifact@v2
+              with:
+                  name: gcaptchavalidator
+                  path: target
+
+            - name: Upload coverage report
+              uses: actions/upload-artifact@v2
+              with:
+                  name: code-coverage-report
+                  path: target/site/jacoco
