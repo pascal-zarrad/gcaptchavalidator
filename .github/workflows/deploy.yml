@@ -3,8 +3,9 @@ name: Deploy
 # Deploy on GitHub release
 on:
     push:
-        - 'master'
-        - 'develop'
+        branches:
+            - 'master'
+            - 'develop'
 
 jobs:
     release:
