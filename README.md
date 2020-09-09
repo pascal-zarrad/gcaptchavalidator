@@ -34,6 +34,11 @@ _If you're using Maven:_
     
 ```
 
+The jar has been signed. The public key to check the signature can be pulled using the following command:
+```bash
+gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 93052BD8430CBE6280F24F43EC417FA4D2890521
+```
+
 _If you're not using Maven:_
 Download the current release fro [GitHubs Releases](https://github.com/pascal-zarrad/GCaptchaValidator/releases).
 
