@@ -1,3 +1,4 @@
+# Mark and close stale issues to keep issues clean
 name: Close stale issues and pull requests
 
 on:

@@ -1,3 +1,4 @@
+# Verify that the version defined in the pom.xml is never suffixed with "-SNAPSHOT"
 name: Verify version
 
 on: ['pull_request']

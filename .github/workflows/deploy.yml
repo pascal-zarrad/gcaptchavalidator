@@ -1,16 +1,15 @@
+# Do a stable deployment from the master branch
 name: Deploy
 
-# Deploy on push to dev or master
+# Run job on push to master
 on:
     push:
         branches:
             - 'master'
-            - 'develop'
 
 jobs:
     release:
         runs-on: ubuntu-18.04
-        if: github.ref == 'refs/heads/master'
         steps:
             - name: Check out Git repository
               uses: actions/checkout@v2
