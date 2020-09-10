@@ -1,5 +1,5 @@
 # Do a stable deployment from the master branch
-name: Deploy
+name: Deploy Release
 
 # Run job on push to master
 on:

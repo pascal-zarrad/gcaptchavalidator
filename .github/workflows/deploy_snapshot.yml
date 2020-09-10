@@ -1,5 +1,5 @@
 # Do a snapshot deployment from the develop branch
-name: Deploy
+name: Deploy Snapshot
 
 # Run job on push to develop
 on:
