@@ -1,0 +1,27 @@
+# Verify that the version defined in the pom.xml is never suffixed with "-SNAPSHOT"
+name: Verify version
+
+on: ['pull_request']
+
+jobs:
+    verify_version:
+        runs-on: ubuntu-18.04
+        steps:
+            - name: Check out Git repository
+              uses: actions/checkout@v2
+
+            - name: Install xmlstarlet
+              run: |
+                  sudo apt-get update -y
+                  sudo apt-get install -y xmlstarlet
+
+            - name: Verify version
+              run: |
+                  if xmlstarlet sel -N pom="http://maven.apache.org/POM/4.0.0" -t \
+                      -m '/pom:project/pom:version' -v . -n pom.xml | grep -i -- '-SNAPSHOT' &>/dev/null;
+                      then
+                          echo "Verification failure: snapshot suffix detected!"
+                          exit 1;
+                      else
+                          echo "Verification success!"
+                  fi

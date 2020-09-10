@@ -1,3 +1,4 @@
+# Rebase develop branch right after release to master
 name: Rebase master
 
 on:
