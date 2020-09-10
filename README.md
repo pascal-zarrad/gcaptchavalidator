@@ -1,26 +1,30 @@
-## GCaptchaValidator - A ReCaptcha 2.0 Validator [![Build Status](https://travis-ci.org/pascal-zarrad/GCaptchaValidator.svg?branch=master)](https://travis-ci.org/pascal-zarrad/GCaptchaValidator)
+## GCaptchaValidator - A ReCaptcha 2.0 Validator ![CI](https://github.com/pascal-zarrad/gcaptchavalidator/workflows/CI/badge.svg?branch=develop)
 
 ### What is GCaptchaValidator?
 
 GCaptchaValidator is a lightweight Java library to verify that an user is a valid human.
-When developing a web application server, it is possible that an users action (like submitting
+When developing a web application server, it is possible that an action of a user (like submitting
 a form) should be validated to avoid bots from spamming. A client-sided validation isn't enough at this point,
-because small changes in the JavaScript are enough to bypass a captcha.
+because small changes in the JavaScript are enough to bypass a captcha. This is where Google's ReCaptcha comes in play.
 
-If you create a web application you can easily verify a Google ReCaptcha validation with this library.
-All the background work like sending the request to google or processing the JSon result
-is handled by GCaptchaValidator.
+If you create a web application you can easily verify a Google ReCaptcha response with this library on the backend
+of your application.
+All the background work like sending the request to Google or processing the JSon result
+is being handled by GCaptchaValidator.
 
-This supports Google ReCaptcha 2.0 and the Invisible ReCaptcha by Google (Both have the same server-sided validation process).
+This library currently supports Google ReCaptcha 2.0 and Invisible ReCaptcha by Google (Both have the same server-sided validation process).
+The new score based v3 has not been tested and is not officially supported. It might work for basic validation, 
+but won't provide the verification score.
+Official support will be added in future versions.
 
 ### How to use GCaptchaValidator
 
 #### Installation
 
-If you're using Maven:
+_If you're using Maven:_
 ```xml
 
-<!-- GCaptchaValidator - Simple Google ReCpatcha 2.0 validation -->
+<!-- GCaptchaValidator - Simple Google ReCaptcha 2.0 validation -->
 <dependency>
     <groupId>com.github.playerforcehd</groupId>
     <artifactId>gcaptchavalidator</artifactId>
@@ -30,11 +34,16 @@ If you're using Maven:
     
 ```
 
-Else:
-~~Download a release from GitHub and add it to your project,
-like all your other libraries.~~
+The current stable version always is equal to the state of the master branch.
+The current snapshot version is always equal to the current develop branch - except that "-SNAPSHOT" is appended at the end of the version.
 
-Support for manual downloads has been dropped with version 2.0.0, please use maven or build the library on your local machine!
+The jar has been signed. The public key to check the signature can be pulled using the following command:
+```bash
+gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 93052BD8430CBE6280F24F43EC417FA4D2890521
+```
+
+_If you're not using Maven:_
+Download the current release fro [GitHubs Releases](https://github.com/pascal-zarrad/GCaptchaValidator/releases).
 
 **NOTE: GCaptchaValidator requires at least Java 7.**
 
@@ -103,19 +112,9 @@ That's all what this library does.
 It simply simplifies the validation of a Google ReCaptcha 2.0 request
 in Java.
 
-### Help to improve this library
+## Contributing
 
-Every developer out there can help to improve this library.
-Make your changes to the code and create a pull request.
-If your changes are good and working, they will be accepted.
+You are welcome to contribute to GCaptchaValidator if you have improvements or bug fixes.
+Refer to [Contributing](/CONTRIBUTING.md) if you want to be a contributor or simply create an issue.
 
-### Reporting a bug
-
-To report a bug use GitHubs Issues function.
-The report should include:
-
-- A *good* description of the problem that occured
-- How often does the problem occur
-- If you know how: Tell how to duplicate the problem.
-- The code which produces the error
 

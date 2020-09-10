@@ -1,0 +1,61 @@
+# Do a stable deployment from the master branch
+name: Deploy
+
+# Run job on push to master
+on:
+    push:
+        branches:
+            - 'master'
+
+jobs:
+    release:
+        runs-on: ubuntu-18.04
+        steps:
+            - name: Check out Git repository
+              uses: actions/checkout@v2
+
+            - name: Install xmlstarlet
+              run: |
+                  sudo apt-get update -y
+                  sudo apt-get install -y xmlstarlet
+
+            - name: Install Java and Maven
+              uses: actions/setup-java@v1
+              with:
+                  java-version: 8
+
+            - name: Prepare release
+              run: |
+                  export GPG_TTY=$(tty)
+
+            - name: Release Maven package
+              uses: samuelmeuli/action-maven-publish@v1
+              with:
+                  gpg_private_key: ${{ secrets.gpg_private_key }}
+                  gpg_passphrase: ${{ secrets.gpg_passphrase }}
+                  nexus_username: ${{ secrets.nexus_username }}
+                  nexus_password: ${{ secrets.nexus_password }}
+
+            - name: Upload build artifacts
+              uses: actions/upload-artifact@v2
+              with:
+                  name: gcaptchavalidator
+                  path: target
+
+            - name: Upload coverage report
+              uses: actions/upload-artifact@v2
+              with:
+                  name: code-coverage-report
+                  path: target/site/jacoco
+
+            - name: Prepare git for tag
+              run: |
+                  git config --global user.email "p.zarrad@outlook.de"
+                  git config --global user.name "Pascal Zarrad"
+
+            - name: Create release tag
+              run: |
+                  current_version=$(xmlstarlet sel -N pom="http://maven.apache.org/POM/4.0.0" -t \
+                      -m '/pom:project/pom:version' -v . -n pom.xml)
+                  git tag -a v${current_version} -m "Release version ${current_version}"
+                  git push origin v${current_version}
