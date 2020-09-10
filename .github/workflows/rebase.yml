@@ -20,4 +20,4 @@ jobs:
                   git config --global user.email "p.zarrad@outlook.de"
                   git config --global user.name "Pascal Zarrad"
                   git rebase remotes/origin/master
-                  git push --force
+                  git push
