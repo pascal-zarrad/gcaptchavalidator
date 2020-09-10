@@ -8,9 +8,9 @@ on:
             - 'develop'
 
 jobs:
-    release:
+    snapshot:
         runs-on: ubuntu-18.04
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/develop'
         steps:
             - name: Check out Git repository
               uses: actions/checkout@v2
@@ -20,8 +20,18 @@ jobs:
               with:
                   java-version: 8
 
-            - name: Prepare release
+            - name: Install xmlstarlet
               run: |
+                  sudo apt-get update -y
+                  sudo apt-get install -y xmlstarlet
+
+            - name: Prepare snapshot release
+              run: |
+                  cp pom.xml pom_tmp.xml
+                  xmlstarlet ed -N pom="http://maven.apache.org/POM/4.0.0" -u '/pom:project/pom:version' \
+                      -v "$(xmlstarlet sel -N pom="http://maven.apache.org/POM/4.0.0" -t \
+                      -m '/pom:project/pom:version' -v . -n pom_tmp.xml)-SNAPSHOT" pom_tmp.xml > pom.xml
+                  rm -f pom_tmp.xml
                   export GPG_TTY=$(tty)
 
             - name: Release Maven package
