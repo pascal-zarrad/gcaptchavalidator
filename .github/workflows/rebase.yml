@@ -1,4 +1,5 @@
 # Rebase develop branch right after release to master
+# The script uses --force-with-lease to reduce the change of messing develop up during rebase.
 name: Rebase master
 
 on:
@@ -20,4 +21,4 @@ jobs:
                   git config --global user.email "p.zarrad@outlook.de"
                   git config --global user.name "Pascal Zarrad"
                   git rebase remotes/origin/master
-                  git push
+                  git push --force-with-lease
