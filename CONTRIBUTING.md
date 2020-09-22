@@ -43,26 +43,72 @@ If you don't follow these guidelines, your issue will be closed and labeled as i
 ## Pull requests, branching and commits
 ### Branching
 
-Our project uses a very standard branching model. We have the master branch that is the most stable branch. It is always the branch that ends up as a release. The `develop` branch is our default branch. All contributions will be merged into `develop` using pull requests. If you want to contribute, fork the project and make your changes. You should create a feature or bug branch when contributing. We do not use documentation branches to minify the overhead.
+Our project uses a very standard branching model. 
+We have the `master` branch that is always the most stable branch.
+A workflow deploys the latest push to the `master` branch to the Maven central repository.
+Pull requests to the `master` branch will only be accepted if they contain a version bump.
+The `develop` branch is our default branch. 
+All contributions will be merged into `develop` using pull requests.
+A merge to the `master` branch triggers a snapshot release.
+If you want to contribute, fork the project and do your changes. 
+You should create a feature or bug branch when contributing. 
+We do not use documentation branches to minify the overhead.
+The `release` prefix must be used for branches that will be merged into `master`,
+as this will trigger the automated changelog generation.
 
 ### Commits
 
-As we use squash merges in our pull requests, the commit messages of your branch are not that important. Although we would be happy if you still use proper messages. Orient yourself on the following commit message (Note the upper case first letter and the usage of the imperative form):
+Commit messages are great to express the intention of specific changes. In this project they are not only used
+to document changes but also to auto generate our changelogs.
+This means that some strict rules are necessary to ensure meaningful commit messages when contributing.
 
-```Add this great new feature```
+This project uses some abbreviation of the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) standard.
 
-Pull requests
+Your messages must have the following format:
+```
+type: some imperative subject line
+```
+
+If your commit contains breaking changes:
+```
+type: some imperative subject line
+
+BREAKING CHANGE: Some breaking change
+```
+
+Possible types:
+ - feat: A new feature
+ - fix: A bug fix
+ - perf: A code change that improves performance
+ - refactor: A code change that neither fixes a bug nor adds a feature
+ - cs: Changes that do not affect the meaning of the code
+ - test: Adding missing tests or correcting existing tests
+ - build: Changes that affect the build system or external dependencies
+ - ci: Changes to the CI configuration files and scripts
+ - docs: Documentation only changes
+ - changelog: Internally used by actions for commits that generate changelogs
+
+Breaking changes should be noted using a "BREAKING CHANGE:" footer.
+The "!" notation must not be used to indicate a breaking change.
+You can also use concrete descriptions. You must put an empty line between the subject and footer.
+The subject after the double colon must start with a lower case letter.
+The subject line must be written in the imperative form  (e.g. do this, make that, add something, ...).
+
+Scopes must not be used in commit messages, therefore no scopes have been defined.
+
+### Pull requests
 
 When you're ready to create a pull request, use the predefined template for it. Choose a meaningful title (maybe the issues title will fit) and add all required labels. It is very important to link the right issue in the "Solves issue" section of the template, as every PR must be the result of an open issue.
 
 Requirements for an approved PR:
 
-    Merge into develop: You need one approving review from a collaborator or maintainer.
-    The TravisCI checks have to pass.
-    All requested changes and conversations have to be resolved before the merge.
-    You need a linked issue that the PR solves.
-    Merge into master: Only develop is allowed to be merged into master.
-    Merge into master: You need two approving reviews. One must be from a maintainer.
+ - Merge into develop: You need one approving review from a collaborator or maintainer.
+ - The TravisCI checks have to pass.
+ - The commit messages must follow the guidelines mentoined in this document.
+ - All requested changes and conversations have to be resolved before the merge.
+ - You need a linked issue that the PR solves.
+ - Merge into master: Only develop is allowed to be merged into master.
+ - Merge into master: You need two approving reviews. One must be from a maintainer.
 
 ## You're ready
 
