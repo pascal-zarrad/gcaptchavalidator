@@ -49,7 +49,8 @@ module.exports = {
                 'build',
                 'ci',
                 'docs',
-                'changelog'
+                'changelog',
+                'bump'
 			],
 		],
 		'scope-empty': [2, 'always'],
