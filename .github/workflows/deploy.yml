@@ -59,3 +59,34 @@ jobs:
                       -m '/pom:project/pom:version' -v . -n pom.xml)
                   git tag -a v${current_version} -m "Release version ${current_version}"
                   git push origin v${current_version}
+                  plain_version_env="::set-env name=CURRENT_PROJECT_VERSION::$current_version"
+                  version_env="::set-env name=CURRENT_TAG_VERSION::v$current_version"
+                  echo $version_env
+                  echo $plain_version_env
+
+            - name: Generate changelog
+              run: |
+                  mvn changelog:conventional
+
+            - name: Create Release
+              id: create_release
+              uses: actions/create-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tag_name: ${{ CURRENT_TAG_VERSION }}
+                  release_name: Release ${{ CURRENT_TAG_VERSION }}
+                  body_path: CHANGELOG.md
+                  draft: false
+                  prerelease: false
+
+            - name: Upload Release Asset
+              id: upload-release-asset
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+                  asset_path: ./target/gcaptchavalidator-{{ CURRENT_PROJECT_VERSION }}-jar-with-dependencies.jar
+                  asset_name: gcaptchavalidator-{{ CURRENT_PROJECT_VERSION }}.jar
+                  asset_content_type: application/java-archive
