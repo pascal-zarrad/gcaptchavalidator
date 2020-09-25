@@ -53,8 +53,6 @@ A merge to the `master` branch triggers a snapshot release.
 If you want to contribute, fork the project and do your changes. 
 You should create a feature or bug branch when contributing. 
 We do not use documentation branches to minify the overhead.
-The `release` prefix must be used for branches that will be merged into `master`,
-as this will trigger the automated changelog generation.
 
 ### Commits
 
