@@ -230,9 +230,9 @@
                 <artifactId>changelog-maven-plugin</artifactId>
                 <version>0.0.3</version>
                 <configuration>
-                    <amendLastCommit>true</amendLastCommit>         <!-- default is "false"-->
-                    <filename>CHANGELOG.md</filename>             <!-- default is "CHANGELOG.md"-->
-                    <release>0</release>                            <!-- default is "-1"-->
+                    <amendLastCommit>false</amendLastCommit>
+                    <filename>CHANGELOG.md</filename>
+                    <release>0</release>
                 </configuration>
             </plugin>
         </plugins>
