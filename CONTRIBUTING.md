@@ -87,6 +87,7 @@ Possible types:
  - ci: Changes to the CI configuration files and scripts
  - docs: Documentation only changes
  - changelog: Internally used by actions for commits that generate changelogs
+ - bump: Bump version of the project
 
 Breaking changes should be noted using a "BREAKING CHANGE:" footer.
 The "!" notation must not be used to indicate a breaking change.
