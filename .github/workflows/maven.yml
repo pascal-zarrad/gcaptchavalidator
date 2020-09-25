@@ -26,9 +26,3 @@ jobs:
                       else
                           echo "Verification success!"
                   fi
-                  current_version=$(xmlstarlet sel -N pom="http://maven.apache.org/POM/4.0.0" -t \
-                      -m '/pom:project/pom:version' -v . -n pom.xml)
-                  echo '::set-env name=CURRENT_TAG_VERSION::v'$current_version
-            - name: Check env value
-              run: |
-                  echo "Variable value is: $CURRENT_TAG_VERSION"
