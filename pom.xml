@@ -30,7 +30,7 @@
 
     <groupId>com.github.playerforcehd</groupId>
     <artifactId>gcaptchavalidator</artifactId>
-    <version>2.1.1</version>
+    <version>2.1.2</version>
     <packaging>jar</packaging>
 
     <name>GCaptchaValidator</name>
@@ -224,6 +224,16 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.eugenenosenko</groupId>
+                <artifactId>changelog-maven-plugin</artifactId>
+                <version>0.0.3</version>
+                <configuration>
+                    <amendLastCommit>false</amendLastCommit>
+                    <filename>CHANGELOG.md</filename>
+                    <release>0</release>
+                </configuration>
             </plugin>
         </plugins>
     </build>
