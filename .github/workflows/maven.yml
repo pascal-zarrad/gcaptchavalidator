@@ -6,7 +6,7 @@ on: ['pull_request']
 jobs:
     # Verify that the version defined in the pom.xml is never suffixed with "-SNAPSHOT"
     verify_version:
-        runs-on: ubuntu-18.04
+        runs-on: ubuntu-latest
         steps:
             - name: Check out Git repository
               uses: actions/checkout@v2

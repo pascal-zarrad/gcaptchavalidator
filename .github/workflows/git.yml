@@ -6,7 +6,7 @@ on: ['pull_request']
 jobs:
     # Verify that the branch name matches the format expected for contributions
     verify_branch_name:
-        runs-on: ubuntu-18.04
+        runs-on: ubuntu-latest
         steps:
             - name: Check branch name
               uses: deepakputhraya/action-branch-name@master
