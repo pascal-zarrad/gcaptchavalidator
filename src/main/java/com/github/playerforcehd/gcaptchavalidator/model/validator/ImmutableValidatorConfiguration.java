@@ -12,8 +12,9 @@ import java.util.Map;
  *
  * @author Pascal Zarrad
  * @since 3.0.0
+ * @see com.github.playerforcehd.gcaptchavalidator.model.validator.ValidatorConfiguration
  */
-public class ImmutableValidatorConfiguration implements ValidatorConfiguration {
+public final class ImmutableValidatorConfiguration implements ValidatorConfiguration {
 
 
     /**
