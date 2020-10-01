@@ -16,7 +16,6 @@ import java.util.Map;
  * @see com.github.playerforcehd.gcaptchavalidator.model.validator.ValidatorConfiguration
  */
 public class MutableValidatorConfiguration implements ValidatorConfiguration {
-
     /**
      * The ReCaptcha server side secret required for validation.
      */
@@ -47,7 +46,7 @@ public class MutableValidatorConfiguration implements ValidatorConfiguration {
      * @param verifierUrl The URL where the requests will be send to
      * @param httpHeaders The HTTP headers to send with requests using this configuration
      */
-    MutableValidatorConfiguration(
+    public MutableValidatorConfiguration(
         String secretToken,
         ReCaptchaVersion reCaptchaVersion,
         String verifierUrl,

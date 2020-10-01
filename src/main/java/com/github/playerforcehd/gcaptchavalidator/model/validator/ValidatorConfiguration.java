@@ -2,6 +2,7 @@ package com.github.playerforcehd.gcaptchavalidator.model.validator;
 
 import com.github.playerforcehd.gcaptchavalidator.model.ReCaptchaVersion;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -22,8 +23,7 @@ import java.util.*;
  * @since 3.0.0
  * @see <a href="https://developers.google.com/recaptcha/docs/verify#api_request">Google ReCaptcha Documentation</a>
  */
-public interface ValidatorConfiguration {
-
+public interface ValidatorConfiguration extends Serializable {
     /**
      * The default version used when no ReCaptcha version is specified manually
      */

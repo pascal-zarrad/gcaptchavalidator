@@ -10,8 +10,6 @@ package com.github.playerforcehd.gcaptchavalidator.model;
  * @since 3.0.0
  */
 public enum ReCaptchaVersion {
-
     VERSION_2,
     VERSION_3;
-
 }

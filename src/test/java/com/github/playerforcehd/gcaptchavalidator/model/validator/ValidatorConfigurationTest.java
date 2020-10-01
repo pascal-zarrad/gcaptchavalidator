@@ -13,7 +13,6 @@ import java.util.Map;
  * @see ValidatorConfiguration
  */
 public class ValidatorConfigurationTest {
-
     /**
      * The dummy token used for testing
      */

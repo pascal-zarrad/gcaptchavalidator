@@ -15,7 +15,6 @@ import java.util.Map;
  * @see ValidationRequest
  */
 public class ValidationRequestTest {
-
     /**
      * The dummy response to use during tests
      */

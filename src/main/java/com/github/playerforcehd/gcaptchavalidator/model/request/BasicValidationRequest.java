@@ -13,7 +13,6 @@ import java.util.Map;
  * @see com.github.playerforcehd.gcaptchavalidator.model.request.ValidationRequest
  */
 public class BasicValidationRequest implements ValidationRequest {
-
     /**
      * The response from the client
      */
@@ -36,7 +35,7 @@ public class BasicValidationRequest implements ValidationRequest {
      * @param remoteIP The IP of the client
      * @param additionalParameters Additional parameters that are merged into the generated request
      */
-    BasicValidationRequest(String response, String remoteIP, Map<String, Object> additionalParameters) {
+    public BasicValidationRequest(String response, String remoteIP, Map<String, Object> additionalParameters) {
         this.response = response;
         this.remoteIP = remoteIP;
         this.additionalParameters = additionalParameters;

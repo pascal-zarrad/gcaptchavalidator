@@ -2,6 +2,7 @@ package com.github.playerforcehd.gcaptchavalidator.model.request;
 
 import com.github.playerforcehd.gcaptchavalidator.model.validator.ValidatorConfiguration;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,8 +23,7 @@ import java.util.Map;
  * @since 3.0.0
  * @see <a href="https://developers.google.com/recaptcha/docs/verify#api_request">Google ReCaptcha Documentation</a>
  */
-public interface ValidationRequest {
-
+public interface ValidationRequest extends Serializable {
     /**
      * Create a new basic validation request with the supplied parameters.
      *
