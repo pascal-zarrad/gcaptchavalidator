@@ -28,7 +28,6 @@ import com.github.playerforcehd.gcaptchavalidator.param.ClientType;
 import com.github.playerforcehd.gcaptchavalidator.param.ValidationError;
 
 import java.util.Date;
-import java.util.Map;
 
 /**
  * Represents a single response of a request that was send to the siteverify servers.
@@ -59,9 +58,7 @@ import java.util.Map;
  *   - If both values are available, the response won't happen as the request will have been failed
  *     with an exception as the mapping cannot be applied.
  *
- * Also if some additional information is being defined later on, it will end up in the additional data.
- *
- * An instantiated {@link CaptchaValidationResponse} is immutable.
+ * An instantiated {@link CaptchaValidationResponse} is always immutable.
  *
  * @author Pascal Zarrad
  * @since 3.0.0
@@ -106,15 +103,4 @@ public interface CaptchaValidationResponse {
      * @return The errors that are set on the response
      */
     ValidationError[] getErrors();
-
-    /**
-     * Get the data that has been send additionally - if there is some.
-     * All values that cannot be mapped to the available predefined values
-     * of this standardized response type will be put into the additional data map.
-     *
-     * The values can either be primitive or another Map&gt;String, Object&lt;.
-     *
-     * @return A map containing data that does not belong to standardized response keys
-     */
-    Map<String, Object> getAdditionalData();
 }
