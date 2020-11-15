@@ -22,19 +22,35 @@
  * THE SOFTWARE.
  */
 
-package com.github.playerforcehd.gcaptchavalidator.param;
+package com.github.playerforcehd.gcaptchavalidator.data;
+
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 /**
- * Contains the specified possible types.
- *
- * A type refers to the location where a ReCaptcha has been used.
- * It allows to determine which exact type is stored in the field responsible
- * to provide apk_pkg_name or hostname.
+ * Tests for the validation error parser
  *
  * @author Pascal Zarrad
  * @since 3.0.0
  */
-public enum ClientType {
-    WEB,
-    ANDROID
+public class ValidationErrorTest {
+    @Test(dataProvider = "getValidationErrorByCodeDataProvider")
+    public void testGetValidationErrorByCode(String testError, ValidationError expectedError) {
+        ValidationError actualError = ValidationError.getValidationErrorByCode(testError);
+
+        Assert.assertEquals(actualError, expectedError);
+    }
+
+    @DataProvider
+    public Object[][] getValidationErrorByCodeDataProvider() {
+        return new Object[][] {
+            {"missing-input-secret", ValidationError.MISSING_INPUT_SECRET},
+            {"invalid-input-secret", ValidationError.INVALID_INPUT_SECRET},
+            {"missing-input-response", ValidationError.MISSING_INPUT_RESPONSE},
+            {"invalid-input-response", ValidationError.INVALID_INPUT_RESPONSE},
+            {"bad-request", ValidationError.BAD_REQUEST},
+            {"timeout-or-duplicate", ValidationError.TIMEOUT_OR_DUPLICATE}
+        };
+    }
 }

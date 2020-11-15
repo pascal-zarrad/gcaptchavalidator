@@ -22,18 +22,19 @@
  * THE SOFTWARE.
  */
 
-package com.github.playerforcehd.gcaptchavalidator.param;
+package com.github.playerforcehd.gcaptchavalidator.data;
 
 /**
- * List of all ReCaptcha versions which are supported by the library.
+ * Contains the specified possible types.
  *
- * This allows exact specification of the targeted version to support
- * features that are not available in older/newer versions.
+ * A type refers to the location where a ReCaptcha has been used.
+ * It allows to determine which exact type is stored in the field responsible
+ * to provide apk_pkg_name or hostname.
  *
  * @author Pascal Zarrad
  * @since 3.0.0
  */
-public enum ReCaptchaVersion {
-    VERSION_2,
-    VERSION_3;
+public enum ClientType {
+    WEB,
+    ANDROID
 }

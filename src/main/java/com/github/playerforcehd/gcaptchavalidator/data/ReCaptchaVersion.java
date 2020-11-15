@@ -22,35 +22,18 @@
  * THE SOFTWARE.
  */
 
-package com.github.playerforcehd.gcaptchavalidator.param;
-
-import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+package com.github.playerforcehd.gcaptchavalidator.data;
 
 /**
- * Tests for the validation error parser
+ * List of all ReCaptcha versions which are supported by the library.
+ *
+ * This allows exact specification of the targeted version to support
+ * features that are not available in older/newer versions.
  *
  * @author Pascal Zarrad
  * @since 3.0.0
  */
-public class ValidationErrorTest {
-    @Test(dataProvider = "getValidationErrorByCodeDataProvider")
-    public void testGetValidationErrorByCode(String testError, ValidationError expectedError) {
-        ValidationError actualError = ValidationError.getValidationErrorByCode(testError);
-
-        Assert.assertEquals(actualError, expectedError);
-    }
-
-    @DataProvider
-    public Object[][] getValidationErrorByCodeDataProvider() {
-        return new Object[][] {
-            {"missing-input-secret", ValidationError.MISSING_INPUT_SECRET},
-            {"invalid-input-secret", ValidationError.INVALID_INPUT_SECRET},
-            {"missing-input-response", ValidationError.MISSING_INPUT_RESPONSE},
-            {"invalid-input-response", ValidationError.INVALID_INPUT_RESPONSE},
-            {"bad-request", ValidationError.BAD_REQUEST},
-            {"timeout-or-duplicate", ValidationError.TIMEOUT_OR_DUPLICATE}
-        };
-    }
+public enum ReCaptchaVersion {
+    VERSION_2,
+    VERSION_3;
 }

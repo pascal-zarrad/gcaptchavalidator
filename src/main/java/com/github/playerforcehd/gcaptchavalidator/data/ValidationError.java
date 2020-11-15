@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package com.github.playerforcehd.gcaptchavalidator.param;
+package com.github.playerforcehd.gcaptchavalidator.data;
 
 /**
  * Provide a list of all possible error codes that a validation response can contain.

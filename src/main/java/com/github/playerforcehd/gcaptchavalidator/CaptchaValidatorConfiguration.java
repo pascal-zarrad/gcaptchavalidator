@@ -24,7 +24,7 @@
 
 package com.github.playerforcehd.gcaptchavalidator;
 
-import com.github.playerforcehd.gcaptchavalidator.param.ReCaptchaVersion;
+import com.github.playerforcehd.gcaptchavalidator.data.ReCaptchaVersion;
 
 import java.util.*;
 

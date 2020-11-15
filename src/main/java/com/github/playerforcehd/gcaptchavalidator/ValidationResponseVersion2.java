@@ -24,8 +24,8 @@
 
 package com.github.playerforcehd.gcaptchavalidator;
 
-import com.github.playerforcehd.gcaptchavalidator.param.ClientType;
-import com.github.playerforcehd.gcaptchavalidator.param.ValidationError;
+import com.github.playerforcehd.gcaptchavalidator.data.ClientType;
+import com.github.playerforcehd.gcaptchavalidator.data.ValidationError;
 
 import java.util.Date;
 
