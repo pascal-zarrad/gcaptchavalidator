@@ -30,12 +30,12 @@ import com.github.playerforcehd.gcaptchavalidator.param.ValidationError;
 import java.util.Date;
 
 /**
- * An immutable implementation of the {@link CaptchaValidationResponse}.
+ * An implementation of the {@link CaptchaValidationResponseVersion3}.
  *
  * @author Pascal Zarrad
  * @since 3.0.0
  */
-public final class ValidationResponse implements CaptchaValidationResponse {
+public final class ValidationResponseVersion3 implements CaptchaValidationResponseVersion3 {
     /**
      * The state if the response was successful
      */
@@ -57,6 +57,16 @@ public final class ValidationResponse implements CaptchaValidationResponse {
     private final String hostnameOrPackageName;
 
     /**
+     * The reached score of the response
+     */
+    private final float score;
+
+    /**
+     * The name of the action that caused the validation
+     */
+    private final String action;
+
+    /**
      * The errors returned by the request (if there are any)
      */
     private final ValidationError[] errors;
@@ -70,17 +80,21 @@ public final class ValidationResponse implements CaptchaValidationResponse {
      * @param hostnameOrPackageName The hostname/ip or android package name of the client
      * @param errors The errors returned in the response
      */
-    ValidationResponse(
+    ValidationResponseVersion3(
         boolean succeeded,
         Date challengeTimestamp,
         ClientType clientType,
         String hostnameOrPackageName,
+        float score,
+        String action,
         ValidationError[] errors
     ) {
         this.succeeded = succeeded;
         this.challengeTimestamp = challengeTimestamp;
         this.clientType = clientType;
         this.hostnameOrPackageName = hostnameOrPackageName;
+        this.score = score;
+        this.action = action;
         this.errors = errors;
     }
 
@@ -107,5 +121,15 @@ public final class ValidationResponse implements CaptchaValidationResponse {
     @Override
     public ValidationError[] getErrors() {
         return this.errors;
+    }
+
+    @Override
+    public float getScore() {
+        return this.score;
+    }
+
+    @Override
+    public String getAction() {
+        return this.action;
     }
 }
