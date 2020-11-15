@@ -1,8 +1,33 @@
-package com.github.playerforcehd.gcaptchavalidator.model.response;
+/*
+ * The MIT License
+ *
+ * Copyright (c) 2020 Pascal Zarrad
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
-import java.io.Serializable;
+package com.github.playerforcehd.gcaptchavalidator;
+
+import com.github.playerforcehd.gcaptchavalidator.param.ClientType;
+import com.github.playerforcehd.gcaptchavalidator.param.ValidationError;
+
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -36,69 +61,13 @@ import java.util.Map;
  *
  * Also if some additional information is being defined later on, it will end up in the additional data.
  *
- * An instantiated {@link ValidationResponse} is immutable.
+ * An instantiated {@link CaptchaValidationResponse} is immutable.
  *
  * @author Pascal Zarrad
  * @since 3.0.0
  * @see <a href="https://developers.google.com/recaptcha/docs/verify#api_request">Google ReCaptcha Documentation</a>
  */
-public interface ValidationResponse extends Serializable {
-    /**
-     * Create a new immutable validation response
-     *
-     * @param succeeded The state if the validation returned a positive result
-     * @param challengeTimestamp The time when the challenge has been loaded
-     * @param clientType The type of the client that requested the validation
-     * @param hostnameOrPackageName The hostname/ip or package name of the client
-     * @param errors The errors returned by a failed validation
-     * @return The created {@link ValidationResponse}
-     */
-    static ValidationResponse createValidationResponse(
-        boolean succeeded,
-        Date challengeTimestamp,
-        ClientType clientType,
-        String hostnameOrPackageName,
-        ValidationError[] errors
-    ) {
-        return new ImmutableResponse(
-            succeeded,
-            challengeTimestamp,
-            clientType,
-            hostnameOrPackageName,
-            errors,
-            new HashMap<>()
-        );
-    }
-
-    /**
-     * Create a new immutable validation response
-     *
-     * @param succeeded The state if the validation returned a positive result
-     * @param challengeTimestamp The time when the challenge has been loaded
-     * @param clientType The type of the client that requested the validation
-     * @param hostnameOrPackageName The hostname/ip or package name of the client
-     * @param validationErrors The errors returned by a failed validation
-     * @param additionalData The data that couldn't be mapped to the existing fields
-     * @return The created {@link ValidationResponse}
-     */
-    static ValidationResponse createValidationResponse(
-        boolean succeeded,
-        Date challengeTimestamp,
-        ClientType clientType,
-        String hostnameOrPackageName,
-        ValidationError[] validationErrors,
-        Map<String, Object> additionalData
-    ) {
-        return new ImmutableResponse(
-            succeeded,
-            challengeTimestamp,
-            clientType,
-            hostnameOrPackageName,
-            validationErrors,
-            additionalData
-        );
-    }
-
+public interface CaptchaValidationResponse {
     /**
      * Check if the validation was successful
      *
