@@ -24,27 +24,24 @@
 
 package com.github.playerforcehd.gcaptchavalidator;
 
-import com.github.playerforcehd.gcaptchavalidator.data.ReCaptchaVersion;
-
-import java.util.*;
+import java.util.Map;
 
 /**
  * Represents the basic configuration required to send request to the a site verification server.
- *
+ * <p>
  * The necessary configuration consists of the following parameters:
- *  - The secret token
- *  - The ReCaptcha version that is dealt with
- *  - The site verification servers URL
- *
+ * - The secret token
+ * - The site verification servers URL
+ * <p>
  * The default site verification URL points to Googles 'siteverify' URL as defined in the
  * ReCaptcha documentation.
  * The default ReCaptcha version that the library is expecting is version 3.
- *
+ * <p>
  * This class consists of fluent setters to allow it to be used like a builder.
  *
  * @author Pascal Zarrad
- * @since 3.0.0
  * @see <a href="https://developers.google.com/recaptcha/docs/verify#api_request">Google ReCaptcha Documentation</a>
+ * @since 3.0.0
  */
 public interface CaptchaValidatorConfiguration {
     /**
@@ -61,21 +58,6 @@ public interface CaptchaValidatorConfiguration {
      * @return This VerifierConfiguration instance
      */
     CaptchaValidatorConfiguration setSecretToken(String secretToken);
-
-    /**
-     * Get the ReCaptcha version that is used
-     *
-     * @return The used ReCaptcha version
-     */
-    ReCaptchaVersion getReCaptchaVersion();
-
-    /**
-     * Set the ReCaptcha version that is used
-     *
-     * @param reCaptchaVersion The used ReCaptcha version
-     * @return This VerifierConfiguration instance
-     */
-    CaptchaValidatorConfiguration setReCaptchaVersion(ReCaptchaVersion reCaptchaVersion);
 
     /**
      * Get the verification URL used to verify responses
@@ -101,7 +83,7 @@ public interface CaptchaValidatorConfiguration {
 
     /**
      * Set the HTTP headers to send when using this configuration
-     *
+     * <p>
      * Note that this will override the default headers that are sent by GCaptchaValidator.
      *
      * @param httpHeaders The HTTP headers to send when using this configuration

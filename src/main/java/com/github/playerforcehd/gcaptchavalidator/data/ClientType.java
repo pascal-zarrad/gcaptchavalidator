@@ -26,7 +26,7 @@ package com.github.playerforcehd.gcaptchavalidator.data;
 
 /**
  * Contains the specified possible types.
- *
+ * <p>
  * A type refers to the location where a ReCaptcha has been used.
  * It allows to determine which exact type is stored in the field responsible
  * to provide apk_pkg_name or hostname.

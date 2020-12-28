@@ -26,7 +26,7 @@ package com.github.playerforcehd.gcaptchavalidator.data;
 
 /**
  * List of all ReCaptcha versions which are supported by the library.
- *
+ * <p>
  * This allows exact specification of the targeted version to support
  * features that are not available in older/newer versions.
  *
@@ -35,5 +35,5 @@ package com.github.playerforcehd.gcaptchavalidator.data;
  */
 public enum ReCaptchaVersion {
     VERSION_2,
-    VERSION_3;
+    VERSION_3
 }

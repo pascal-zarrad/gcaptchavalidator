@@ -24,33 +24,24 @@
 
 package com.github.playerforcehd.gcaptchavalidator;
 
-import com.github.playerforcehd.gcaptchavalidator.data.ReCaptchaVersion;
-
 import java.util.Map;
 
 /**
  * Mutable verifier configuration.
- *
+ * <p>
  * Instances of this class allow the configuration to be changed after instantiation.
- *
- * {@inheritDoc }
+ * <p>
+ * {@inheritDoc}
  *
  * @author Pascal Zarrad
- * @since 3.0.0
  * @see CaptchaValidatorConfiguration
+ * @since 3.0.0
  */
 public class ValidatorConfiguration implements CaptchaValidatorConfiguration {
     /**
      * The ReCaptcha server side secret required for validation.
      */
     private String secretToken;
-
-    /**
-     * The targeted ReCaptcha version which is used to decide between different
-     * implementations. This allows support for all current available ReCaptcha versions
-     * without sacrificing features like the score in version 3.
-     */
-    private ReCaptchaVersion reCaptchaVersion;
 
     /**
      * The URL where the verification request is send to
@@ -66,18 +57,15 @@ public class ValidatorConfiguration implements CaptchaValidatorConfiguration {
      * Constructor
      *
      * @param secretToken The secret ReCaptcha site verification token to use to identify on Google's side
-     * @param reCaptchaVersion The targeted ReCaptcha version
      * @param verifierUrl The URL where the requests will be send to
      * @param httpHeaders The HTTP headers to send with requests using this configuration
      */
     public ValidatorConfiguration(
         String secretToken,
-        ReCaptchaVersion reCaptchaVersion,
         String verifierUrl,
         Map<String, String> httpHeaders
     ) {
         this.secretToken = secretToken;
-        this.reCaptchaVersion = reCaptchaVersion;
         this.verifierUrl = verifierUrl;
         this.httpHeaders = httpHeaders;
     }
@@ -90,18 +78,6 @@ public class ValidatorConfiguration implements CaptchaValidatorConfiguration {
     @Override
     public ValidatorConfiguration setSecretToken(String secretToken) {
         this.secretToken = secretToken;
-
-        return  this;
-    }
-
-    @Override
-    public ReCaptchaVersion getReCaptchaVersion() {
-        return reCaptchaVersion;
-    }
-
-    @Override
-    public ValidatorConfiguration setReCaptchaVersion(ReCaptchaVersion reCaptchaVersion) {
-        this.reCaptchaVersion = reCaptchaVersion;
 
         return this;
     }

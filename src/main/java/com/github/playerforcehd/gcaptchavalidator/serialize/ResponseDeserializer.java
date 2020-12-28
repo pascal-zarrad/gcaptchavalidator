@@ -22,21 +22,27 @@
  * THE SOFTWARE.
  */
 
-package com.github.playerforcehd.gcaptchavalidator;
+package com.github.playerforcehd.gcaptchavalidator.serialize;
+
+import com.github.playerforcehd.gcaptchavalidator.CaptchaValidationResponse;
 
 /**
- * {@link CaptchaValidationResponse} for validations using the old version 2 standard.
- *
- * The type is equal to the base {@link CaptchaValidationResponse} as version 3 is only an extension
- * of version 2's responses.
- *
- * An instantiated {@link CaptchaValidationResponseVersion2} is always immutable.
- *
- * The documentation about ReCaptcha version 2 validation can be found here:
- * <a href="https://developers.google.com/recaptcha/docs/verify">Google ReCaptcha v2 Documentation</a>
+ * An interface that defines a response deserializer that deserializes
+ * the JSON received from the Google ReCaptche SiteVerify API into
+ * a {@link com.github.playerforcehd.gcaptchavalidator.CaptchaValidationResponse}.
  *
  * @author Pascal Zarrad
  * @since 3.0.0
- * @see com.github.playerforcehd.gcaptchavalidator.CaptchaValidationResponse
  */
-public interface CaptchaValidationResponseVersion2 extends CaptchaValidationResponse {}
+public interface ResponseDeserializer {
+
+    /**
+     * Deserialize a response that is supplied as the original String that the SiteVerify API
+     * responded with.
+     *
+     * @param response The response to deserialize
+     * @return The deserialized response as an POJO
+     */
+    CaptchaValidationResponse deserialize(String response);
+
+}

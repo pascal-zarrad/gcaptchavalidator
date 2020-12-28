@@ -25,17 +25,27 @@
 package com.github.playerforcehd.gcaptchavalidator;
 
 import com.github.playerforcehd.gcaptchavalidator.data.ClientType;
+import com.github.playerforcehd.gcaptchavalidator.data.ReCaptchaVersion;
 import com.github.playerforcehd.gcaptchavalidator.data.ValidationError;
 
 import java.util.Date;
 
 /**
- * An implementation of the {@link CaptchaValidationResponseVersion2}.
+ * An implementation of the {@link CaptchaValidationResponse}.
+ * <p>
+ * Take a look on the {@link CaptchaValidationResponse} documentation to see the public API.
  *
  * @author Pascal Zarrad
+ * @see com.github.playerforcehd.gcaptchavalidator.CaptchaValidationResponse
  * @since 3.0.0
  */
-public final class ValidationResponseVersion2 implements CaptchaValidationResponseVersion2 {
+public final class ValidationResponse implements CaptchaValidationResponse {
+
+    /**
+     * The {@link ReCaptchaVersion} this response has.
+     */
+    private final ReCaptchaVersion reCaptchaVersion;
+
     /**
      * The state if the response was successful
      */
@@ -57,6 +67,16 @@ public final class ValidationResponseVersion2 implements CaptchaValidationRespon
     private final String hostnameOrPackageName;
 
     /**
+     * The reached score of the response
+     */
+    private final float score;
+
+    /**
+     * The name of the action that caused the validation
+     */
+    private final String action;
+
+    /**
      * The errors returned by the request (if there are any)
      */
     private final ValidationError[] errors;
@@ -64,24 +84,38 @@ public final class ValidationResponseVersion2 implements CaptchaValidationRespon
     /**
      * Constructor
      *
-     * @param succeeded The state if the validation was positive or negative
-     * @param challengeTimestamp The timestamp when the challenge has been loaded
-     * @param clientType The type of the client that send the validation request
+     * @param reCaptchaVersion      The {@link ReCaptchaVersion} this response has
+     * @param succeeded             The state if the validation was positive or negative
+     * @param challengeTimestamp    The timestamp when the challenge has been loaded
+     * @param clientType            The type of the client that send the validation request
      * @param hostnameOrPackageName The hostname/ip or android package name of the client
-     * @param errors The errors returned in the response
+     * @param score                 The score that that the validation scored
+     * @param action                The action the user did that caused the validation
+     * @param errors                The errors returned in the response
      */
-    ValidationResponseVersion2(
+    ValidationResponse(
+        ReCaptchaVersion reCaptchaVersion,
         boolean succeeded,
         Date challengeTimestamp,
         ClientType clientType,
         String hostnameOrPackageName,
+        float score,
+        String action,
         ValidationError[] errors
     ) {
+        this.reCaptchaVersion = reCaptchaVersion;
         this.succeeded = succeeded;
         this.challengeTimestamp = challengeTimestamp;
         this.clientType = clientType;
         this.hostnameOrPackageName = hostnameOrPackageName;
+        this.score = score;
+        this.action = action;
         this.errors = errors;
+    }
+
+    @Override
+    public ReCaptchaVersion getReCaptchaVersion() {
+        return reCaptchaVersion;
     }
 
     @Override
@@ -102,6 +136,16 @@ public final class ValidationResponseVersion2 implements CaptchaValidationRespon
     @Override
     public String getHostnameOrPackageName() {
         return this.hostnameOrPackageName;
+    }
+
+    @Override
+    public float getScore() {
+        return score;
+    }
+
+    @Override
+    public String getAction() {
+        return action;
     }
 
     @Override
