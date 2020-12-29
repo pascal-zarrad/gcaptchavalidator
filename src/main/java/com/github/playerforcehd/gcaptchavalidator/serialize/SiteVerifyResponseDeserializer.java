@@ -32,8 +32,7 @@ import com.github.playerforcehd.gcaptchavalidator.data.ValidationError;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -50,7 +49,6 @@ import java.util.Iterator;
  * @since 3.0.0
  */
 public class SiteVerifyResponseDeserializer implements ResponseDeserializer {
-
     /**
      * The Google GSon instance used by the {@link SiteVerifyResponseDeserializer}.
      */
@@ -122,18 +120,6 @@ public class SiteVerifyResponseDeserializer implements ResponseDeserializer {
          */
         private static final String ERROR_CODES_KEY = "error-codes";
 
-        /**
-         * The date formatter used for the challenge timestamp parsing
-         */
-        private final SimpleDateFormat challengeTimestampFormat;
-
-        /**
-         * Constructor
-         */
-        public ValidationResponseJsonDeserializer() {
-            this.challengeTimestampFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZ");
-        }
-
         @Override
         public ValidationResponse deserialize(
             JsonElement jsonElement,
@@ -149,7 +135,7 @@ public class SiteVerifyResponseDeserializer implements ResponseDeserializer {
 
             // Parse version, score and action (all ReCaptcha 3.0 things) if applicable
             ReCaptchaVersion reCaptchaVersion = ReCaptchaVersion.VERSION_2;
-            float score = -1;
+            float score = -1f;
             String action = "";
             if (targetObject.has(SCORE_KEY) && targetObject.has(ACTION_KEY)) {
                 reCaptchaVersion = ReCaptchaVersion.VERSION_3;
@@ -162,12 +148,7 @@ public class SiteVerifyResponseDeserializer implements ResponseDeserializer {
 
             // Parse challenge timestamp
             String challengeTimeStampString = targetObject.get(CHALLENGE_TIMESTAMP_KEY).getAsString();
-            Date challengeTimestamp;
-            try {
-                challengeTimestamp = this.challengeTimestampFormat.parse(challengeTimeStampString);
-            } catch (ParseException e) {
-                return this.returnDeserializationError();
-            }
+            Date challengeTimestamp = Date.from(Instant.parse(challengeTimeStampString));
 
             // Parse platform and hostname/package name
             ClientType clientType = null;
@@ -179,7 +160,7 @@ public class SiteVerifyResponseDeserializer implements ResponseDeserializer {
             }
 
             if (targetObject.has(APK_PACKAGE_KEY)) {
-                clientType = ClientType.WEB;
+                clientType = ClientType.ANDROID;
                 hostnameOrPackageName = targetObject.get(APK_PACKAGE_KEY).getAsString();
             }
 
@@ -225,26 +206,6 @@ public class SiteVerifyResponseDeserializer implements ResponseDeserializer {
                 -1,
                 "",
                 errors
-            );
-        }
-
-        /**
-         * Construct a {@link ValidationResponse} that contains a
-         * {@link ValidationError#GCAPTCHAVALIDATOR_INTERNAL_ERROR} to indicate a failure while parsing
-         * the response.
-         *
-         * @return A general purpose error that indicates an error while parsing the response
-         */
-        private ValidationResponse returnDeserializationError() {
-            return new ValidationResponse(
-                ReCaptchaVersion.VERSION_2,
-                false,
-                null,
-                null,
-                "",
-                -1,
-                null,
-                new ValidationError[] { ValidationError.GCAPTCHAVALIDATOR_INTERNAL_ERROR }
             );
         }
     }
