@@ -34,7 +34,7 @@ import com.github.playerforcehd.gcaptchavalidator.CaptchaValidationResponse;
  * @author Pascal Zarrad
  * @since 3.0.0
  */
-public interface ResponseDeserializer {
+public interface CaptchaResponseDeserializer {
 
     /**
      * Deserialize a response that is supplied as the original String that the SiteVerify API

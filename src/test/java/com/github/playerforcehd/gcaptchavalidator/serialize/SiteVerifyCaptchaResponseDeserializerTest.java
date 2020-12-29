@@ -31,18 +31,16 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.concurrent.ExecutionException;
-
 /**
  * Tests for the default site verify response deserializer.
  *
  * @author Pascal Zarrad
  * @since 3.0.0
  */
-public class SiteVerifyResponseDeserializerTest {
+public class SiteVerifyCaptchaResponseDeserializerTest {
     @Test(dataProvider = "deserializeWithVersion2DataProvider")
     public void testDeserializeWithVersion2(String testResponse) {
-        SiteVerifyResponseDeserializer deserializer = new SiteVerifyResponseDeserializer();
+        SiteVerifyCaptchaResponseDeserializer deserializer = new SiteVerifyCaptchaResponseDeserializer();
         CaptchaValidationResponse result = deserializer.deserialize(testResponse);
 
         Assert.assertTrue(result.hasSucceeded());
@@ -65,7 +63,7 @@ public class SiteVerifyResponseDeserializerTest {
 
     @Test(dataProvider = "deserializeWithVersion2DataWithoutSuccessProvider")
     public void testDeserializeWithVersion2WithoutSuccess(String testResponse) {
-        SiteVerifyResponseDeserializer deserializer = new SiteVerifyResponseDeserializer();
+        SiteVerifyCaptchaResponseDeserializer deserializer = new SiteVerifyCaptchaResponseDeserializer();
         CaptchaValidationResponse result = deserializer.deserialize(testResponse);
 
         Assert.assertFalse(result.hasSucceeded());
@@ -88,7 +86,7 @@ public class SiteVerifyResponseDeserializerTest {
 
     @Test(dataProvider = "deserializeWithVersion3DataProvider")
     public void testDeserializeWithVersion3(String testResponse) {
-        SiteVerifyResponseDeserializer deserializer = new SiteVerifyResponseDeserializer();
+        SiteVerifyCaptchaResponseDeserializer deserializer = new SiteVerifyCaptchaResponseDeserializer();
         CaptchaValidationResponse result = deserializer.deserialize(testResponse);
 
         Assert.assertTrue(result.hasSucceeded());
@@ -112,7 +110,7 @@ public class SiteVerifyResponseDeserializerTest {
 
     @Test(dataProvider = "deserializeWithPlatformAndroidDataProvider")
     public void testDeserializeWithPlatformAndroid(String testResponse) {
-        SiteVerifyResponseDeserializer deserializer = new SiteVerifyResponseDeserializer();
+        SiteVerifyCaptchaResponseDeserializer deserializer = new SiteVerifyCaptchaResponseDeserializer();
         CaptchaValidationResponse result = deserializer.deserialize(testResponse);
 
         Assert.assertTrue(result.hasSucceeded());
@@ -136,7 +134,7 @@ public class SiteVerifyResponseDeserializerTest {
 
     @Test(dataProvider = "deserializeWithErrorCodesDataProvider")
     public void testDeserializeWithErrorCodes(String testResponse) {
-        SiteVerifyResponseDeserializer deserializer = new SiteVerifyResponseDeserializer();
+        SiteVerifyCaptchaResponseDeserializer deserializer = new SiteVerifyCaptchaResponseDeserializer();
         CaptchaValidationResponse result = deserializer.deserialize(testResponse);
 
         Assert.assertFalse(result.hasSucceeded());
