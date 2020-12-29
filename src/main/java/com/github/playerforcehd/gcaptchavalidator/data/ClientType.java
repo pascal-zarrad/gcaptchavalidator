@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License
  *
  * Copyright (c) 2020 Pascal Zarrad
@@ -8,7 +8,7 @@
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
- *  furnished to do so, subject to the following conditions:
+ * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
@@ -22,42 +22,19 @@
  * THE SOFTWARE.
  */
 
-// Configuration of commitlint to check commit message guidelines
-module.exports = {
-	parserPreset: 'conventional-changelog-conventionalcommits',
-	rules: {
-		'subject-max-length': [2, 'always', 50],
-		'subject-case': [
-			2,
-			'never',
-			['sentence-case', 'start-case'],
-		],
-		'subject-empty': [2, 'never'],
-		'subject-full-stop': [2, 'never', '.'],
-		'type-case': [2, 'always', 'lower-case'],
-		'type-empty': [2, 'never'],
-		'type-enum': [
-			2,
-			'always',
-			[
-                'feat',
-                'fix',
-                'perf',
-                'refactor',
-                'cs',
-                'test',
-                'build',
-                'ci',
-                'docs',
-                'changelog',
-                'bump'
-			],
-		],
-		'scope-empty': [2, 'always'],
-		'header-max-length': [2, 'always', 75],
-		'body-leading-blank': [1, 'always'],
-		'body-max-line-length': [2, 'always', 75],
-		'footer-leading-blank': [1, 'always'],
-		'footer-max-line-length': [2, 'always', 75]
-	},
-};
+package com.github.playerforcehd.gcaptchavalidator.data;
+
+/**
+ * Contains the specified possible types.
+ * <p>
+ * A type refers to the location where a ReCaptcha has been used.
+ * It allows to determine which exact type is stored in the field responsible
+ * to provide apk_pkg_name or hostname.
+ *
+ * @author Pascal Zarrad
+ * @since 3.0.0
+ */
+public enum ClientType {
+    WEB,
+    ANDROID
+}
