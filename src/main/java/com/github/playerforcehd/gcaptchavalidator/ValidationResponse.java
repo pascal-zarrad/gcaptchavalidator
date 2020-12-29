@@ -93,7 +93,7 @@ public final class ValidationResponse implements CaptchaValidationResponse {
      * @param action                The action the user did that caused the validation
      * @param errors                The errors returned in the response
      */
-    ValidationResponse(
+    public ValidationResponse(
         ReCaptchaVersion reCaptchaVersion,
         boolean succeeded,
         Date challengeTimestamp,

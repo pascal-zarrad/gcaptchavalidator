@@ -40,7 +40,9 @@ public enum ValidationError {
     MISSING_INPUT_RESPONSE("missing-input-response"),
     INVALID_INPUT_RESPONSE("invalid-input-response"),
     BAD_REQUEST("bad-request"),
-    TIMEOUT_OR_DUPLICATE("timeout-or-duplicate");
+    TIMEOUT_OR_DUPLICATE("timeout-or-duplicate"),
+    // Custom error that indicates some issue with reaching the SiteVerify API or a malformed JSon response
+    GCAPTCHAVALIDATOR_INTERNAL_ERROR("gcaptchavaliator-internal-error");
 
     /**
      * The error that has been thrown.

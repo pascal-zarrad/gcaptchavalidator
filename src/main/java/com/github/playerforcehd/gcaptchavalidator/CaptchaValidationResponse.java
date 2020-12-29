@@ -42,8 +42,8 @@ import java.util.Date;
  * - challenge_ts     - challengeTimestamp
  * - hostname         - hostnameOrPackageName in conjunction with clientType
  * - apk_package_name - hostnameOrPackageName in conjunction with clientType
- * - score  - score
- * - action - action
+ * - score            - score
+ * - action           - action
  * - errors           - errors
  * <p>
  * The mapped fields are accessed through their getters:
@@ -66,6 +66,8 @@ import java.util.Date;
  * The version 3 relevant attributes will only be set if data has been retrieved.
  * Values from version 3 can be ignored when the version is set to
  * {@link com.github.playerforcehd.gcaptchavalidator.data.ReCaptchaVersion#VERSION_2}.
+ * <p>
+ * Note that responses with errors will always have {@link ReCaptchaVersion#VERSION_2} as version.
  * <p>
  * An instantiated {@link CaptchaValidationResponse} is always immutable.
  *
