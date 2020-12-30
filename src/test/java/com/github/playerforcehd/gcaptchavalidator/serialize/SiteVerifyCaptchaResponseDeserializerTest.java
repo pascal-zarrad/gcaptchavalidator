@@ -27,9 +27,10 @@ package com.github.playerforcehd.gcaptchavalidator.serialize;
 import com.github.playerforcehd.gcaptchavalidator.CaptchaValidationResponse;
 import com.github.playerforcehd.gcaptchavalidator.data.ClientType;
 import com.github.playerforcehd.gcaptchavalidator.data.ValidationError;
-import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.*;
 
 /**
  * Tests for the default site verify response deserializer.
@@ -43,13 +44,13 @@ public class SiteVerifyCaptchaResponseDeserializerTest {
         SiteVerifyCaptchaResponseDeserializer deserializer = new SiteVerifyCaptchaResponseDeserializer();
         CaptchaValidationResponse result = deserializer.deserialize(testResponse);
 
-        Assert.assertTrue(result.hasSucceeded());
-        Assert.assertEquals(result.getScore(), -1f);
-        Assert.assertEquals(result.getAction(), "");
-        Assert.assertEquals(result.getChallengeTimestamp().getTime(), 1609262462000L);
-        Assert.assertEquals(result.getClientType(), ClientType.WEB);
-        Assert.assertEquals(result.getHostnameOrPackageName(), "localhost");
-        Assert.assertEquals(result.getErrors().length, 0);
+        assertTrue(result.hasSucceeded());
+        assertEquals(result.getScore(), -1f);
+        assertEquals(result.getAction(), "");
+        assertEquals(result.getChallengeTimestamp().getTime(), 1609262462000L);
+        assertEquals(result.getClientType(), ClientType.WEB);
+        assertEquals(result.getHostnameOrPackageName(), "localhost");
+        assertEquals(result.getErrors().length, 0);
     }
 
     @DataProvider
@@ -66,13 +67,13 @@ public class SiteVerifyCaptchaResponseDeserializerTest {
         SiteVerifyCaptchaResponseDeserializer deserializer = new SiteVerifyCaptchaResponseDeserializer();
         CaptchaValidationResponse result = deserializer.deserialize(testResponse);
 
-        Assert.assertFalse(result.hasSucceeded());
-        Assert.assertEquals(result.getScore(), -1f);
-        Assert.assertEquals(result.getAction(), "");
-        Assert.assertEquals(result.getChallengeTimestamp().getTime(), 1609262462000L);
-        Assert.assertEquals(result.getClientType(), ClientType.WEB);
-        Assert.assertEquals(result.getHostnameOrPackageName(), "localhost");
-        Assert.assertEquals(result.getErrors().length, 0);
+        assertFalse(result.hasSucceeded());
+        assertEquals(result.getScore(), -1f);
+        assertEquals(result.getAction(), "");
+        assertEquals(result.getChallengeTimestamp().getTime(), 1609262462000L);
+        assertEquals(result.getClientType(), ClientType.WEB);
+        assertEquals(result.getHostnameOrPackageName(), "localhost");
+        assertEquals(result.getErrors().length, 0);
     }
 
     @DataProvider
@@ -89,13 +90,13 @@ public class SiteVerifyCaptchaResponseDeserializerTest {
         SiteVerifyCaptchaResponseDeserializer deserializer = new SiteVerifyCaptchaResponseDeserializer();
         CaptchaValidationResponse result = deserializer.deserialize(testResponse);
 
-        Assert.assertTrue(result.hasSucceeded());
-        Assert.assertEquals(result.getScore(), 0.5f);
-        Assert.assertEquals(result.getAction(), "home");
-        Assert.assertEquals(result.getChallengeTimestamp().getTime(), 1609262462000L);
-        Assert.assertEquals(result.getClientType(), ClientType.WEB);
-        Assert.assertEquals(result.getHostnameOrPackageName(), "localhost");
-        Assert.assertEquals(result.getErrors().length, 0);
+        assertTrue(result.hasSucceeded());
+        assertEquals(result.getScore(), 0.5f);
+        assertEquals(result.getAction(), "home");
+        assertEquals(result.getChallengeTimestamp().getTime(), 1609262462000L);
+        assertEquals(result.getClientType(), ClientType.WEB);
+        assertEquals(result.getHostnameOrPackageName(), "localhost");
+        assertEquals(result.getErrors().length, 0);
     }
 
     @DataProvider
@@ -113,13 +114,13 @@ public class SiteVerifyCaptchaResponseDeserializerTest {
         SiteVerifyCaptchaResponseDeserializer deserializer = new SiteVerifyCaptchaResponseDeserializer();
         CaptchaValidationResponse result = deserializer.deserialize(testResponse);
 
-        Assert.assertTrue(result.hasSucceeded());
-        Assert.assertEquals(result.getScore(), -1f);
-        Assert.assertEquals(result.getAction(), "");
-        Assert.assertEquals(result.getChallengeTimestamp().getTime(), 1609262462000L);
-        Assert.assertEquals(result.getClientType(), ClientType.ANDROID);
-        Assert.assertEquals(result.getHostnameOrPackageName(), "com.github.playerforcehd.gcaptchavalidator");
-        Assert.assertEquals(result.getErrors().length, 0);
+        assertTrue(result.hasSucceeded());
+        assertEquals(result.getScore(), -1f);
+        assertEquals(result.getAction(), "");
+        assertEquals(result.getChallengeTimestamp().getTime(), 1609262462000L);
+        assertEquals(result.getClientType(), ClientType.ANDROID);
+        assertEquals(result.getHostnameOrPackageName(), "com.github.playerforcehd.gcaptchavalidator");
+        assertEquals(result.getErrors().length, 0);
     }
 
     @DataProvider
@@ -137,17 +138,17 @@ public class SiteVerifyCaptchaResponseDeserializerTest {
         SiteVerifyCaptchaResponseDeserializer deserializer = new SiteVerifyCaptchaResponseDeserializer();
         CaptchaValidationResponse result = deserializer.deserialize(testResponse);
 
-        Assert.assertFalse(result.hasSucceeded());
-        Assert.assertEquals(result.getScore(), -1f);
-        Assert.assertEquals(result.getAction(), "");
-        Assert.assertNull(result.getChallengeTimestamp());
-        Assert.assertNull(result.getClientType());
-        Assert.assertEquals(result.getHostnameOrPackageName(), "");
+        assertFalse(result.hasSucceeded());
+        assertEquals(result.getScore(), -1f);
+        assertEquals(result.getAction(), "");
+        assertNull(result.getChallengeTimestamp());
+        assertNull(result.getClientType());
+        assertEquals(result.getHostnameOrPackageName(), "");
         ValidationError[] expectedErrors = {
             ValidationError.MISSING_INPUT_SECRET,
             ValidationError.MISSING_INPUT_RESPONSE
         };
-        Assert.assertEquals(result.getErrors(), expectedErrors);
+        assertEquals(result.getErrors(), expectedErrors);
     }
 
     @DataProvider

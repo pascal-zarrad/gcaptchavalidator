@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -24,14 +25,6 @@ public class ReCaptchaCaptchaRequestHandler implements CaptchaRequestHandler {
      * Default charset used by this utility.
      */
     private static final String DEFAULT_CHARSET = StandardCharsets.UTF_8.toString();
-
-    @Override
-    public String request(
-        CaptchaValidatorConfiguration captchaValidatorConfiguration,
-        String response
-    ) throws CaptchaRequestHandlerException {
-        return this.request(captchaValidatorConfiguration, response, "");
-    }
 
     @Override
     public String request(
@@ -55,8 +48,8 @@ public class ReCaptchaCaptchaRequestHandler implements CaptchaRequestHandler {
             URL url = new URL(captchaValidatorConfiguration.getVerifierUrl());
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("POST");
-            httpURLConnection.setRequestProperty("Content-Length", String.valueOf(parsedParams.length));
-            captchaValidatorConfiguration.getHttpHeaders().forEach(httpURLConnection::setRequestProperty);
+            httpURLConnection.addRequestProperty("Content-Length", String.valueOf(parsedParams.length));
+            captchaValidatorConfiguration.getHttpHeaders().forEach(httpURLConnection::addRequestProperty);
             httpURLConnection.setDoOutput(true);
             httpURLConnection.getOutputStream().write(parsedParams);
             StringBuilder stringBuilder = new StringBuilder();
@@ -66,6 +59,16 @@ public class ReCaptchaCaptchaRequestHandler implements CaptchaRequestHandler {
                     DEFAULT_CHARSET
                 ))
             ) {
+                for (int c; (c = bufferedReader.read()) >= 0; ) {
+                    stringBuilder.append((char) c);
+                }
+            } catch (IOException e) {
+                // Fallback to error stream and if that fails, fallback to outer catch block
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                    httpURLConnection.getErrorStream(),
+                    DEFAULT_CHARSET
+                ));
+
                 for (int c; (c = bufferedReader.read()) >= 0; ) {
                     stringBuilder.append((char) c);
                 }

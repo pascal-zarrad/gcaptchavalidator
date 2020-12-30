@@ -93,8 +93,13 @@ public class ValidatorConfiguration implements CaptchaValidatorConfiguration {
      */
     public Map<String, String> getDefaultHttpHeaders() {
         Map<String, String> defaultHeaders = new HashMap<>();
-        defaultHeaders.put("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
+        defaultHeaders.put(
+            "User-Agent",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
+                "(KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
+        );
         defaultHeaders.put("Content-Type", "application/x-www-form-urlencoded");
+        defaultHeaders.put("Accept", "*/*");
 
         return defaultHeaders;
     }

@@ -18,21 +18,7 @@ public interface CaptchaRequestHandler {
      *
      * @param captchaValidatorConfiguration The configuration of the validator
      * @param response The response to validate
-     * @return The response from the SiteVerify servers as a String (most likely JSON if everything went well)
-     * @throws CaptchaRequestHandlerException Thrown when there was an error when executing the request
-     */
-    String request(
-        CaptchaValidatorConfiguration captchaValidatorConfiguration,
-        String response
-    ) throws CaptchaRequestHandlerException;
-
-    /**
-     * Execute a request to validate a response from a client.
-     * Note that the supplied Strings should be UTF-8,
-     *
-     * @param captchaValidatorConfiguration The configuration of the validator
-     * @param response The response to validate
-     * @param remoteIP Optional. The remoteIP of the user to validate
+     * @param remoteIP Optional. The remoteIP of the user to validate. Can be empty.
      * @return The response from the SiteVerify servers as a String (most likely JSON if everything went well)
      * @throws CaptchaRequestHandlerException Thrown when there was an error when executing the request
      */
