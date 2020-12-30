@@ -4,8 +4,8 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 2.1.x  | :white_check_mark: |
-| 2.0.x   | :ballot_box_with_check:|
+| 2.0.x   | :white_check_mark:|
+| 2.1.x  | :ballot_box_with_check: |
 | 1.x.x   | :x:                |
 
 Legend: :white_check_mark: supported - :ballot_box_with_check: support on critical issues - :x: no longer supported
