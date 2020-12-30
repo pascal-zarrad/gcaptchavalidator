@@ -24,6 +24,7 @@
 
 package com.github.playerforcehd.gcaptchavalidator;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -58,6 +59,21 @@ public class ValidatorConfiguration implements CaptchaValidatorConfiguration {
      *
      * @param secretToken The secret ReCaptcha site verification token to use to identify on Google's side
      * @param verifierUrl The URL where the requests will be send to
+     */
+    public ValidatorConfiguration(
+        String secretToken,
+        String verifierUrl
+    ) {
+        this.secretToken = secretToken;
+        this.verifierUrl = verifierUrl;
+        this.httpHeaders = this.getDefaultHttpHeaders();
+    }
+
+    /**
+     * Constructor
+     *
+     * @param secretToken The secret ReCaptcha site verification token to use to identify on Google's side
+     * @param verifierUrl The URL where the requests will be send to
      * @param httpHeaders The HTTP headers to send with requests using this configuration
      */
     public ValidatorConfiguration(
@@ -68,6 +84,24 @@ public class ValidatorConfiguration implements CaptchaValidatorConfiguration {
         this.secretToken = secretToken;
         this.verifierUrl = verifierUrl;
         this.httpHeaders = httpHeaders;
+    }
+
+    /**
+     * Get the default http headers that are used when the map with parameters hasn't been modified in any way.
+     *
+     * @return The default headers that are used of no http headers are specified manually.
+     */
+    public Map<String, String> getDefaultHttpHeaders() {
+        Map<String, String> defaultHeaders = new HashMap<>();
+        defaultHeaders.put(
+            "User-Agent",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
+                "(KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
+        );
+        defaultHeaders.put("Content-Type", "application/x-www-form-urlencoded");
+        defaultHeaders.put("Accept", "*/*");
+
+        return defaultHeaders;
     }
 
     @Override

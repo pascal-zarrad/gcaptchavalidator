@@ -51,7 +51,7 @@
             <name>Pascal Zarrad</name>
             <email>p.zarrad@outlook.de</email>
             <organization>- None -</organization>
-            <organizationUrl>http://playerforcehd.tk/</organizationUrl>
+            <organizationUrl>https://pascal-zarrad.de/</organizationUrl>
         </developer>
     </developers>
 
@@ -86,6 +86,13 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>7.3.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- WireMock -->
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock</artifactId>
+            <version>2.27.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

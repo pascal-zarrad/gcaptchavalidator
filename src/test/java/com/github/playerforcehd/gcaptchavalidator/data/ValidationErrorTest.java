@@ -24,9 +24,10 @@
 
 package com.github.playerforcehd.gcaptchavalidator.data;
 
-import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.*;
 
 /**
  * Tests for the validation error parser
@@ -39,7 +40,7 @@ public class ValidationErrorTest {
     public void testGetValidationErrorByCode(String testError, ValidationError expectedError) {
         ValidationError actualError = ValidationError.getValidationErrorByCode(testError);
 
-        Assert.assertEquals(actualError, expectedError);
+        assertEquals(actualError, expectedError);
     }
 
     @DataProvider

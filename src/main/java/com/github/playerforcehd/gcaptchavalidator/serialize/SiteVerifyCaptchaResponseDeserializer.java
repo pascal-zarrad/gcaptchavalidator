@@ -37,27 +37,27 @@ import java.util.Date;
 import java.util.Iterator;
 
 /**
- * A {@link ResponseDeserializer} that uses the Google GSon library to deserialize
+ * A {@link CaptchaResponseDeserializer} that uses the Google GSon library to deserialize
  * the supplied response string.
  *
- * If you want to use this {@link ResponseDeserializer} as base for an own one,
- * extend it and override {@link SiteVerifyResponseDeserializer#createGson()} to supply
+ * If you want to use this {@link CaptchaResponseDeserializer} as base for an own one,
+ * extend it and override {@link SiteVerifyCaptchaResponseDeserializer#createGson()} to supply
  * a custom {@link Gson} instance that uses an own implementation of the
  * {@link ValidationResponseJsonDeserializer}.
  *
  * @author Pascal Zarrad
  * @since 3.0.0
  */
-public class SiteVerifyResponseDeserializer implements ResponseDeserializer {
+public class SiteVerifyCaptchaResponseDeserializer implements CaptchaResponseDeserializer {
     /**
-     * The Google GSon instance used by the {@link SiteVerifyResponseDeserializer}.
+     * The Google GSon instance used by the {@link SiteVerifyCaptchaResponseDeserializer}.
      */
     private final Gson gSon;
 
     /**
      * Constructor
      */
-    public SiteVerifyResponseDeserializer() {
+    public SiteVerifyCaptchaResponseDeserializer() {
         this.gSon = this.createGson();
     }
 
