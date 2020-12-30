@@ -11,10 +11,24 @@ package com.github.playerforcehd.gcaptchavalidator;
  * the {@link com.github.playerforcehd.gcaptchavalidator.request.CaptchaRequestHandler} to result in an easy
  * validation of ReCaptcha responses.
  *
+ * Note that the default implementation of the {@link CaptchaValidator} deals only with immutable configuraiton.
+ * Changing something will require you to create a new instance.
+ *
  * @author Pascal Zarrad
  * @since 3.0.0
  */
 public interface CaptchaValidator {
+    /**
+     * Create a default {@link CaptchaValidator} that uses a {@link GCaptchaValidator} internally
+     * with it's default configuration.
+     *
+     * @param secret The secret to use for validation.
+     * @return The created {@link CaptchaValidator}
+     */
+    static CaptchaValidator createDefault(String secret) {
+        return new GCaptchaValidator(secret);
+    }
+
     /**
      * Validate a Google ReCaptcha response.
      * The result if the response is valid is being returned as a boolean.

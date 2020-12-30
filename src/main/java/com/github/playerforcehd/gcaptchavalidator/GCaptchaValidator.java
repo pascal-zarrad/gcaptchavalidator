@@ -16,7 +16,7 @@ import java.util.Map;
  * This {@link CaptchaValidator} uses the default {@link SiteVerifyCaptchaRequestHandler}
  * and {@link SiteVerifyCaptchaResponseDeserializer} to validate and verify Google ReCaptcha 2.0,
  * Invisible ReCaptcha and ReCaptcha 3.0 responses.
- * The used {@link CaptchaRequestHandler} and {@link CaptchaResponseDeserializer are immutable but
+ * The used {@link CaptchaRequestHandler} and {@link CaptchaResponseDeserializer} are immutable but
  * can be replaced with own implementations when a new GCaptchaValidator instance is being created.
  *
  * The CaptchaValidatorConfiguration instance that is used will be immutable as soon as it has been passed
