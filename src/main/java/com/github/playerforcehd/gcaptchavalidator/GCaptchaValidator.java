@@ -18,7 +18,9 @@ import java.util.Map;
  * Invisible ReCaptcha and ReCaptcha 3.0 responses.
  * The used {@link CaptchaRequestHandler} and {@link CaptchaResponseDeserializer are immutable but
  * can be replaced with own implementations when a new GCaptchaValidator instance is being created.
- * The configuration is mutable, but shouldn't be mutated in a multi threaded environment.
+ *
+ * The CaptchaValidatorConfiguration instance that is used will be immutable as soon as it has been passed
+ * as a parameter to this class to prevent concurrent modifications in multi-threaded environments.
  *
  * @author Pascal Zarrad
  * @since 3.0.0
@@ -67,7 +69,7 @@ public class GCaptchaValidator implements CaptchaValidator {
     ) {
         this.captchaRequestHandler = captchaRequestHandler;
         this.captchaResponseDeserializer = new SiteVerifyCaptchaResponseDeserializer();
-        this.captchaValidatorConfiguration = new ValidatorConfiguration(secret);
+        this.captchaValidatorConfiguration = new ImmutableValidatorConfiguration(new ValidatorConfiguration(secret));
     }
 
     /**
@@ -82,7 +84,7 @@ public class GCaptchaValidator implements CaptchaValidator {
     ) {
         this.captchaRequestHandler = new SiteVerifyCaptchaRequestHandler();
         this.captchaResponseDeserializer = captchaResponseDeserializer;
-        this.captchaValidatorConfiguration = new ValidatorConfiguration(secret);
+        this.captchaValidatorConfiguration = new ImmutableValidatorConfiguration(new ValidatorConfiguration(secret));
     }
 
     /**
@@ -99,7 +101,7 @@ public class GCaptchaValidator implements CaptchaValidator {
     ) {
         this.captchaRequestHandler = captchaRequestHandler;
         this.captchaResponseDeserializer = captchaResponseDeserializer;
-        this.captchaValidatorConfiguration = new ValidatorConfiguration(secret);
+        this.captchaValidatorConfiguration = new ImmutableValidatorConfiguration(new ValidatorConfiguration(secret));
     }
 
     /**
@@ -111,7 +113,9 @@ public class GCaptchaValidator implements CaptchaValidator {
     public GCaptchaValidator(String secret, String siteVerifyUrl) {
         this.captchaRequestHandler = new SiteVerifyCaptchaRequestHandler();
         this.captchaResponseDeserializer = new SiteVerifyCaptchaResponseDeserializer();
-        this.captchaValidatorConfiguration = new ValidatorConfiguration(secret, siteVerifyUrl);
+        this.captchaValidatorConfiguration = new ImmutableValidatorConfiguration(
+            new ValidatorConfiguration(secret, siteVerifyUrl)
+        );
     }
 
     /**
@@ -128,8 +132,9 @@ public class GCaptchaValidator implements CaptchaValidator {
     ) {
         this.captchaRequestHandler = captchaRequestHandler;
         this.captchaResponseDeserializer = new SiteVerifyCaptchaResponseDeserializer();
-        this.captchaValidatorConfiguration = new ValidatorConfiguration(secret, siteVerifyUrl);
-    }
+        this.captchaValidatorConfiguration = new ImmutableValidatorConfiguration(
+            new ValidatorConfiguration(secret, siteVerifyUrl)
+        );    }
 
     /**
      * Constructor
@@ -145,8 +150,9 @@ public class GCaptchaValidator implements CaptchaValidator {
     ) {
         this.captchaRequestHandler = new SiteVerifyCaptchaRequestHandler();
         this.captchaResponseDeserializer = captchaResponseDeserializer;
-        this.captchaValidatorConfiguration = new ValidatorConfiguration(secret, siteVerifyUrl);
-    }
+        this.captchaValidatorConfiguration = new ImmutableValidatorConfiguration(
+            new ValidatorConfiguration(secret, siteVerifyUrl)
+        );    }
 
     /**
      * Constructor
@@ -164,7 +170,9 @@ public class GCaptchaValidator implements CaptchaValidator {
     ) {
         this.captchaRequestHandler = captchaRequestHandler;
         this.captchaResponseDeserializer = captchaResponseDeserializer;
-        this.captchaValidatorConfiguration = new ValidatorConfiguration(secret, siteVerifyUrl);
+        this.captchaValidatorConfiguration = new ImmutableValidatorConfiguration(
+            new ValidatorConfiguration(secret, siteVerifyUrl)
+        );
     }
 
     /**
@@ -177,7 +185,9 @@ public class GCaptchaValidator implements CaptchaValidator {
     public GCaptchaValidator(String secret, String siteVerifyUrl, Map<String, String> httpHeaders) {
         this.captchaRequestHandler = new SiteVerifyCaptchaRequestHandler();
         this.captchaResponseDeserializer = new SiteVerifyCaptchaResponseDeserializer();
-        this.captchaValidatorConfiguration = new ValidatorConfiguration(secret, siteVerifyUrl, httpHeaders);
+        this.captchaValidatorConfiguration = new ImmutableValidatorConfiguration(
+            new ValidatorConfiguration(secret, siteVerifyUrl, httpHeaders)
+        );
     }
 
     /**
@@ -196,8 +206,9 @@ public class GCaptchaValidator implements CaptchaValidator {
     ) {
         this.captchaRequestHandler = captchaRequestHandler;
         this.captchaResponseDeserializer = new SiteVerifyCaptchaResponseDeserializer();
-        this.captchaValidatorConfiguration = new ValidatorConfiguration(secret, siteVerifyUrl, httpHeaders);
-    }
+        this.captchaValidatorConfiguration = new ImmutableValidatorConfiguration(
+            new ValidatorConfiguration(secret, siteVerifyUrl, httpHeaders)
+        );    }
 
     /**
      * Constructor
@@ -215,8 +226,9 @@ public class GCaptchaValidator implements CaptchaValidator {
     ) {
         this.captchaRequestHandler = new SiteVerifyCaptchaRequestHandler();
         this.captchaResponseDeserializer = captchaResponseDeserializer;
-        this.captchaValidatorConfiguration = new ValidatorConfiguration(secret, siteVerifyUrl, httpHeaders);
-    }
+        this.captchaValidatorConfiguration = new ImmutableValidatorConfiguration(
+            new ValidatorConfiguration(secret, siteVerifyUrl, httpHeaders)
+        );    }
 
     /**
      * Constructor
@@ -236,8 +248,9 @@ public class GCaptchaValidator implements CaptchaValidator {
     ) {
         this.captchaRequestHandler = captchaRequestHandler;
         this.captchaResponseDeserializer = captchaResponseDeserializer;
-        this.captchaValidatorConfiguration = new ValidatorConfiguration(secret, siteVerifyUrl, httpHeaders);
-    }
+        this.captchaValidatorConfiguration = new ImmutableValidatorConfiguration(
+            new ValidatorConfiguration(secret, siteVerifyUrl, httpHeaders)
+        );    }
 
     // --- Constructors with CaptchaValidatorConfiguration parameter
 
@@ -249,7 +262,7 @@ public class GCaptchaValidator implements CaptchaValidator {
     public GCaptchaValidator(CaptchaValidatorConfiguration captchaValidatorConfiguration) {
         this.captchaRequestHandler = new SiteVerifyCaptchaRequestHandler();
         this.captchaResponseDeserializer = new SiteVerifyCaptchaResponseDeserializer();
-        this.captchaValidatorConfiguration = captchaValidatorConfiguration;
+        this.captchaValidatorConfiguration = new ImmutableValidatorConfiguration(captchaValidatorConfiguration);
     }
 
     /**
@@ -264,7 +277,7 @@ public class GCaptchaValidator implements CaptchaValidator {
     ) {
         this.captchaRequestHandler = captchaRequestHandler;
         this.captchaResponseDeserializer = new SiteVerifyCaptchaResponseDeserializer();
-        this.captchaValidatorConfiguration = captchaValidatorConfiguration;
+        this.captchaValidatorConfiguration = new ImmutableValidatorConfiguration(captchaValidatorConfiguration);
     }
 
     /**
@@ -279,7 +292,7 @@ public class GCaptchaValidator implements CaptchaValidator {
     ) {
         this.captchaRequestHandler = new SiteVerifyCaptchaRequestHandler();
         this.captchaResponseDeserializer = captchaResponseDeserializer;
-        this.captchaValidatorConfiguration = captchaValidatorConfiguration;
+        this.captchaValidatorConfiguration = new ImmutableValidatorConfiguration(captchaValidatorConfiguration);
     }
 
     /**
@@ -296,7 +309,7 @@ public class GCaptchaValidator implements CaptchaValidator {
     ) {
         this.captchaRequestHandler = captchaRequestHandler;
         this.captchaResponseDeserializer = captchaResponseDeserializer;
-        this.captchaValidatorConfiguration = captchaValidatorConfiguration;
+        this.captchaValidatorConfiguration = new ImmutableValidatorConfiguration(captchaValidatorConfiguration);
     }
 
     /**
