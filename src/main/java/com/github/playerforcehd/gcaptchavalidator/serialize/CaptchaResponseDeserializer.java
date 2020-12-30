@@ -8,7 +8,7 @@
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
- *  furnished to do so, subject to the following conditions:
+ * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
@@ -22,28 +22,27 @@
  * THE SOFTWARE.
  */
 
-package com.github.playerforcehd.gcaptchavalidator;
+package com.github.playerforcehd.gcaptchavalidator.serialize;
+
+import com.github.playerforcehd.gcaptchavalidator.CaptchaValidationResponse;
 
 /**
- * A exception thrown when a error occurs while processing a {@link com.github.playerforcehd.gcaptchavalidator.captchaverification.CaptchaValidationRequest}
+ * An interface that defines a response deserializer that deserializes
+ * the JSON received from the Google ReCaptche SiteVerify API into
+ * a {@link com.github.playerforcehd.gcaptchavalidator.CaptchaValidationResponse}.
  *
- * @author PlayerForceHD
- * @since 1.0.0
+ * @author Pascal Zarrad
+ * @since 3.0.0
  */
-public class CaptchaValidationException extends Exception {
+public interface CaptchaResponseDeserializer {
 
-    public CaptchaValidationException() {
-    }
+    /**
+     * Deserialize a response that is supplied as the original String that the SiteVerify API
+     * responded with.
+     *
+     * @param response The response to deserialize
+     * @return The deserialized response as an POJO
+     */
+    CaptchaValidationResponse deserialize(String response);
 
-    public CaptchaValidationException(String message) {
-        super(message);
-    }
-
-    public CaptchaValidationException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public CaptchaValidationException(Throwable cause) {
-        super(cause);
-    }
 }
