@@ -47,12 +47,22 @@ public class ValidatorConfiguration implements CaptchaValidatorConfiguration {
     /**
      * The URL where the verification request is send to
      */
-    private String verifierUrl;
+    private String verifierUrl = "https://www.google.com/recaptcha/api/siteverify";
 
     /**
      * The HTTP headers to append/overwrite on requests using this configuration
      */
     private Map<String, String> httpHeaders;
+
+    /**
+     * Constructor
+     *
+     * @param secretToken The secret ReCaptcha site verification token to use to identify on Google's side
+     */
+    public ValidatorConfiguration(String secretToken) {
+        this.secretToken = secretToken;
+        this.httpHeaders = this.getDefaultHttpHeaders();
+    }
 
     /**
      * Constructor

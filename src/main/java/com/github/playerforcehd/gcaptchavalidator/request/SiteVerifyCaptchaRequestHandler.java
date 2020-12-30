@@ -20,7 +20,7 @@ import java.util.Map;
  * @author Pascal Zarrad
  * @since 3.0.0
  */
-public class ReCaptchaCaptchaRequestHandler implements CaptchaRequestHandler {
+public class SiteVerifyCaptchaRequestHandler implements CaptchaRequestHandler {
     /**
      * Default charset used by this utility.
      */
