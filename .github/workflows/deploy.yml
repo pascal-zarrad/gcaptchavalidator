@@ -28,13 +28,9 @@ jobs:
               run: |
                   export GPG_TTY=$(tty)
 
-            - name: Release Maven package
-              uses: samuelmeuli/action-maven-publish@v1
-              with:
-                  gpg_private_key: ${{ secrets.gpg_private_key }}
-                  gpg_passphrase: ${{ secrets.gpg_passphrase }}
-                  nexus_username: ${{ secrets.nexus_username }}
-                  nexus_password: ${{ secrets.nexus_password }}
+            - name: Maven build
+              run: |
+                  mvn clean install
 
             - name: Upload build artifacts
               uses: actions/upload-artifact@v2
@@ -60,10 +56,8 @@ jobs:
                   git fetch --all --tags --force
                   git tag -a v${current_version} -m "Release version ${current_version}"
                   git push origin v${current_version}
-                  plain_version_env="::set-env name=CURRENT_PROJECT_VERSION::$current_version"
-                  version_env="::set-env name=CURRENT_TAG_VERSION::v$current_version"
-                  echo $version_env
-                  echo $plain_version_env
+                  echo "CURRENT_PROJECT_VERSION=$current_version" >> $GITHUB_ENV
+                  echo "CURRENT_TAG_VERSION=v$current_version" >> $GITHUB_ENV
 
             - name: Generate changelog
               run: |
