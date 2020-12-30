@@ -1,4 +1,4 @@
-## GCaptchaValidator - A Google ReCaptcha Validator![CI](https://github.com/pascal-zarrad/gcaptchavalidator/workflows/CI/badge.svg?branch=develop)
+## GCaptchaValidator - A Google ReCaptcha Validator! [CI](https://github.com/pascal-zarrad/gcaptchavalidator/workflows/CI/badge.svg?branch=develop)
 
 ### What is GCaptchaValidator?
 
