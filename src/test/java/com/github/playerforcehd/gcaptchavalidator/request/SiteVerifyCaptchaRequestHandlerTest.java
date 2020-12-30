@@ -20,7 +20,7 @@ import static org.testng.Assert.*;
  * @author Pascal Zarrad
  * @since 3.0.0
  */
-public class ReCaptchaCaptchaRequestHandlerTest {
+public class SiteVerifyCaptchaRequestHandlerTest {
 
     /**
      * A test secret key provided by Google
@@ -182,7 +182,7 @@ public class ReCaptchaCaptchaRequestHandlerTest {
             this.getMockedSiteVerifyURL()
         );
 
-        ReCaptchaCaptchaRequestHandler request = new ReCaptchaCaptchaRequestHandler();
+        SiteVerifyCaptchaRequestHandler request = new SiteVerifyCaptchaRequestHandler();
         try {
             String result = request.request(configuration, this.acceptedResponse, this.remoteIP);
             assertEquals(result, expectedResult);
@@ -205,7 +205,7 @@ public class ReCaptchaCaptchaRequestHandlerTest {
             this.getMockedSiteVerifyURL()
         );
 
-        ReCaptchaCaptchaRequestHandler request = new ReCaptchaCaptchaRequestHandler();
+        SiteVerifyCaptchaRequestHandler request = new SiteVerifyCaptchaRequestHandler();
         try {
             String result = request.request(configuration, this.acceptedResponse, "");
             assertEquals(result, expectedResult);
@@ -228,7 +228,7 @@ public class ReCaptchaCaptchaRequestHandlerTest {
             this.getMockedSiteVerifyURL()
         );
 
-        ReCaptchaCaptchaRequestHandler request = new ReCaptchaCaptchaRequestHandler();
+        SiteVerifyCaptchaRequestHandler request = new SiteVerifyCaptchaRequestHandler();
         try {
             String result = request.request(configuration, "THIS IS A INVALID RESPONSE", "");
             assertEquals(result, expectedResult);
@@ -251,7 +251,7 @@ public class ReCaptchaCaptchaRequestHandlerTest {
             this.getMockedSiteVerifyURL()
         );
 
-        ReCaptchaCaptchaRequestHandler request = new ReCaptchaCaptchaRequestHandler();
+        SiteVerifyCaptchaRequestHandler request = new SiteVerifyCaptchaRequestHandler();
         try {
             String result = request.request(configuration, "", "");
             assertEquals(result, expectedResult);
