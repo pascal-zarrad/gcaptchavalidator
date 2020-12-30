@@ -34,10 +34,8 @@
     <packaging>jar</packaging>
 
     <name>GCaptchaValidator</name>
-    <description>A open source library which makes it easy to validate a Google ReCaptcha 2.0/Invisible ReCaptcha
-        response
-    </description>
-    <url>https://github.com/pascal-zarrad/GCaptchaValidator</url>
+    <description>An open source library which makes it easy to validate Google ReCaptcha responses</description>
+    <url>https://github.com/pascal-zarrad/gcaptchavalidator</url>
 
     <licenses>
         <license>
@@ -56,9 +54,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/pascal-zarrad/GCaptchaValidator.git</connection>
-        <developerConnection>scm:git:ssh://github.com/pascal-zarrad/GCaptchaValidator.git</developerConnection>
-        <url>https://github.com/pascal-zarrad/GCaptchaValidator/tree/master</url>
+        <connection>scm:git:git://github.com/pascal-zarrad/gcaptchavalidator.git</connection>
+        <developerConnection>scm:git:ssh://github.com/pascal-zarrad/gcaptchavalidator.git</developerConnection>
+        <url>https://github.com/pascal-zarrad/gcaptchavalidator/tree/master</url>
     </scm>
 
     <distributionManagement>
