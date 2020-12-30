@@ -29,7 +29,6 @@ jobs:
                   export GPG_TTY=$(tty)
 
             - name: Maven build
-              uses: samuelmeuli/action-maven-publish@v1
               run: |
                   mvn clean install
 
