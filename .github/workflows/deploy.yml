@@ -30,7 +30,7 @@ jobs:
 
             - name: Maven build
               run: |
-                  mvn clean install
+                  mvn clean package
 
             - name: Upload build artifacts
               uses: actions/upload-artifact@v2
