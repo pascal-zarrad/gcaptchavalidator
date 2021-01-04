@@ -12,8 +12,8 @@ Legend: :white_check_mark: supported - :ballot_box_with_check: support on critic
 
 ## Reporting a Vulnerability
 
-If you find a security issue, we advise you to _not_ create an issue on GitHub for it as 
-it could put all SoftDocLinker installations on risk. 
+If you find a security issue, we advise you to _not_ create an issue on GitHub for it, as 
+it could put all GCaptchaValidator installations on risk. 
 Please send an e-mail to [security@pascal-zarrad.de](mailto:security@pascal-zarrad.de) to report such issues.
 
 We take security issues serious and will not create an GitHub issue for any critical security issue 
