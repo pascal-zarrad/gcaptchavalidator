@@ -1,3 +1,27 @@
+/*
+ * The MIT License
+ *
+ * Copyright (c) 2021 Pascal Zarrad
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 package com.github.playerforcehd.gcaptchavalidator;
 
 import com.github.playerforcehd.gcaptchavalidator.data.ClientType;
@@ -10,12 +34,12 @@ import org.testng.annotations.Test;
 
 import java.util.Date;
 
-import static org.testng.Assert.*;
 import static org.mockito.Mockito.*;
+import static org.testng.Assert.*;
 
 /**
  * Unit and integration tests for the default validator.
- *
+ * <p>
  * The integration test will check if the requests are processed properly
  * with truthy responses using the default test credentials provided by Google.
  *
@@ -245,7 +269,7 @@ public class GCaptchaValidatorTest {
         assertEquals(result.getHostnameOrPackageName(), "");
         assertEquals(result.getScore(), -1f);
         assertEquals(result.getAction(), "");
-        ValidationError[] expectedErrors = new ValidationError[] {
+        ValidationError[] expectedErrors = new ValidationError[]{
             ValidationError.GCAPTCHAVALIDATOR_INTERNAL_ERROR
         };
         assertEquals(result.getErrors(), expectedErrors);
@@ -317,7 +341,7 @@ public class GCaptchaValidatorTest {
             "127.0.0.1"
         );
         assertFalse(captchaValidationResponse.hasSucceeded());
-        ValidationError[] expectedError = new ValidationError[] {
+        ValidationError[] expectedError = new ValidationError[]{
             ValidationError.INVALID_INPUT_RESPONSE,
             ValidationError.INVALID_INPUT_SECRET
         };
@@ -343,7 +367,7 @@ public class GCaptchaValidatorTest {
 
         CaptchaValidationResponse captchaValidationResponse = captchaValidator.validate("SomeData");
         assertFalse(captchaValidationResponse.hasSucceeded());
-        ValidationError[] expectedError = new ValidationError[] {
+        ValidationError[] expectedError = new ValidationError[]{
             ValidationError.INVALID_INPUT_RESPONSE,
             ValidationError.INVALID_INPUT_SECRET
         };

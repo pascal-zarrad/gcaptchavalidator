@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2020 Pascal Zarrad
+ * Copyright (c) 2021 Pascal Zarrad
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,7 +39,7 @@ import java.util.Iterator;
 /**
  * A {@link CaptchaResponseDeserializer} that uses the Google GSon library to deserialize
  * the supplied response string.
- *
+ * <p>
  * If you want to use this {@link CaptchaResponseDeserializer} as base for an own one,
  * extend it and override {@link SiteVerifyCaptchaResponseDeserializer#createGson()} to supply
  * a custom {@link Gson} instance that uses an own implementation of the
@@ -63,7 +63,7 @@ public class SiteVerifyCaptchaResponseDeserializer implements CaptchaResponseDes
 
     @Override
     public CaptchaValidationResponse deserialize(String response) {
-        return  this.gSon.fromJson(response, ValidationResponse.class);
+        return this.gSon.fromJson(response, ValidationResponse.class);
     }
 
     /**

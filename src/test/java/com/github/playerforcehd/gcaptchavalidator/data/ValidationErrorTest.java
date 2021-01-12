@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2020 Pascal Zarrad
+ * Copyright (c) 2021 Pascal Zarrad
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@ package com.github.playerforcehd.gcaptchavalidator.data;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 /**
  * Tests for the validation error parser
@@ -45,7 +45,7 @@ public class ValidationErrorTest {
 
     @DataProvider
     public Object[][] getValidationErrorByCodeDataProvider() {
-        return new Object[][] {
+        return new Object[][]{
             {"missing-input-secret", ValidationError.MISSING_INPUT_SECRET},
             {"invalid-input-secret", ValidationError.INVALID_INPUT_SECRET},
             {"missing-input-response", ValidationError.MISSING_INPUT_RESPONSE},
