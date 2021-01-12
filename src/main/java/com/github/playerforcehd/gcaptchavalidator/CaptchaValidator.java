@@ -29,12 +29,12 @@ package com.github.playerforcehd.gcaptchavalidator;
  * A normal developer that only wants to validate ReCaptcha responses should be satisfied by using
  * the base implementation of this interface, {@link CaptchaValidatorConfiguration} and
  * {@link CaptchaValidationResponse}.
- *
+ * <p>
  * A {@link CaptchaValidator} combines a
  * {@link com.github.playerforcehd.gcaptchavalidator.serialize.CaptchaResponseDeserializer} and
  * the {@link com.github.playerforcehd.gcaptchavalidator.request.CaptchaRequestHandler} to result in an easy
  * validation of ReCaptcha responses.
- *
+ * <p>
  * Note that the default implementation of the {@link CaptchaValidator} deals only with immutable configuraiton.
  * Changing something will require you to create a new instance.
  *

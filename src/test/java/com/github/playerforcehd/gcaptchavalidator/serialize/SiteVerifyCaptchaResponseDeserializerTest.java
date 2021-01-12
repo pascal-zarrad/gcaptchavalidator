@@ -55,7 +55,7 @@ public class SiteVerifyCaptchaResponseDeserializerTest {
 
     @DataProvider
     public Object[][] deserializeWithVersion2DataProvider() {
-        return new Object[][] {
+        return new Object[][]{
             {
                 "{\"success\": true,\"challenge_ts\": \"2020-12-29T17:21:02Z\",\"hostname\": \"localhost\"}"
             }
@@ -78,7 +78,7 @@ public class SiteVerifyCaptchaResponseDeserializerTest {
 
     @DataProvider
     public Object[][] deserializeWithVersion2DataWithoutSuccessProvider() {
-        return new Object[][] {
+        return new Object[][]{
             {
                 "{\"success\": false,\"challenge_ts\": \"2020-12-29T17:21:02Z\",\"hostname\": \"localhost\"}"
             }
@@ -101,7 +101,7 @@ public class SiteVerifyCaptchaResponseDeserializerTest {
 
     @DataProvider
     public Object[][] deserializeWithVersion3DataProvider() {
-        return new Object[][] {
+        return new Object[][]{
             {
                 "{\"success\": true,\"score\": 0.5,\"action\": \"home\"," +
                     "\"challenge_ts\": \"2020-12-29T17:21:02Z\",\"hostname\": \"localhost\"}"
@@ -125,7 +125,7 @@ public class SiteVerifyCaptchaResponseDeserializerTest {
 
     @DataProvider
     public Object[][] deserializeWithPlatformAndroidDataProvider() {
-        return new Object[][] {
+        return new Object[][]{
             {
                 "{\"success\": true,\"challenge_ts\": \"2020-12-29T17:21:02Z\"," +
                     "\"apk_package_name\": \"com.github.playerforcehd.gcaptchavalidator\"}"
@@ -153,7 +153,7 @@ public class SiteVerifyCaptchaResponseDeserializerTest {
 
     @DataProvider
     public Object[][] deserializeWithErrorCodesDataProvider() {
-        return new Object[][] {
+        return new Object[][]{
             {
                 "{\"success\": false, \"error-codes\": [\"missing-input-secret\", \"missing-input-response\"]}"
             }
