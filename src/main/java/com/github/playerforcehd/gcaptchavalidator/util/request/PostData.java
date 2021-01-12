@@ -26,7 +26,6 @@ package com.github.playerforcehd.gcaptchavalidator.util.request;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -40,7 +39,7 @@ public class PostData {
     /**
      * Create the post request parameters from a map
      *
-     * @param params The parameters to parse
+     * @param params  The parameters to parse
      * @param charset Teh charset that the string consists of
      * @return The parsed parameters as a byte array
      * @throws UnsupportedEncodingException Thrown when the UTF-8 encoding is not supported

@@ -26,7 +26,7 @@ package com.github.playerforcehd.gcaptchavalidator;
 
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 /**
  * Test the {@link CaptchaValidator#createDefault(String)} function to create a properly configured

@@ -34,12 +34,12 @@ import org.testng.annotations.Test;
 
 import java.util.Date;
 
-import static org.testng.Assert.*;
 import static org.mockito.Mockito.*;
+import static org.testng.Assert.*;
 
 /**
  * Unit and integration tests for the default validator.
- *
+ * <p>
  * The integration test will check if the requests are processed properly
  * with truthy responses using the default test credentials provided by Google.
  *
@@ -269,7 +269,7 @@ public class GCaptchaValidatorTest {
         assertEquals(result.getHostnameOrPackageName(), "");
         assertEquals(result.getScore(), -1f);
         assertEquals(result.getAction(), "");
-        ValidationError[] expectedErrors = new ValidationError[] {
+        ValidationError[] expectedErrors = new ValidationError[]{
             ValidationError.GCAPTCHAVALIDATOR_INTERNAL_ERROR
         };
         assertEquals(result.getErrors(), expectedErrors);
@@ -341,7 +341,7 @@ public class GCaptchaValidatorTest {
             "127.0.0.1"
         );
         assertFalse(captchaValidationResponse.hasSucceeded());
-        ValidationError[] expectedError = new ValidationError[] {
+        ValidationError[] expectedError = new ValidationError[]{
             ValidationError.INVALID_INPUT_RESPONSE,
             ValidationError.INVALID_INPUT_SECRET
         };
@@ -367,7 +367,7 @@ public class GCaptchaValidatorTest {
 
         CaptchaValidationResponse captchaValidationResponse = captchaValidator.validate("SomeData");
         assertFalse(captchaValidationResponse.hasSucceeded());
-        ValidationError[] expectedError = new ValidationError[] {
+        ValidationError[] expectedError = new ValidationError[]{
             ValidationError.INVALID_INPUT_RESPONSE,
             ValidationError.INVALID_INPUT_SECRET
         };
