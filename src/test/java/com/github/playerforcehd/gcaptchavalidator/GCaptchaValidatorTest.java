@@ -291,7 +291,7 @@ public class GCaptchaValidatorTest {
 
     @Test
     public void testBasicValidateWithIPWithErrorIntegration() {
-        CaptchaValidator captchaValidator = new GCaptchaValidator("SomeDefinitlyInvalidSecret!");
+        CaptchaValidator captchaValidator = new GCaptchaValidator("SomeDefinitelyInvalidSecret!");
 
         boolean result = captchaValidator.basicValidate(
             "SomeData",
@@ -310,7 +310,7 @@ public class GCaptchaValidatorTest {
 
     @Test
     public void testBasicValidateWithoutIPWithErrorIntegration() {
-        CaptchaValidator captchaValidator = new GCaptchaValidator("SomeDefinitlyInvalidSecret!");
+        CaptchaValidator captchaValidator = new GCaptchaValidator("SomeDefinitelyInvalidSecret!");
 
         boolean result = captchaValidator.basicValidate("SomeData");
         assertFalse(result);
@@ -334,7 +334,7 @@ public class GCaptchaValidatorTest {
 
     @Test
     public void testValidateWithIPWithErrorIntegration() {
-        CaptchaValidator captchaValidator = new GCaptchaValidator("SomeDefinitlyInvalidSecret!");
+        CaptchaValidator captchaValidator = new GCaptchaValidator("SomeDefinitelyInvalidSecret!");
 
         CaptchaValidationResponse captchaValidationResponse = captchaValidator.validate(
             "SomeData",
@@ -342,7 +342,6 @@ public class GCaptchaValidatorTest {
         );
         assertFalse(captchaValidationResponse.hasSucceeded());
         ValidationError[] expectedError = new ValidationError[]{
-            ValidationError.INVALID_INPUT_RESPONSE,
             ValidationError.INVALID_INPUT_SECRET
         };
         assertEquals(captchaValidationResponse.getErrors(), expectedError);
@@ -363,12 +362,11 @@ public class GCaptchaValidatorTest {
 
     @Test
     public void testValidateWithoutIPWithErrorIntegration() {
-        CaptchaValidator captchaValidator = new GCaptchaValidator("SomeDefinitlyInvalidSecret!");
+        CaptchaValidator captchaValidator = new GCaptchaValidator("SomeDefinitelyInvalidSecret!");
 
         CaptchaValidationResponse captchaValidationResponse = captchaValidator.validate("SomeData");
         assertFalse(captchaValidationResponse.hasSucceeded());
         ValidationError[] expectedError = new ValidationError[]{
-            ValidationError.INVALID_INPUT_RESPONSE,
             ValidationError.INVALID_INPUT_SECRET
         };
         assertEquals(captchaValidationResponse.getErrors(), expectedError);
