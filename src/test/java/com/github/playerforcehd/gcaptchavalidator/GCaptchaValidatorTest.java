@@ -291,7 +291,7 @@ public class GCaptchaValidatorTest {
 
     @Test
     public void testBasicValidateWithIPWithErrorIntegration() {
-        CaptchaValidator captchaValidator = new GCaptchaValidator("SomeDefinitlyInvalidSecret!");
+        CaptchaValidator captchaValidator = new GCaptchaValidator("SomeDefinitelyInvalidSecret!");
 
         boolean result = captchaValidator.basicValidate(
             "SomeData",
@@ -310,7 +310,7 @@ public class GCaptchaValidatorTest {
 
     @Test
     public void testBasicValidateWithoutIPWithErrorIntegration() {
-        CaptchaValidator captchaValidator = new GCaptchaValidator("SomeDefinitlyInvalidSecret!");
+        CaptchaValidator captchaValidator = new GCaptchaValidator("SomeDefinitelyInvalidSecret!");
 
         boolean result = captchaValidator.basicValidate("SomeData");
         assertFalse(result);
@@ -362,7 +362,7 @@ public class GCaptchaValidatorTest {
 
     @Test
     public void testValidateWithoutIPWithErrorIntegration() {
-        CaptchaValidator captchaValidator = new GCaptchaValidator("SomeDefinitlyInvalidSecret!");
+        CaptchaValidator captchaValidator = new GCaptchaValidator("SomeDefinitelyInvalidSecret!");
 
         CaptchaValidationResponse captchaValidationResponse = captchaValidator.validate("SomeData");
         assertFalse(captchaValidationResponse.hasSucceeded());
