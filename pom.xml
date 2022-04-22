@@ -30,7 +30,7 @@
 
     <groupId>com.github.playerforcehd</groupId>
     <artifactId>gcaptchavalidator</artifactId>
-    <version>3.0.1</version>
+    <version>3.0.2</version>
     <packaging>jar</packaging>
 
     <name>GCaptchaValidator</name>
